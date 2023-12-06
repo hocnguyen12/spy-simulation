@@ -20,6 +20,8 @@
 
 #include "cell.h"
 #include "common.h"
+#define MAX_COLUMNS 7
+#define MAX_ROWS 7
 
 /**
  * \file memory.h

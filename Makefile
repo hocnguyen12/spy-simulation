@@ -14,8 +14,7 @@ endif
 
 .PHONY: all clean distclean
 
-all: bin/monitor
-
+all: bin/monitor bin/spy_simulation
 # ----------------------------------------------------------------------------
 # MONITOR
 # ----------------------------------------------------------------------------
@@ -34,6 +33,16 @@ src/monitor/monitor.o: src/monitor/monitor.c include/monitor.h
 src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_common.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
+# ----------------------------------------------------------------------------
+# SPY_SIMULATION
+# ----------------------------------------------------------------------------
+
+bin/spy_simulation: src/monitor/spy_simulation.o 
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/monitor/spy_simulation.o: src/monitor/spy_simulation.c include/spy_simulation.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+	
 
 # ----------------------------------------------------------------------------
 # COMMON OBJECTS FILES

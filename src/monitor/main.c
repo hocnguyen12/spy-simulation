@@ -15,14 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include <stdlib.h>
+#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 #include <string.h>
-#include <ncurses.h>
+#include <semaphore.h>
+typedef sem_t semaphore_t;
 
-#include "monitor_common.h"
 #include "monitor.h"
+#include "monitor_common.h"
 #include "memory.h"
+
 
 extern WINDOW *main_window;
 extern int old_cursor;
@@ -41,6 +53,60 @@ extern int old_cursor;
  * - The "enemy country monitor" window (bottom-right)
  * 'Q', 'q' and 'Esc' keys are used to exit from the TUI.
  */
+
+
+semaphore_t *open_semaphore(char *name)
+{
+    semaphore_t *sem = NULL;
+
+    sem = sem_open(name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR, 0);
+    sem_init(sem,1,1);
+    if (sem == SEM_FAILED) {
+        sem_unlink(name); /* Try to unlink it */
+        handle_fatal_error("Error [sem_unlink()]: ");
+    }
+    return sem;
+}
+
+void P(semaphore_t *sem)
+{
+    int r = 0;
+    
+    r = sem_wait(sem);
+    if (r < 0) {
+        handle_fatal_error("Error [P()]: ");
+    }
+}
+
+
+void V(semaphore_t *sem)
+{
+    int r = 0;
+    
+    r = sem_post(sem);
+    if (r < 0) {
+        handle_fatal_error("Error [V()]: ");
+    }
+}
+
+
+void handle_fatal_error(const char *message)
+{
+    perror(message);
+    exit(EXIT_FAILURE);
+}
+
+memory_t* get_data(){
+    int fd;
+    memory_t*ptr=malloc(sizeof(memory_t));
+    fd = shm_open("/spy_memory", O_RDWR, 0666);
+    if(fd==-1){
+        printf("error");
+    }
+    ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    return ptr;
+}
+
 int main(int argc, char **argv)
 {
     int rows;
@@ -48,12 +114,19 @@ int main(int argc, char **argv)
     int key;
     memory_t *memory;
     monitor_t *monitor;
+        
 
     /* ---------------------------------------------------------------------- */ 
     /* The following code only allows to avoid segmentation fault !           */ 
     /* Change it to access to the real shared memory.                         */
-    memory = (memory_t *)malloc(sizeof(memory_t)); 
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    
     memory->memory_has_changed =  1;
+    fprintf(stderr,"%d",sizeof(memory));
+    V(sem);
     /* ---------------------------------------------------------------------- */ 
 
     monitor = (monitor_t *)malloc(sizeof(monitor_t));
@@ -96,11 +169,15 @@ int main(int argc, char **argv)
         }
 
         if (memory->memory_has_changed) {
+            P(sem);
             update_values(memory);
             memory->memory_has_changed = 0;
+            V(sem);
         }
-
+        
     }
+
+     
 
 }
 
