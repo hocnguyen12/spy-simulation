@@ -125,7 +125,6 @@ int main(int argc, char **argv)
     memory = get_data();
     
     memory->memory_has_changed =  1;
-    fprintf(stderr,"%d",sizeof(memory));
     V(sem);
     /* ---------------------------------------------------------------------- */ 
 
@@ -177,6 +176,15 @@ int main(int argc, char **argv)
         
     }
 
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    if (semctl(sem, 0, 1) < 0) {
+        handle_fatal_error("Error removing semaphores. ");
+        exit(EXIT_FAILURE);
+    }
+    printf("Semaphores removed.\n");
      
 
 }
