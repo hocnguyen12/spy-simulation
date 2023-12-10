@@ -12,6 +12,14 @@ structure).
 
 ![The monitor program](./doc/figures/spies_monitor.png)
 
+## Spy Simulation program
+
+This program creates a shared memory containing a structure with all the data of the simulation. it also creates new process for each of the other programs of the simulation.
+
+## Timer program
+
+The timer program periodically sends a signal to the spy simulation program to inform him that the turn is finished. If the simulation ends, it sends a signal to all the other processes to signal the end of the simulation.
+
 ## Design patterns
 
 Some patterns are included and could be used in the project (see in [src/pattern_examples](src/pattern_examples)).
@@ -23,4 +31,3 @@ More useful information about patterns can be found in Régis Clouard's [course]
 - An interesting C language guide: [Beej homepage](https://beej.us/guide/bgc/html/split/index.html)
 - Coding style: see [here](https://projectacrn.github.io/latest/developer-guides/c_coding_guidelines.html#c-ty-08-the-struct-field-type-shall-be-consistent)
 - Memory queue functions for MacOSX came from [Stanislav Pankevich](https://github.com/stanislaw/posix-macos-addons)'s repositery.
-

@@ -39,7 +39,9 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 # ----------------------------------------------------------------------------
 
 bin/spy_simulation: src/spy_simulation/spy_simulation.o \
-			 		src/common/posix_semaphore.o
+			 		src/common/posix_semaphore.o \
+					src/timer/microseconds_sleep.o
+
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
