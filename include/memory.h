@@ -53,7 +53,8 @@ struct memory_s {
                                 * - 3: the counterintelligence officer did not discover the mailbox. The spy network
                                 *      wins!
                                 */
-    /* TO COMPLETE */
+    
+    map_t map;
 };
 
 #endif /* MEMORY_H */

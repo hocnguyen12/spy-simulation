@@ -21,7 +21,8 @@ all: bin/monitor bin/spy_simulation
 bin/monitor: src/monitor/main.o \
              src/monitor/monitor.o \
              src/monitor/monitor_common.o \
-             src/common/logger.o
+             src/common/logger.o \
+			 src/common/posix_semaphore.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/monitor/main.o: src/monitor/main.c include/monitor.h include/monitor_common.h
@@ -37,10 +38,11 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 # SPY_SIMULATION
 # ----------------------------------------------------------------------------
 
-bin/spy_simulation: src/monitor/spy_simulation.o 
+bin/spy_simulation: src/spy_simulation/spy_simulation.o \
+			 		src/common/posix_semaphore.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
-src/monitor/spy_simulation.o: src/monitor/spy_simulation.c include/spy_simulation.h include/memory.h
+src/monitor/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 	
 
@@ -51,6 +53,8 @@ src/monitor/spy_simulation.o: src/monitor/spy_simulation.c include/spy_simulatio
 src/common/logger.o: src/common/logger.c include/logger.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
+src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semaphore.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
 # CLEANING

@@ -28,13 +28,11 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <semaphore.h>
-typedef sem_t semaphore_t;
 
+#include "posix_semaphore.h"
 #include "monitor.h"
 #include "monitor_common.h"
 #include "memory.h"
-
 
 extern WINDOW *main_window;
 extern int old_cursor;
@@ -53,60 +51,6 @@ extern int old_cursor;
  * - The "enemy country monitor" window (bottom-right)
  * 'Q', 'q' and 'Esc' keys are used to exit from the TUI.
  */
-
-
-semaphore_t *open_semaphore(char *name)
-{
-    semaphore_t *sem = NULL;
-
-    sem = sem_open(name, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR, 0);
-    sem_init(sem,1,1);
-    if (sem == SEM_FAILED) {
-        sem_unlink(name); /* Try to unlink it */
-        handle_fatal_error("Error [sem_unlink()]: ");
-    }
-    return sem;
-}
-
-void P(semaphore_t *sem)
-{
-    int r = 0;
-    
-    r = sem_wait(sem);
-    if (r < 0) {
-        handle_fatal_error("Error [P()]: ");
-    }
-}
-
-
-void V(semaphore_t *sem)
-{
-    int r = 0;
-    
-    r = sem_post(sem);
-    if (r < 0) {
-        handle_fatal_error("Error [V()]: ");
-    }
-}
-
-
-void handle_fatal_error(const char *message)
-{
-    perror(message);
-    exit(EXIT_FAILURE);
-}
-
-memory_t* get_data(){
-    int fd;
-    memory_t*ptr=malloc(sizeof(memory_t));
-    fd = shm_open("/spy_memory", O_RDWR, 0666);
-    if(fd==-1){
-        printf("error");
-    }
-    ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    return ptr;
-}
-
 int main(int argc, char **argv)
 {
     int rows;
@@ -124,7 +68,7 @@ int main(int argc, char **argv)
     P(sem);
     memory = get_data();
     
-    memory->memory_has_changed =  1;
+    memory->memory_has_changed = 1;
     V(sem);
     /* ---------------------------------------------------------------------- */ 
 
@@ -185,7 +129,4 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     printf("Semaphores removed.\n");
-     
-
 }
-
