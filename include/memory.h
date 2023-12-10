@@ -53,7 +53,7 @@ struct memory_s {
                                 * - 3: the counterintelligence officer did not discover the mailbox. The spy network
                                 *      wins!
                                 */
-    int * pids; /*
+    int pids[7]; /*
                  * - pid[0]: spy_simulation pid
                  * - pid[1]: timer pid
                  */
