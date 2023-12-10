@@ -67,8 +67,6 @@ int main(int argc, char **argv)
     sem = open_semaphore("/spy_semaphore");
     P(sem);
     memory = get_data();
-    
-    memory->memory_has_changed = 1;
     V(sem);
     /* ---------------------------------------------------------------------- */ 
 

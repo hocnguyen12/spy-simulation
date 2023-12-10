@@ -53,8 +53,23 @@ struct memory_s {
                                 * - 3: the counterintelligence officer did not discover the mailbox. The spy network
                                 *      wins!
                                 */
-    
+    int * pids; /*
+                 * - pid[0]: spy_simulation pid
+                 * - pid[1]: timer pid
+                 */
     map_t map;
+    int current_turn;
+    int current_day; /*
+                      * - 0: monday
+                      * - 1: tuesday
+                      * - 2: wednesday
+                      * - 3: thursday
+                      * - 4: friday
+                      * - 5: saturday
+                      * - 6: sunday
+                      */
+    int current_time; /*
+                   */
 };
 
 #endif /* MEMORY_H */

@@ -14,7 +14,7 @@ endif
 
 .PHONY: all clean distclean
 
-all: bin/monitor bin/spy_simulation
+all: bin/monitor bin/spy_simulation bin/timer
 # ----------------------------------------------------------------------------
 # MONITOR
 # ----------------------------------------------------------------------------
@@ -42,9 +42,23 @@ bin/spy_simulation: src/spy_simulation/spy_simulation.o \
 			 		src/common/posix_semaphore.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
-src/monitor/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
+src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
-	
+
+# ----------------------------------------------------------------------------
+# TIMER
+# ----------------------------------------------------------------------------
+
+bin/timer: src/timer/timer.o \
+			src/common/posix_semaphore.o \
+			src/timer/microseconds_sleep.o
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+		
+src/timer/microseconds_sleep.o: src/timer/microseconds_sleep.c include/timer.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
 # COMMON OBJECTS FILES
@@ -60,7 +74,7 @@ src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semapho
 # CLEANING
 # ----------------------------------------------------------------------------
 clean:
-	rm src/monitor/*.o src/common/*.o
+	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o
 
 distclean: clean
 	rm bin/monitor
