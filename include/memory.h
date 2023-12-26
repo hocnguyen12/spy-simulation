@@ -54,8 +54,8 @@ struct memory_s {
                                 *      wins!
                                 */
     int pids[7]; /*
-                 * - pid[0]: spy_simulation pid
-                 * - pid[1]: timer pid
+                 * - pids[0]: spy_simulation pid
+                 * - pids[1]: timer pid
                  */
     map_t map;
     int current_turn;
@@ -69,7 +69,7 @@ struct memory_s {
                       * - 6: sunday
                       */
     int current_time; /*
-                   */
+                       */
 };
 
 #endif /* MEMORY_H */
