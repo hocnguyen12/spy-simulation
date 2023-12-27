@@ -14,7 +14,7 @@ endif
 
 .PHONY: all clean distclean
 
-all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network
+all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network bin/citizen_manager
 
 # ----------------------------------------------------------------------------
 # MONITOR
@@ -41,15 +41,32 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 
 bin/spy_simulation: src/spy_simulation/spy_simulation.o \
 			 		src/common/posix_semaphore.o \
-					src/spy_simulation/main_spy_simulation.o \
+					src/spy_simulation/main.o \
 					src/timer/timer.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
-src/spy_simulation/main_spy_simulation.o: src/spy_simulation/main_spy_simulation.c include/spy_simulation.h include/memory.h
+src/spy_simulation/main.o: src/spy_simulation/main.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# ----------------------------------------------------------------------------
+# SPY_SIMULATION
+# ----------------------------------------------------------------------------
+
+bin/citizen_manager: src/citizen_manager/citizen_manager.o \
+			 		src/common/posix_semaphore.o \
+					src/citizen_manager/main.o \
+					src/timer/timer.o
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/citizen_manager/citizen_manager.o: src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+src/citizen_manager/main.o: src/citizen_manager/main.c include/citizen_manager.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
 
 # ----------------------------------------------------------------------------
 # ENEMY_SPY_NETWORK
@@ -57,13 +74,13 @@ src/spy_simulation/main_spy_simulation.o: src/spy_simulation/main_spy_simulation
 
 bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o \
 			 		src/common/posix_semaphore.o \
-					src/enemy_spy_network/main_enemy_spy_network.o
+					src/enemy_spy_network/main.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
-src/enemy_spy_network/main_enemy_spy_network.o: src/enemy_spy_network/main_enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+src/enemy_spy_network/main.o: src/enemy_spy_network/main.c include/enemy_spy_network.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
@@ -72,13 +89,13 @@ src/enemy_spy_network/main_enemy_spy_network.o: src/enemy_spy_network/main_enemy
 
 bin/timer: src/timer/timer.o \
 			src/common/posix_semaphore.o \
-			src/timer/main_timer.o
+			src/timer/main.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 		
-src/timer/main_timer.o: src/timer/main_timer.c include/timer.h
+src/timer/main.o: src/timer/main.c include/timer.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------

@@ -76,7 +76,7 @@ void initialize_map(map_t *map, memory_t * mem) {
             map->cells[i][j].type = map_plan[i][j];
             switch(map_plan[i][j]) {
                 case WASTELAND:
-                    map->cells[i][j].nb_of_characters = NUMBER_OF_CITIZEN;
+                    map->cells[i][j].nb_of_characters = NUM_CITIZEN;
                     break;
                 case RESIDENTIAL_BUILDING:
                     map->cells[i][j].nb_of_characters = 15;
@@ -104,8 +104,8 @@ void initialize_map(map_t *map, memory_t * mem) {
     mem->companies[6] = (coordinates_t) {.x = 5, .y = 6};
     mem->companies[7] = (coordinates_t) {.x = 6, .y = 1};
 
-    mem->supermakets[0] = (coordinates_t) {.x = 1, .y = 1};
-    mem->supermakets[1] = (coordinates_t) {.x = 4, .y = 4};
+    mem->supermarkets[0] = (coordinates_t) {.x = 1, .y = 1};
+    mem->supermarkets[1] = (coordinates_t) {.x = 4, .y = 4};
 
     mem->residential_buildings[0] = (coordinates_t) {.x = 0, .y = 3};
     mem->residential_buildings[1] = (coordinates_t) {.x = 1, .y = 5};

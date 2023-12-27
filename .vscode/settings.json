@@ -6,6 +6,13 @@
         "__tree": "c",
         "map": "c",
         "memory.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "citizen_manager.h": "c",
+        "unistd.h": "c",
+        "climits": "c",
+        "common.h": "c",
+        "posix_semaphore.h": "c",
+        "pthread.h": "c"
     }
 }

@@ -24,7 +24,54 @@
 
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
-#define NUMBER_OF_CITIZEN 127
+#define NUM_CITIZEN 127
+
+#define NUM_SUPERMARKETS 2
+#define NUM_COMPANIES 8
+#define NUM_RESIDENTIAL_BUILDINGS 11
+
+typedef enum {
+    resting_at_home,
+    going_to_company,
+    going_to_supermarket,
+    working,
+    doing_some_shopping,
+    going_back_home
+} state_t;
+
+typedef enum {
+	ROLE_CITY_HALL,
+	ROLE_SUPERMARKET,
+	ROLE_COMPANY
+} citizen_role_t;
+
+typedef struct citizen_s citizen_t;
+
+typedef struct citizen_s {
+    int id;
+    citizen_role_t role;
+    int col, row;
+    int home_col, home_row;
+    int work_col, work_row;
+    int health;
+    state_t current_state;
+};
+
+typedef struct spy_s spy_t;
+
+/**
+ * \brief Structure of a spy agent.
+ */
+struct spy_s {
+    int id;
+    int health;
+    int row, col;
+    int home_row, home_col;
+    int license; // 0 for false, 1 for true
+    int nb_company_stolen;
+    char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
+};
+
 
 /**
  * \file memory.h
@@ -52,6 +99,7 @@ struct coordinates_s {
     int x, y;
 };
 
+
 /**
  * \brief Shared memory used by all processes.
  */
@@ -76,7 +124,7 @@ struct memory_s {
     map_t map;
     coordinates_t city_hall;
     coordinates_t companies[8];
-    coordinates_t supermakets[2];
+    coordinates_t supermarkets[2];
     coordinates_t residential_buildings[11];
 
     /*enum cell_type_e map_plan[MAX_ROWS][MAX_COLUMNS] = {
@@ -95,7 +143,7 @@ struct memory_s {
 
     // Characters
     spy_t spies[3];
-    // citizen_t citizens[127]
+    citizen_t citizens[127];
 
     int mailbox_row, mailbox_column; // Mail box coordinates
 
