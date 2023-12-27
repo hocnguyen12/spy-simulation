@@ -25,15 +25,22 @@
 #include <sys/time.h>
 #include <time.h>
 #include <signal.h>
-#include "memory.h"
-#include "posix_semaphore.h"
 
-struct spy {
+#include "common.h"
+
+typedef struct spy_s spy_t;
+
+struct spy_s {
     int id;
+    int health;
     int row, col;
     int home_row, home_col;
-    int health;
     int license; // 0 for false
+    int nb_company_stolen;
+    char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 };
+
+#include "posix_semaphore.h"
+#include "memory.h"
 
 #endif /* ENEMY_SPY_NETWORK_H */

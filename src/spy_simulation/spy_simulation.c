@@ -93,7 +93,6 @@ void initialize_map(map_t *map) {
             }
         }
     }
-
 }
 
 void initialize_memory(memory_t * memory) 
@@ -108,7 +107,9 @@ void initialize_memory(memory_t * memory)
     memory->minutes = 0;
     // CREATE CITY INFOS
     initialize_map(&memory->map);
-    
+    // MAILBOX (in a residential building)
+    memory->mailbox_row = 1;
+    memory->mailbox_column = 5;
     V(sem);
     printf("Initialized memory...\n");
 }
@@ -121,7 +122,7 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
     sem = open_semaphore("/spy_semaphore");
     P(sem);
     memory = get_data();
-    printf("TURN %d\n", memory->current_turn);
+    //printf("TURN %d\n", memory->current_turn);
     memory->current_turn++; 
     memory->minutes += 10;
     if (memory->minutes == 60) {

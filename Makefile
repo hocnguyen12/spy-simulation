@@ -52,7 +52,7 @@ src/spy_simulation/main_spy_simulation.o: src/spy_simulation/main_spy_simulation
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
-# SPY_SIMULATION
+# ENEMY_SPY_NETWORK
 # ----------------------------------------------------------------------------
 
 bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o \
@@ -60,10 +60,10 @@ bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o \
 					src/enemy_spy_network/main_enemy_spy_network.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
-src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/spy_simulation.h include/memory.h
+src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
-src/enemy_spy_network/main_enemy_spy_network.o: src/enemy_spy_network/main_enemy_spy_network.c include/spy_simulation.h include/memory.h
+src/enemy_spy_network/main_enemy_spy_network.o: src/enemy_spy_network/main_enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
@@ -95,7 +95,7 @@ src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semapho
 # CLEANING
 # ----------------------------------------------------------------------------
 clean:
-	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o src/timer/*.o
+	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o src/timer/*.o src/enemy_spy_network/*.o
 
 distclean: clean
 	rm bin/monitor

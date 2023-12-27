@@ -4,6 +4,7 @@
         "stat.h": "c",
         "enemy_spy_network.h": "c",
         "__tree": "c",
-        "map": "c"
+        "map": "c",
+        "memory.h": "c"
     }
 }

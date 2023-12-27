@@ -20,6 +20,8 @@
 
 #include "cell.h"
 #include "common.h"
+#include "enemy_spy_network.h"
+
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
 #define NUMBER_OF_CITIZEN 127
@@ -32,6 +34,7 @@
 
 typedef struct map_s map_t;
 typedef struct memory_s memory_t;
+
 
 /**
  * \brief The city map.
@@ -67,6 +70,14 @@ struct memory_s {
     int current_turn;
     int hour;
     int minutes;
+
+    // Characters
+    spy_t spies[3];
+    // citizen_t citizens[126]
+
+    int mailbox_row, mailbox_column; // Mail box coordinates
+
+
 
 };
 
