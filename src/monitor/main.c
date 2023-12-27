@@ -109,6 +109,11 @@ int main(int argc, char **argv)
                 break;
         }
 
+         sem = open_semaphore("/spy_semaphore");
+        P(sem);
+        memory = get_data();
+        V(sem);
+
         if (memory->memory_has_changed) {
             P(sem);
             update_values(memory);

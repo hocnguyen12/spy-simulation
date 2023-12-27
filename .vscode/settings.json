@@ -1,6 +1,10 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "stat.h": "c"
+        "stat.h": "c",
+        "enemy_spy_network.h": "c",
+        "__tree": "c",
+        "map": "c",
+        "memory.h": "c"
     }
 }
