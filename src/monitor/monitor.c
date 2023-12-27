@@ -20,6 +20,7 @@
 
 #include "monitor.h"
 #include "monitor_common.h"
+#include "posix_semaphore.h"
 #include "memory.h"
 
 WINDOW *main_window;
@@ -87,7 +88,8 @@ void init_monitor_elements(WINDOW *window, memory_t *mem, int rows, int columns)
 {
     /* --------------------------------------------------------------------- */
     /*                 Get information from mem to get the map               */
-	map_t map;
+    
+	map_t map = mem->map;
    /* ---------------------------------------------------------------------- */
 
     set_monitor_title(window, "LICENSE TO KILL (v. 0.2)");
@@ -149,9 +151,16 @@ void display_city(WINDOW *window, map_t map, int rows, int columns)
     int map_rows;
     int type;
 
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    map = memory->map;
+    V(sem);
+
     map_columns = 7;
     map_rows    = 7;
-    type        = 0;
    /* ---------------------------------------------------------------------- */
 
     int row_offset;
@@ -163,6 +172,8 @@ void display_city(WINDOW *window, map_t map, int rows, int columns)
         for (int j = 0; j < map_rows; j++) {
             row_offset = (rows / 6) + j;
             col_offset = (columns / 5) + (i * 3);
+            printf("%d\n", map.cells[i][j].type);
+            type = map.cells[i][j].type;
             switch (type) {
                 case SUPERMARKET:
                     wattron(window, colored_text[COLOR_YELLOW]);
@@ -228,10 +239,16 @@ void display_general_information_values(WINDOW *window, memory_t *mem)
     int minutes;
     char *result = NULL;
 
-    elapsed_time         = 0;
-    simulation_has_ended = 0;
-    hour                 = 0;
-    minutes              = 0;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    mem = get_data();
+    V(sem);
+
+    elapsed_time         = mem->current_turn;
+    simulation_has_ended = mem->simulation_has_ended;
+    hour                 = mem->hour;
+    minutes              = mem->minutes;
    /* ---------------------------------------------------------------------- */
 
     mvwprintw(window, 20, 8, "%f", elapsed_time);

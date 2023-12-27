@@ -22,6 +22,7 @@
 #include "common.h"
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
+#define NUMBER_OF_CITIZEN 127
 
 /**
  * \file memory.h
@@ -64,6 +65,8 @@ struct memory_s {
                  */
     map_t map;
     int current_turn;
+    int hour;
+    int minutes;
 
 };
 

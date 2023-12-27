@@ -54,19 +54,60 @@ memory_t* create_shared_memory()
     return ptr;
 }
 
+void initialize_map(map_t *map) {
+
+    map->rows = MAX_ROWS;
+    map->columns = MAX_COLUMNS;
+    
+    enum cell_type_e map_plan[MAX_ROWS][MAX_COLUMNS] = {
+        {WASTELAND, COMPANY, WASTELAND, RESIDENTIAL_BUILDING, COMPANY, WASTELAND, WASTELAND},
+        {WASTELAND, SUPERMARKET, WASTELAND, WASTELAND, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND},
+        {RESIDENTIAL_BUILDING, COMPANY, WASTELAND, WASTELAND, WASTELAND, WASTELAND, WASTELAND},
+        {WASTELAND, WASTELAND, CITY_HALL, WASTELAND, RESIDENTIAL_BUILDING, COMPANY, WASTELAND},
+        {COMPANY, RESIDENTIAL_BUILDING, WASTELAND, COMPANY, SUPERMARKET, RESIDENTIAL_BUILDING, RESIDENTIAL_BUILDING},
+        {WASTELAND, RESIDENTIAL_BUILDING, WASTELAND, WASTELAND, WASTELAND, WASTELAND, COMPANY},
+        {RESIDENTIAL_BUILDING, COMPANY, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND}
+    };
+
+    for (int i = 0; i < MAX_COLUMNS; ++i) {
+        for (int j = 0; j < MAX_ROWS; ++j) {
+            map->cells[i][j].column = i;
+            map->cells[i][j].row = j;
+            map->cells[i][j].type = map_plan[i][j];
+            switch(map_plan[i][j]) {
+                case WASTELAND:
+                    map->cells[i][j].nb_of_characters = NUMBER_OF_CITIZEN;
+                    break;
+                case RESIDENTIAL_BUILDING:
+                    map->cells[i][j].nb_of_characters = 15;
+                    break;
+                case CITY_HALL:
+                    map->cells[i][j].nb_of_characters = 20;
+                    break;
+                case COMPANY:
+                    map->cells[i][j].nb_of_characters = 50;
+                    break;
+                case SUPERMARKET:
+                    map->cells[i][j].nb_of_characters = 30;
+                    break;
+            }
+        }
+    }
+
+}
+
 void initialize_memory(memory_t * memory) 
 {    
     semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
     P(sem);
-    //memory->pids = malloc(7 * sizeof(int));
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
+    memory->hour = 0;
+    memory->minutes = 0;
     // CREATE CITY INFOS
-
-
-
+    initialize_map(&memory->map);
     
     V(sem);
     printf("Initialized memory...\n");
@@ -82,20 +123,39 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
     memory = get_data();
     printf("TURN %d\n", memory->current_turn);
     memory->current_turn++; 
+    memory->minutes += 10;
+    if (memory->minutes == 60) {
+        memory->minutes = 0;
+        memory->hour += 1;
+        if (memory->hour == 24) {
+            memory->hour = 0;
+            // PASSER AU JOUR SUIVANT
+        }
+    }
+    memory->memory_has_changed = 1; 
     V(sem);
 }
 
 void end_simulation(int sig) 
 {
-    printf("SIMULATION ENDED...\n");
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    memory->simulation_has_ended = 1;
+    V(sem);
+
+    //printf("SIMULATION ENDED...\n");
     /* CALL FUNCTION TO FREE MEMORY */
+    // shm_unlink, munmap
     exit(EXIT_SUCCESS);
 }
 
 void manage_spy_simulation() 
 {
 
-    printf("spy simulation process : %d\n", getpid());
+    //printf("spy simulation process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -127,7 +187,7 @@ void manage_spy_simulation()
     /* end_simulation will be called on reception of SIGUSR2 */     
 
     //wait(NULL);
-    printf("spy simulation is waiting for signals...\n");
+    //printf("spy simulation is waiting for signals...\n");
 
 
     while(1){}
@@ -135,7 +195,7 @@ void manage_spy_simulation()
 
 void manage_timer()
 {
-    printf("timer process : %d\n", getpid());
+    //printf("timer process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -175,7 +235,7 @@ void manage_timer()
 
 void manage_citizen_manager()
 {
-    printf("citizen_manager process : %d\n", getpid());
+    //printf("citizen_manager process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -209,7 +269,7 @@ void manage_citizen_manager()
 
 void manage_enemy_spy_network()
 {
-    printf("enemy_spy_network process : %d\n", getpid());
+    //("enemy_spy_network process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -240,7 +300,7 @@ void manage_enemy_spy_network()
 
 void manage_counter_intelligence()
 {
-    printf("counter_intelligence process : %d\n", getpid());
+    //printf("counter_intelligence process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -274,7 +334,7 @@ void manage_counter_intelligence()
 
 void manage_enemy_country()
 {
-    printf("enemy_country process : %d\n", getpid());
+    //printf("enemy_country process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;
@@ -308,7 +368,7 @@ void manage_enemy_country()
 
 void manage_monitor()
 {
-    printf("monitor process : %d\n", getpid());
+    //printf("monitor process : %d\n", getpid());
 
     memory_t * memory;
     semaphore_t *sem;

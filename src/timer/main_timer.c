@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     */
     /* ---------------------------------------------------------------------- */ 
     us_sleep(1000000);
-    printf("Starting simulation\n");
+    //printf("Starting simulation\n");
     start_simulation_timer(turn_duration);
 
     return EXIT_SUCCESS;
