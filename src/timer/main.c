@@ -26,7 +26,10 @@
 #include "posix_semaphore.h"
 
 /**
-  * Indicates to spy_simuation the end of a turn. Sends an end signal after 2016 turns.
+ * \file main_timer.c
+ *
+ * \brief Indicates to spy_simuation the end of a turn. Sends an end signal after 2016 turns.
+ * 
  * \param argv The real duration of a turn.
  */
 int main(int argc, char *argv[])

@@ -1,0 +1,8 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/nguyenvh/Documents/ensi/2A/s7/os/os_project'
+ 
+gcc -D_REENTRANT -I./include -Wall -Wextra -pedantic -O2 -g src/citizen_manager/citizen_manager.c -o src/citizen_manager/citizen_manager.o -c
+gcc -D_REENTRANT -I./include -Wall -Wextra -pedantic -O2 -g src/citizen_manager/main.c -o src/citizen_manager/main.o -c
+gcc src/citizen_manager/citizen_manager.o src/common/posix_semaphore.o src/citizen_manager/main.o src/timer/timer.o -o bin/citizen_manager -lncurses -lpthread -lrt -lm
+make: Leaving directory '/home/nguyenvh/Documents/ensi/2A/s7/os/os_project'
+ 

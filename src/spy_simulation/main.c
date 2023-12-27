@@ -31,13 +31,19 @@
 #include "spy_simulation.h"
 #include "posix_semaphore.h"
 
+/**
+ * \file main_spy_simulation.c
+ *
+ * \brief Creates 7 processes that each execute a program of the simulation.
+ *
+ * The function manage_spy_siulation() represents the role of spy_simulation,
+ * which is to initialize the shared memory and all the city data.
+ */
 int main(int argc, char **argv)
 {
     memory_t *memory;
     memory = create_shared_memory(); 
     initialize_memory(memory);
-
-    
 
     /* FORK TO EXECUTE ALL THE PROGRAMS */
     start_simulation();

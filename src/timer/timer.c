@@ -32,21 +32,7 @@
 
 #include "timer.h"
 
-#define TURN_NUMBER 2016
 
-/**
- * @file microseconds_sleep.c
- *
- * A simple program to provide microsecond sleeping.
- *
- * @author Alain Lebret
- * @version	1.0
- * @date 2023-07-13
- */
-
-/**
- * Sleeps for a number of microseconds.
- */
 void us_sleep(int nb_usec)
 {
 	struct timeval waiting;

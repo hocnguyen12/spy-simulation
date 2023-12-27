@@ -1,0 +1,640 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Wed Dec 27 18:13:17 2023
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+SSH_AGENT_LAUNCHER = gnome-keyring
+# environment
+LC_NAME = fr_FR.UTF-8
+# environment
+LC_NUMERIC = fr_FR.UTF-8
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# environment
+VSCODE_CWD = /home/nguyenvh/Documents/ensi/2A/s7/os/os_project
+# environment
+LC_ADDRESS = fr_FR.UTF-8
+# default
+MAKE_COMMAND := make
+# environment
+QT_ACCESSIBILITY = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/nguyenvh/Documents/ensi/2A/s7/os/os_project
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/home/nguyenvh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+OLDPWD = /home/nguyenvh/Documents/ensi/2A/s7
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/nguyenvh/.config/Code/CachedData/0ee08df0cf4527e40edc9aa28f4b5bd38bbff2b2
+# environment
+LANG = C
+# environment
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.ZUBBG2
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# environment
+GNOME_TERMINAL_SERVICE = :1.159
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/nguyenvh/Documents/ensi/2A/s7/os/os_project
+# makefile (from 'Makefile', line 5)
+UNAME = $(shell uname -s)
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# default
+.SHELLFLAGS := -c
+# environment
+WAYLAND_DISPLAY = wayland-0
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 6102
+# environment
+XDG_SESSION_TYPE = wayland
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+SESSION_MANAGER = local/nguyenvh-Swift-SF314-511:@/tmp/.ICE-unix/1664,unix/nguyenvh-Swift-SF314-511:/tmp/.ICE-unix/1664
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","osLocale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+SHLVL = 1
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/3a7fef64_aec8_4b3e_8ef7_868a06e7b794
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /home/nguyenvh/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+# default
+MAKEFILES := 
+# environment
+LC_MONETARY = fr_FR.UTF-8
+# automatic
+^F = $(notdir $^)
+# environment
+LC_TIME = fr_FR.UTF-8
+# environment
+USERNAME = nguyenvh
+# environment
+GNOME_SETUP_DISPLAY = :1
+# environment
+LC_TELEPHONE = fr_FR.UTF-8
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# automatic
+?F = $(notdir $?)
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# automatic
++F = $(notdir $+)
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = nguyenvh
+# makefile (from 'Makefile', line 11)
+CPPFLAGS = -D_REENTRANT -I./include
+# makefile
+.DEFAULT_GOAL := all
+# environment
+SYSTEMD_EXEC_PID = 1903
+# environment
+DISPLAY = :0
+# environment
+USER = nguyenvh
+# environment
+GTK_MODULES = gail:atk-bridge
+# default
+MAKE_VERSION := 4.3
+# 'override' directive
+.SHELLSTATUS := 0
+# makefile (from 'Makefile', line 12)
+LDFLAGS = -lncurses -lpthread -lrt -lm
+# environment
+LC_MEASUREMENT = fr_FR.UTF-8
+# environment
+_ = /usr/bin/code
+# environment
+LC_PAPER = fr_FR.UTF-8
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# makefile (from 'Makefile', line 2)
+CFLAGS = -Wall -Wextra -pedantic -O2 -g
+# environment
+COLORTERM = truecolor
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/nguyenvh
+# environment
+QT_IM_MODULE = ibus
+# environment
+ 
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-2aeb7f73-1.85-main.sock
+# environment
+TERM = xterm-256color
+# environment
+IM_CONFIG_PHASE = 1
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+VTE_VERSION = 6800
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# makefile (from 'Makefile', line 1)
+CC = gcc
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+GDMSESSION = ubuntu
+# environment
+LC_IDENTIFICATION = fr_FR.UTF-8
+# variable set hash-table stats:
+# Load=111/1024=11%, Rehash=0, Collisions=11/156=7%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 66306, inode 14700781): 10 files, no impossibilities.
+
+# 10 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+src/timer/timer.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:56:55.607786507
+#  File has been updated.
+#  Successfully updated.
+
+src/monitor/main.o: src/monitor/main.c include/monitor.h include/monitor_common.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:49.865815264
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 30):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+distclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 118):
+	rm bin/monitor
+
+# Not a target:
+include/logger.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+include/enemy_spy_network.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:58:45.417546938
+#  File has been updated.
+#  Successfully updated.
+
+src/citizen_manager/main.o: src/citizen_manager/main.c include/citizen_manager.h include/memory.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 68):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 18:13:08.254606083
+#  File has been updated.
+#  Successfully updated.
+
+src/spy_simulation/main.o: src/spy_simulation/main.c include/spy_simulation.h include/memory.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.189829359
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 52):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+include/posix_semaphore.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/citizen_manager/main.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+include/timer.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:56:51.211713628
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+include/monitor_common.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+src/timer/main.o: src/timer/main.c include/timer.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.269832837
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 99):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semaphore.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.065823968
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 109):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 115):
+	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o src/timer/*.o src/enemy_spy_network/*.o
+
+# Not a target:
+include/spy_simulation.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:48:01.252803467
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/enemy_spy_network/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 04:56:31.428207819
+#  File has been updated.
+#  Successfully updated.
+
+src/common/logger.o: src/common/logger.c include/logger.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.029822403
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 106):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+src/monitor/monitor.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 16:09:01.460834503
+#  File has been updated.
+#  Successfully updated.
+
+src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.157827968
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 49):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+src/spy_simulation/spy_simulation.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:15:39.901309565
+#  File has been updated.
+#  Successfully updated.
+
+bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o src/common/posix_semaphore.o src/enemy_spy_network/main.o
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.345836141
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 78):
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+# Not a target:
+src/common/posix_semaphore.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 02:13:19.849563275
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/monitor/monitor_common.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/common/logger.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+bin/citizen_manager: src/citizen_manager/citizen_manager.o src/common/posix_semaphore.o src/citizen_manager/main.o src/timer/timer.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+#  recipe to execute (from 'Makefile', line 62):
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+# Not a target:
+include/monitor.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-16 17:05:34.524942
+#  File has been updated.
+#  Successfully updated.
+
+bin/monitor: src/monitor/main.o src/monitor/monitor.o src/monitor/monitor_common.o src/common/logger.o src/common/posix_semaphore.o
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.081824663
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 27):
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_common.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.005821359
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 36):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.305834402
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 81):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network bin/citizen_manager
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+
+# Not a target:
+include/citizen_manager.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 18:11:18.087731682
+#  File has been updated.
+#  Successfully updated.
+
+src/enemy_spy_network/main.o: src/enemy_spy_network/main.c include/enemy_spy_network.h include/memory.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.333835619
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 84):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+src/monitor/main.c:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2023-12-27 14:42:19.916141358
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/enemy_spy_network/enemy_spy_network.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 04:56:26.788124249
+#  File has been updated.
+#  Successfully updated.
+
+bin/spy_simulation: src/spy_simulation/spy_simulation.o src/common/posix_semaphore.o src/spy_simulation/main.o src/timer/timer.o
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.241831619
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 46):
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/monitor/monitor.o: src/monitor/monitor.c include/monitor.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:49.961819443
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 33):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# Not a target:
+include/memory.h:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:48:13.933133398
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/spy_simulation/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:47:57.68470979
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+src/citizen_manager/citizen_manager.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 18:10:52.119411891
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/timer/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2023-12-27 17:59:09.161913728
+#  File has been updated.
+#  Successfully updated.
+
+.PHONY: all clean distclean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.225830924
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 96):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+		
+
+src/citizen_manager/citizen_manager.o: src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := src/citizen_manager/citizen_manager.o
+# automatic
+# * := 
+# automatic
+# < := src/citizen_manager/citizen_manager.c
+# automatic
+# + := src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
+# automatic
+# % := 
+# automatic
+# ^ := src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
+# automatic
+# ? := src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/16=12%
+#  recipe to execute (from 'Makefile', line 65):
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+bin/timer: src/timer/timer.o src/common/posix_semaphore.o src/timer/main.o
+#  Implicit rule search has not been done.
+#  Last modified 2023-12-27 18:12:50.285833533
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 93):
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+# files hash-table stats:
+# Load=47/1024=5%, Rehash=0, Collisions=2/141=1%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 58 / storage = 1120 B / avg = 19 B
+# current buf: size = 8162 B / used = 1120 B / count = 58 / avg = 19 B
+
+# strcache performance: lookups = 126 / hit rate = 53%
+# hash-table stats:
+# Load=58/8192=1%, Rehash=0, Collisions=0/126=0%
+# Finished Make data base on Wed Dec 27 18:13:17 2023
+
+ 
