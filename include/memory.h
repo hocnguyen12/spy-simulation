@@ -56,20 +56,15 @@ struct memory_s {
     int pids[7]; /*
                  * - pids[0]: spy_simulation pid
                  * - pids[1]: timer pid
+                 * - pids[2]: citizen_manager
+                 * - pids[3]: enemy_spy_network
+                 * - pids[4]: counter_intelligence_officer
+                 * - pids[5]: enemy_country
+                 * - pids[6]: monitor
                  */
     map_t map;
     int current_turn;
-    int current_day; /*
-                      * - 0: monday
-                      * - 1: tuesday
-                      * - 2: wednesday
-                      * - 3: thursday
-                      * - 4: friday
-                      * - 5: saturday
-                      * - 6: sunday
-                      */
-    int current_time; /*
-                       */
+
 };
 
 #endif /* MEMORY_H */

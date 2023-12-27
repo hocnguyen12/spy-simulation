@@ -30,7 +30,6 @@
 #include "spy_simulation.h"
 #include "memory.h"
 #include "monitor.h"
-
 #include "timer.h"
 
 memory_t* create_shared_memory() 
@@ -64,31 +63,13 @@ void initialize_memory(memory_t * memory)
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
+    // CREATE CITY INFOS
+
+
+
+    
     V(sem);
     printf("Initialized memory...\n");
-}
-
-void exec_timer(void) 
-{
-    /* Arguments pour execvp(), "900000" donne 0.9 seconde "1000000" donne 1 seconde*/
-    char *args[] = {"./bin/timer", "900000", NULL};  
-
-    if (execvp("./bin/timer", args) == -1) {
-        handle_fatal_error("Error [execvm(timer)]");
-    }
-}
-
-void manage_timer(memory_t * memory)
-{
-    semaphore_t *sem;
-    sem = open_semaphore("/spy_semaphore");
-    P(sem);
-    /* TIMER PID */
-    memory->pids[1] = getpid(); 
-    printf("Wrote timer pid in memory : %d\n", memory->pids[1]);
-    V(sem);
-
-    exec_timer();
 }
 
 void next_turn(int sig, siginfo_t * siginfo, void * context) 
@@ -99,6 +80,7 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
     sem = open_semaphore("/spy_semaphore");
     P(sem);
     memory = get_data();
+    printf("TURN %d\n", memory->current_turn);
     memory->current_turn++; 
     V(sem);
 }
@@ -110,15 +92,17 @@ void end_simulation(int sig)
     exit(EXIT_SUCCESS);
 }
 
-void manage_spy_simulation(memory_t * memory) 
+void manage_spy_simulation() 
 {
 
-    printf("Spy simulation process : %d\n", getpid());
+    printf("spy simulation process : %d\n", getpid());
 
+    memory_t * memory;
     semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
     P(sem);
     /* SPY SIMULATION PID */
+    memory = get_data();
     memory->pids[0] = getpid();
     printf("Wrote spy pid in memory : %d\n", memory->pids[0]);
     V(sem);
@@ -150,24 +134,215 @@ void manage_spy_simulation(memory_t * memory)
     while(1){}
 }
 
-int main(int argc, char **argv)
+void manage_timer()
 {
-    memory_t *memory;
-    memory = create_shared_memory(); 
+    printf("timer process : %d\n", getpid());
 
-    initialize_memory(memory);
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* TIMER PID */
+    memory->pids[1] = getpid(); 
+    V(sem);
 
-    /* FORK TO EXECUTE ALL THE PROGRAMS */
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_CITIZEN_MANAGER*/
     pid_t pid = fork();
     if (pid == -1) {
         handle_fatal_error("Error [fork()]: ");
     } else if (pid == 0) {
-        /* PROCESSUS FILS TIMER */
-        manage_timer(memory);
+        manage_citizen_manager();
     } else {
-        /* PROCESSUS PARENT SPY_SIMULATION */
-        manage_spy_simulation(memory);
+        /* EXEC TIMER */
+        /* Arguments pour execvp(), "900000" donne 0.9 seconde "1000000" donne 1 seconde*/
+        char *args[] = {"./bin/timer", "900000", NULL};  
+
+        if (execvp("./bin/timer", args) == -1) {
+            handle_fatal_error("Error [execvp(timer)]");
+        }
     }
     
-    exit(EXIT_SUCCESS);
+   /*
+    char *args[] = {"./bin/timer", "900000", NULL};  
+    if (execvp("./bin/timer", args) == -1) {
+        handle_fatal_error("Error [execvp(timer)]");
+    }*/
+}
+
+void manage_citizen_manager()
+{
+    printf("citizen_manager process : %d\n", getpid());
+
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* CITIZEN_MANAGER PID */
+    memory->pids[2] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_ENEMY_SPY_NETWOTK */
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error [fork()]: ");
+    } else if (pid == 0) {
+        manage_enemy_spy_network();
+    } else {
+        /* EXEC CITIZEN_MANAGER */
+        /*
+        if (execl("./bin/citizen_manager") == -1) {
+            handle_fatal_error("Error [execl()]");
+        }
+    */
+        wait(NULL);
+    }
+}
+
+void manage_enemy_spy_network()
+{
+    printf("enemy_spy_network process : %d\n", getpid());
+
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* ENEMY_SPY_NETWORK PID */
+    memory->pids[3] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_COUNTER_INTELLIGENCE */
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error [fork()]: ");
+    } else if (pid == 0) {
+        manage_counter_intelligence();
+    } else {
+        /* EXEC ENEMY_SPY_NETWORK */
+        /*
+        if (execl("./bin/enemy_spy_network") == -1) {
+            handle_fatal_error("Error [execl()]");
+        }
+    */
+        wait(NULL);
+    }
+}
+
+void manage_counter_intelligence()
+{
+    printf("counter_intelligence process : %d\n", getpid());
+
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* COUNTER_INTELLIGENCE PID */
+    memory->pids[4] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_ENEMY_COUTNRY */
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error [fork()]: ");
+    } else if (pid == 0) {
+        manage_enemy_country();
+    } else {
+        /* EXEC COUNTER_INTELLIGENCE */
+        /*
+        if (execl("./bin/counter_intelligence") == -1) {
+            handle_fatal_error("Error [execl()]");
+        }
+    */
+        wait(NULL);
+    }
+}
+
+void manage_enemy_country()
+{
+    printf("enemy_country process : %d\n", getpid());
+
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* ENEMY_COUNTRY PID */
+    memory->pids[5] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* CALLS MANAGE_MONITOR */
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error [fork()]: ");
+    } else if (pid == 0) {
+        manage_monitor();
+    } else {
+        /* EXEC ENEMY_COUNTRY */
+        /*
+        if (execl("./bin/enemy_country") == -1) {
+            handle_fatal_error("Error [execl()]");
+        }
+    */
+        wait(NULL);
+    }
+}
+
+void manage_monitor()
+{
+    printf("monitor process : %d\n", getpid());
+
+    memory_t * memory;
+    semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    /* MONITOR PID */
+    memory->pids[6] = getpid(); 
+    V(sem);
+
+    if (munmap(memory, sizeof(memory)) == -1) {
+        perror("munmap");
+    }
+
+    /* EXEC MONITOR */
+    if (execvp("./bin/monitor", NULL) == -1) {
+        handle_fatal_error("Error [execl(monitor)]");
+    }
+}
+
+void start_simulation()
+{
+    pid_t pid = fork();
+    if (pid == -1) {
+        handle_fatal_error("Error [fork()]: ");
+    } else if (pid == 0) {
+        /* EXEC 6 OTHER PROGRAMS */
+        manage_timer();
+    } else {
+        /* PROCESSUS PARENT SPY_SIMULATION */
+        manage_spy_simulation();
+    }
 }

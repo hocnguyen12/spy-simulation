@@ -100,7 +100,7 @@ void V(semaphore_t *sem)
  */
 memory_t* get_data(){
     int fd;
-    memory_t*ptr=malloc(sizeof(memory_t));
+    memory_t*ptr;
     fd = shm_open("/spy_memory", O_RDWR, 0666);
     if(fd==-1){
         printf("error");

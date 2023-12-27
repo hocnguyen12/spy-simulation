@@ -1,7 +1,7 @@
 /*
- * Unix System Programming Examples / Exemplier de programmation système Unix
+ * The License to Kill Project
  *
- * Copyright (C) 1995-2023 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
+ * Copyright (C) 2021 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef TIMER_H
-#define TIMER_H
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/select.h>
-#include <sys/time.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 #include <signal.h>
-#include "memory.h"
+
 #include "posix_semaphore.h"
+#include "spy_simulation.h"
+#include "memory.h"
 
-/**
- * Sleeps for a number of microseconds.
- */
-void us_sleep(int nb_usec);
+int main(int argc, char **argv)
+{
 
-double get_elapsed_time(struct timeval start, struct timeval end);
-
-void start_simulation_timer(double turn_duration);
-
-#endif /* TIMER_H */
+}

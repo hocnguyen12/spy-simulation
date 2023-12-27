@@ -1,7 +1,7 @@
 /*
- * Unix System Programming Examples / Exemplier de programmation système Unix
+ * The License to Kill Project
  *
- * Copyright (C) 1995-2023 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
+ * Copyright (C) 1995-2022 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef ENEMY_SPY_NETWORK_H
+#define ENEMY_SPY_NETWORK_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,13 +28,6 @@
 #include "memory.h"
 #include "posix_semaphore.h"
 
-/**
- * Sleeps for a number of microseconds.
- */
-void us_sleep(int nb_usec);
 
-double get_elapsed_time(struct timeval start, struct timeval end);
 
-void start_simulation_timer(double turn_duration);
-
-#endif /* TIMER_H */
+#endif /* ENEMY_SPY_NETWORK_H */
