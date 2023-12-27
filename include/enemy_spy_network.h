@@ -30,12 +30,15 @@
 
 typedef struct spy_s spy_t;
 
+/**
+ * \brief Structure of a spy agent.
+ */
 struct spy_s {
     int id;
     int health;
     int row, col;
     int home_row, home_col;
-    int license; // 0 for false
+    int license; // 0 for false, 1 for true
     int nb_company_stolen;
     char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 };

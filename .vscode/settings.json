@@ -5,6 +5,7 @@
         "enemy_spy_network.h": "c",
         "__tree": "c",
         "map": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "stdio.h": "c"
     }
 }
