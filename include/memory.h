@@ -45,6 +45,13 @@ struct map_s {
     cell_t cells[MAX_COLUMNS][MAX_ROWS]; /*!< Cells that constitute the city map. */
 };
 
+typedef struct coordinates_s coordinates_t;
+
+struct coordinates_s {
+    //row, column
+    int x, y;
+};
+
 /**
  * \brief Shared memory used by all processes.
  */
@@ -67,17 +74,30 @@ struct memory_s {
                  * - pids[6]: monitor
                  */
     map_t map;
+    coordinates_t city_hall;
+    coordinates_t companies[8];
+    coordinates_t supermakets[2];
+    coordinates_t residential_buildings[11];
+
+    /*enum cell_type_e map_plan[MAX_ROWS][MAX_COLUMNS] = {
+        {WASTELAND, COMPANY, WASTELAND, RESIDENTIAL_BUILDING, COMPANY, WASTELAND, WASTELAND},
+        {WASTELAND, SUPERMARKET, WASTELAND, WASTELAND, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND},
+        {RESIDENTIAL_BUILDING, COMPANY, WASTELAND, WASTELAND, WASTELAND, WASTELAND, WASTELAND},
+        {WASTELAND, WASTELAND, CITY_HALL, WASTELAND, RESIDENTIAL_BUILDING, COMPANY, WASTELAND},
+        {COMPANY, RESIDENTIAL_BUILDING, WASTELAND, COMPANY, SUPERMARKET, RESIDENTIAL_BUILDING, RESIDENTIAL_BUILDING},
+        {WASTELAND, RESIDENTIAL_BUILDING, WASTELAND, WASTELAND, WASTELAND, WASTELAND, COMPANY},
+        {RESIDENTIAL_BUILDING, COMPANY, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND, RESIDENTIAL_BUILDING, WASTELAND}
+    };*/
+
     int current_turn;
     int hour;
-    int minutes;
+    int minute;
 
     // Characters
     spy_t spies[3];
-    // citizen_t citizens[126]
+    // citizen_t citizens[127]
 
     int mailbox_row, mailbox_column; // Mail box coordinates
-
-
 
 };
 

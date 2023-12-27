@@ -239,16 +239,11 @@ void display_general_information_values(WINDOW *window, memory_t *mem)
     int minutes;
     char *result = NULL;
 
-    semaphore_t *sem;
-    sem = open_semaphore("/spy_semaphore");
-    P(sem);
-    mem = get_data();
-    V(sem);
 
     elapsed_time         = mem->current_turn;
     simulation_has_ended = mem->simulation_has_ended;
     hour                 = mem->hour;
-    minutes              = mem->minutes;
+    minutes              = mem->minute;
    /* ---------------------------------------------------------------------- */
 
     mvwprintw(window, 20, 8, "%d", elapsed_time);

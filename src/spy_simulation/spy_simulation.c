@@ -54,7 +54,7 @@ memory_t* create_shared_memory()
     return ptr;
 }
 
-void initialize_map(map_t *map) {
+void initialize_map(map_t *map, memory_t * mem) {
 
     map->rows = MAX_ROWS;
     map->columns = MAX_COLUMNS;
@@ -93,6 +93,31 @@ void initialize_map(map_t *map) {
             }
         }
     }
+    mem->city_hall = (coordinates_t) {.x = 3, .y = 2};
+
+    mem->companies[0] = (coordinates_t) {.x = 0, .y = 1};
+    mem->companies[1] = (coordinates_t) {.x = 0, .y = 4};
+    mem->companies[2] = (coordinates_t) {.x = 2, .y = 1};
+    mem->companies[3] = (coordinates_t) {.x = 3, .y = 5};
+    mem->companies[4] = (coordinates_t) {.x = 4, .y = 0};
+    mem->companies[5] = (coordinates_t) {.x = 4, .y = 3};
+    mem->companies[6] = (coordinates_t) {.x = 5, .y = 6};
+    mem->companies[7] = (coordinates_t) {.x = 6, .y = 1};
+
+    mem->supermakets[0] = (coordinates_t) {.x = 1, .y = 1};
+    mem->supermakets[1] = (coordinates_t) {.x = 4, .y = 4};
+
+    mem->residential_buildings[0] = (coordinates_t) {.x = 0, .y = 3};
+    mem->residential_buildings[1] = (coordinates_t) {.x = 1, .y = 5};
+    mem->residential_buildings[2] = (coordinates_t) {.x = 2, .y = 0};
+    mem->residential_buildings[3] = (coordinates_t) {.x = 3, .y = 4};
+    mem->residential_buildings[4] = (coordinates_t) {.x = 4, .y = 1};
+    mem->residential_buildings[5] = (coordinates_t) {.x = 4, .y = 5};
+    mem->residential_buildings[6] = (coordinates_t) {.x = 4, .y = 6};
+    mem->residential_buildings[7] = (coordinates_t) {.x = 5, .y = 1};
+    mem->residential_buildings[8] = (coordinates_t) {.x = 6, .y = 0};
+    mem->residential_buildings[9] = (coordinates_t) {.x = 6, .y = 3};
+    mem->residential_buildings[10] = (coordinates_t) {.x = 6, .y = 5};
 }
 
 void initialize_memory(memory_t * memory) 
@@ -104,12 +129,14 @@ void initialize_memory(memory_t * memory)
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
     memory->hour = 0;
-    memory->minutes = 0;
+    memory->minute = 0;
     // CREATE CITY INFOS
-    initialize_map(&memory->map);
+    initialize_map(&memory->map, memory);
+
     // MAILBOX (in a residential building)
     memory->mailbox_row = 1;
     memory->mailbox_column = 5;
+    // CREATE
     V(sem);
     printf("Initialized memory...\n");
 }
@@ -124,9 +151,9 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
     memory = get_data();
     //printf("TURN %d\n", memory->current_turn);
     memory->current_turn++; 
-    memory->minutes += 10;
-    if (memory->minutes == 60) {
-        memory->minutes = 0;
+    memory->minute += 10;
+    if (memory->minute == 60) {
+        memory->minute = 0;
         memory->hour += 1;
         if (memory->hour == 24) {
             memory->hour = 0;
