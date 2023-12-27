@@ -40,11 +40,14 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 
 bin/spy_simulation: src/spy_simulation/spy_simulation.o \
 			 		src/common/posix_semaphore.o \
-					src/timer/microseconds_sleep.o
-
+					src/spy_simulation/main_spy_simulation.o \
+					src/timer/timer.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+src/spy_simulation/main_spy_simulation.o: src/spy_simulation/main_spy_simulation.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
@@ -53,13 +56,13 @@ src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include
 
 bin/timer: src/timer/timer.o \
 			src/common/posix_semaphore.o \
-			src/timer/microseconds_sleep.o
+			src/timer/main_timer.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 		
-src/timer/microseconds_sleep.o: src/timer/microseconds_sleep.c include/timer.h
+src/timer/main_timer.o: src/timer/main_timer.c include/timer.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------

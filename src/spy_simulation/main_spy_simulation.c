@@ -1,7 +1,7 @@
 /*
  * The License to Kill Project
  *
- * Copyright (C) 1995-2022 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
+ * Copyright (C) 2021 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef LOGGER_H
-#define LOGGER_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <signal.h>
 
-/**
- * \file logger.h
- *
- * Defines some logger functions.
- */
+#include "memory.h"
+#include "monitor.h"
+#include "spy_simulation.h"
+#include "posix_semaphore.h"
 
-#define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
-#define YEL   "\x1B[33m"
-#define BLU   "\x1B[34m"
-#define MAG   "\x1B[35m"
-#define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
-#define RESET "\x1B[0m"
+int main(int argc, char **argv)
+{
+    memory_t *memory;
+    memory = create_shared_memory(); 
+    initialize_memory(memory);
 
-void log_error(const char *message, ...);
+    
 
-void log_info(const char *message, ...);
-
-void log_debug(const char *message, ...);
-
-#endif /* LOGGER_H */
+    /* FORK TO EXECUTE ALL THE PROGRAMS */
+    start_simulation();
+    
+    exit(EXIT_SUCCESS);
+}

@@ -30,51 +30,87 @@
  * \brief Sends a posix signal to the spy_simulation at the end of a turn.
  */
 
+#include "timer.h"
+
+#define TURN_NUMBER 5
+
 /**
-  * Indicates to spy_simuation the end of a turn. Sends an end signal after 2016 turns.
- * \param argv The real duration of a turn.
+ * @file microseconds_sleep.c
+ *
+ * A simple program to provide microsecond sleeping.
+ *
+ * @author Alain Lebret
+ * @version	1.0
+ * @date 2023-07-13
  */
-int main(int argc, char *argv[])
+
+/**
+ * Sleeps for a number of microseconds.
+ */
+void us_sleep(int nb_usec)
 {
-    if (argc != 2) {
-        printf("Usage: %s time_in_microseconds(in interval [100000, 1000000])\n", argv[0]);
-        return EXIT_FAILURE;
-    }
+	struct timeval waiting;
+	
+	waiting.tv_sec = nb_usec / 1000000; 
+	waiting.tv_usec = nb_usec % 1000000; 
+	select(0, NULL, NULL, NULL, &waiting);
+}
 
-    double turn_duration = atof(argv[1]);
+double get_elapsed_time(struct timeval start, struct timeval end) {
+    return (double)(end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+}
 
-    memory_t *memory;
-    /* ---------------------------------------------------------------------- */ 
-    /* Test Acess to shared memory*/
-    semaphore_t *sem;
+void start_simulation_timer(double turn_duration)
+{
+    memory_t * memory;
+	int spy_simulation_pid, turn;
+	turn = 0;
+
+    /* reading spy_simulation pid from shm */
+	semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
     P(sem);
-    memory = get_data();
+	memory = get_data();
+   	spy_simulation_pid = memory->pids[0];
     V(sem);
-    /* ---------------------------------------------------------------------- */ 
 
-    printf("Timer process : %d\n", getpid());
+	for (;;) {
+		if (turn == TURN_NUMBER) {
+			/* END SIMULATION */
+			if (kill(spy_simulation_pid, SIGUSR2) == -1) {
+				perror("kill()");
+				exit(EXIT_FAILURE);
+			}
 
-    /* ---------------------------------------------------------------------- */ 
-    /* Test that prints the time elapsed in one turn.           */ 
-    /*
-    struct timeval begin_time, end_time;
-    double duration;
+			if (munmap(memory, sizeof(memory)) == -1) {
+        		perror("munmap");
+    		}
+			break;
+		}
 
-    gettimeofday(&begin_time, NULL); 
-    us_sleep(turn_duration);
-    gettimeofday(&end_time, NULL); 
+		/* CHECK FOR END OF SIMULATION */
+		sem = open_semaphore("/spy_semaphore");
+		P(sem);
+		memory = get_data();
+		if (memory->simulation_has_ended) {
+			printf("timer process sending SIGUSR2 to spy_sim...\n");
+			if (kill(spy_simulation_pid, SIGUSR2) == -1) {
+				perror("kill()");
+				exit(EXIT_FAILURE);
+			}
+			if (munmap(memory, sizeof(memory)) == -1) {
+        		perror("munmap");
+    		}
+			break;
+		}
+		V(sem);
 
-    duration = get_elapsed_time(begin_time, end_time);
-    printf("Temps écoulé : %f secondes\n", duration);
-    */
-    /* ---------------------------------------------------------------------- */ 
-
-    start_simulation_timer(turn_duration, memory);
-
-    if (munmap(memory, sizeof(memory)) == -1) {
-        perror("munmap");
-    }
-
-    return EXIT_SUCCESS;
+		/* INDICATE END OF TURN */
+		if (kill(spy_simulation_pid, SIGUSR1) == -1) {
+			perror("kill()");
+			exit(EXIT_FAILURE);
+    	}
+		turn++;
+		us_sleep(turn_duration);
+	}
 }
