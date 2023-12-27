@@ -128,7 +128,7 @@ void initialize_memory(memory_t * memory)
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
-    memory->hour = 0;
+    memory->hour = 7;
     memory->minute = 0;
     // CREATE CITY INFOS
     initialize_map(&memory->map, memory);
@@ -149,7 +149,6 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
     sem = open_semaphore("/spy_semaphore");
     P(sem);
     memory = get_data();
-    //printf("TURN %d\n", memory->current_turn);
     memory->current_turn++; 
     memory->minute += 10;
     if (memory->minute == 60) {
@@ -161,6 +160,26 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
         }
     }
     memory->memory_has_changed = 1; 
+    int i;
+    int working = 0;
+    int at_home = 0;
+    int walking = 0;
+
+
+    for (i = 0; i < NUM_CITIZEN; i++) {
+        if (memory->citizens[i].current_state == working) {
+            working++;
+        } else if (memory->citizens[i].current_state == resting_at_home) {
+            at_home++;
+        }else if (memory->citizens[i].current_state == going_to_company || memory->citizens[i].current_state == going_to_supermarket) {
+            walking++;
+        }
+    }
+    printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
+    printf("working : %d\n", working);
+    printf("at home : %d\n", at_home);
+    printf("walking : %d\n", walking);
+
     V(sem);
 }
 
@@ -286,11 +305,11 @@ void manage_citizen_manager()
         manage_enemy_spy_network();
     } else {
         /* EXEC CITIZEN_MANAGER */
-        /*
-        if (execl("./bin/citizen_manager") == -1) {
+        
+        if (execl("./bin/citizen_manager", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-    */
+    
         wait(NULL);
     }
 }
@@ -412,9 +431,10 @@ void manage_monitor()
     }
 
     /* EXEC MONITOR */
+    /*
     if (execvp("./bin/monitor", NULL) == -1) {
         handle_fatal_error("Error [execl(monitor)]");
-    }
+    }*/
 }
 
 void start_simulation()

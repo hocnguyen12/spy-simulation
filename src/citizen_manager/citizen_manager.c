@@ -14,10 +14,18 @@
 
 
 
-void *citizen_routine(citizen_t *citizen, memory_t *memory)
+void *citizen_routine(citizen_t * citizen)
 {
+	printf("thread id = %ld\n", pthread_self());
 
 	struct sigaction turn_signal, end_signal;
+/*
+	memset(&turn_signal, 0, sizeof(turn_signal));
+    turn_signal.sa_sigaction = &switch_routine;
+    turn_signal.sa_flags = SA_SIGINFO;
+    if (sigaction(SIGTTIN, &turn_signal, NULL) < 0) {
+        handle_fatal_error("Error using sigaction");
+    }*/
 
 	turn_signal.sa_handler = &switch_routine;
     turn_signal.sa_flags = 0;
@@ -30,9 +38,23 @@ void *citizen_routine(citizen_t *citizen, memory_t *memory)
     if (sigaction(SIGTERM, &end_signal, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
+
+	while(1) {}
 }
 
-void switch_routine(citizen_t *citizen, memory_t * memory){
+void switch_routine()
+{
+	int thread_id = pthread_self();
+
+	memory_t * memory;
+	citizen_t * citizen;
+	semaphore_t *sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+	memory = get_data();
+	citizen = &memory->citizens[thread_id];
+	V(sem);
+
 	switch (citizen->role) {
 		case ROLE_CITY_HALL:
 			update_employee(citizen, memory);
@@ -126,8 +148,15 @@ void define_citizen(citizen_t * citizens, memory_t *memory)
 	for(i = 0 ; i < NUM_CITIZEN ; i++){
 		citizens[i].id = i;
 		
-		// Role
+		// Assignation aléatoire des positions de la maison et du travail
+        int immeuble_index = i % NUM_RESIDENTIAL_BUILDINGS;
+        citizens[i].home_col = buildings[immeuble_index].x;
+        citizens[i].home_row = buildings[immeuble_index].y;
+		
+		citizens[i].health = 10;
+        citizens[i].current_state = resting_at_home; // État initial
 
+		// Role
 		if (i < 111) { 
             citizens[i].role = ROLE_COMPANY;
 			int entreprise_index = i % NUM_COMPANIES; // Répartition uniforme
@@ -143,21 +172,12 @@ void define_citizen(citizen_t * citizens, memory_t *memory)
             citizens[i].work_col = supermarkets[supermarche_index].x;
             citizens[i].work_row = supermarkets[supermarche_index].y;
         }
-
-		// Assignation aléatoire des positions de la maison et du travail
-        int immeuble_index = i % NUM_RESIDENTIAL_BUILDINGS;
-        citizens[i].home_col = buildings[immeuble_index].x;
-        citizens[i].home_row = buildings[immeuble_index].y;
-		
-		citizens[i].health = 10;
-        citizens[i].current_state = resting_at_home; // État initial
 	}
 }	
 
-pthread_t * citizen_thread(citizen_t ** citizens)
+pthread_t * citizen_thread(memory_t * memory)
 {
-
-	pthread_t * threads = (pthread_t*) malloc(NUM_CITIZEN*sizeof(pthread_t));
+	pthread_t * threads = (pthread_t*) malloc(NUM_CITIZEN * sizeof(pthread_t));
 
 	if (threads == NULL){
 		perror("Failed to allocate memory for threads");
@@ -165,21 +185,18 @@ pthread_t * citizen_thread(citizen_t ** citizens)
 	}
 
 	for(int i = 0; i < NUM_CITIZEN ; i++){
+		citizen_t citizen = memory->citizens[i];
+		int result = pthread_create(&threads[i], NULL, citizen_routine, &citizen);
+        if (result != 0) {
+            fprintf(stderr, "Failed to create thread: %s\n", strerror(result));
 
-		citizens[i]->id = i;
-
-		int result = pthread_create(&threads[i], NULL, citizen_routine, (void *) &citizens[i]);
-        	if (result != 0) {
-            		fprintf(stderr, "Failed to create thread: %s\n", strerror(result));
-
-            		for (int j = 0; j < i; j++) {
-                		pthread_cancel(threads[j]); 
-						pthread_join(threads[j], NULL); 
-					}
-					free(threads);
-
-            		exit(EXIT_FAILURE);
-        	}
+            for (int j = 0; j < i; j++) {
+                pthread_cancel(threads[j]); 
+				pthread_join(threads[j], NULL); 
+			}
+			free(threads);
+            exit(EXIT_FAILURE);
+        }
 	}
 	return threads;
 }

@@ -67,7 +67,7 @@ void update_supermarket_employee(citizen_t * citizen, memory_t *memory);
  * \param memory Pointer to the shared memory structure.
  * \return Returns NULL.
  */
-void *citizen_routine(citizen_t *citizen, memory_t *memory);
+void *citizen_routine();
 
 /**
  * \brief Switches routine based on the citizen's role.
@@ -75,7 +75,7 @@ void *citizen_routine(citizen_t *citizen, memory_t *memory);
  * \param citizen Pointer to the citizen structure.
  * \param memory Pointer to the shared memory structure.
  */
-void switch_routine(citizen_t *citizen, memory_t *memory);
+void switch_routine();
 
 
 
@@ -94,7 +94,7 @@ void define_citizen(citizen_t * citizens, memory_t *memory);
  * \param citizens Pointer to an array of citizen structures.
  * \return Array of pthread_t representing the threads for each citizen.
  */
-pthread_t * citizen_thread(citizen_t ** citizens);
+pthread_t * citizen_thread();
 
 /**
  * \brief Function to free resources used by citizen threads.
