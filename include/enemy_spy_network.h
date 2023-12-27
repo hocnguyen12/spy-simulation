@@ -28,6 +28,12 @@
 #include "memory.h"
 #include "posix_semaphore.h"
 
-
+struct spy {
+    int id;
+    int row, col;
+    int home_row, home_col;
+    int health;
+    int license; // 0 for false
+};
 
 #endif /* ENEMY_SPY_NETWORK_H */

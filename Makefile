@@ -14,7 +14,8 @@ endif
 
 .PHONY: all clean distclean
 
-all: bin/monitor bin/spy_simulation bin/timer
+all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network
+
 # ----------------------------------------------------------------------------
 # MONITOR
 # ----------------------------------------------------------------------------
@@ -48,6 +49,21 @@ src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 src/spy_simulation/main_spy_simulation.o: src/spy_simulation/main_spy_simulation.c include/spy_simulation.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# ----------------------------------------------------------------------------
+# SPY_SIMULATION
+# ----------------------------------------------------------------------------
+
+bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o \
+			 		src/common/posix_semaphore.o \
+					src/enemy_spy_network/main_enemy_spy_network.o
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/spy_simulation.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+src/enemy_spy_network/main_enemy_spy_network.o: src/enemy_spy_network/main_enemy_spy_network.c include/spy_simulation.h include/memory.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------

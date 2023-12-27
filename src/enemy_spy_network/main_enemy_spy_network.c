@@ -30,7 +30,7 @@
 #include "spy_simulation.h"
 #include "memory.h"
 
-int main(int argc, char **argv)
+int main(void) 
 {
-
+    printf("ENEMY_SPY_NETWORK\n");
 }

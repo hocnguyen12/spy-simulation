@@ -77,7 +77,7 @@ void start_simulation_timer(double turn_duration)
 	for (;;) {
 		if (turn == TURN_NUMBER) {
 			/* END SIMULATION */
-			if (kill(spy_simulation_pid, SIGUSR2) == -1) {
+			if (kill(spy_simulation_pid, SIGTERM) == -1) {
 				perror("kill()");
 				exit(EXIT_FAILURE);
 			}
@@ -94,7 +94,7 @@ void start_simulation_timer(double turn_duration)
 		memory = get_data();
 		if (memory->simulation_has_ended) {
 			printf("timer process sending SIGUSR2 to spy_sim...\n");
-			if (kill(spy_simulation_pid, SIGUSR2) == -1) {
+			if (kill(spy_simulation_pid, SIGTERM) == -1) {
 				perror("kill()");
 				exit(EXIT_FAILURE);
 			}
@@ -106,7 +106,7 @@ void start_simulation_timer(double turn_duration)
 		V(sem);
 
 		/* INDICATE END OF TURN */
-		if (kill(spy_simulation_pid, SIGUSR1) == -1) {
+		if (kill(spy_simulation_pid, SIGTTIN) == -1) {
 			perror("kill()");
 			exit(EXIT_FAILURE);
     	}

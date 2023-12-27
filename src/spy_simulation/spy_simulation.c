@@ -104,7 +104,6 @@ void manage_spy_simulation()
     /* SPY SIMULATION PID */
     memory = get_data();
     memory->pids[0] = getpid();
-    printf("Wrote spy pid in memory : %d\n", memory->pids[0]);
     V(sem);
 
     /* INTERCEPT KILL SIG FROM TIMER*/
@@ -113,13 +112,13 @@ void manage_spy_simulation()
     memset(&turn_signal, 0, sizeof(turn_signal));
     turn_signal.sa_sigaction = &next_turn;
     turn_signal.sa_flags = SA_SIGINFO;
-    if (sigaction(SIGUSR1, &turn_signal, NULL) < 0) {
+    if (sigaction(SIGTTIN, &turn_signal, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
 
     end_signal.sa_handler = &end_simulation;
     end_signal.sa_flags = 0;
-    if (sigaction(SIGUSR2, &end_signal, NULL) < 0) {
+    if (sigaction(SIGTERM, &end_signal, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
 
@@ -233,12 +232,9 @@ void manage_enemy_spy_network()
         manage_counter_intelligence();
     } else {
         /* EXEC ENEMY_SPY_NETWORK */
-        /*
-        if (execl("./bin/enemy_spy_network") == -1) {
-            handle_fatal_error("Error [execl()]");
+        if (execvp("./bin/enemy_spy_network", NULL) == -1) {
+            handle_fatal_error("Error [execl(enemy_spy_network)]");
         }
-    */
-        wait(NULL);
     }
 }
 
