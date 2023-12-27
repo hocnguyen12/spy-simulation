@@ -112,7 +112,7 @@ src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semapho
 # CLEANING
 # ----------------------------------------------------------------------------
 clean:
-	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o src/timer/*.o src/enemy_spy_network/*.o
+	rm src/monitor/*.o src/common/*.o src/spy_simulation/*.o src/timer/*.o src/enemy_spy_network/*.o src/citizen_manager/*.o
 
 distclean: clean
 	rm bin/monitor

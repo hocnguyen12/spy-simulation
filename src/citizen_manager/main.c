@@ -18,7 +18,9 @@
 #include <stdlib.h>
 #include "citizen_manager.h"
 
-int main(){
+int main(void){
+
+    printf("CITIZEN MANAGER : pid = %d\n", getpid());
     memory_t* memory;
     semaphore_t* sem;
     sem = open_semaphore("/spy_semaphore");
@@ -27,5 +29,6 @@ int main(){
     define_citizen(memory->citizens, memory);
     V(sem);
 
-    citizen_thread((citizen_t **)memory->citizens);
+    pthread_t * threads = citizen_thread(memory);
+    free_thread_resources(threads);
 }
