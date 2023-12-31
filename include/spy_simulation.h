@@ -54,7 +54,7 @@ void initialize_memory(memory_t * memory);
  * signal (SIGTTIN).
  *
  */
-void next_turn(int sig, siginfo_t * siginfo, void * context);
+void next_turn(int sig);
 
 /**
  * \brief Handler function called when spy_simulation receives a end of simulation

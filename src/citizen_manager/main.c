@@ -30,5 +30,9 @@ int main(void){
     V(sem);
 
     pthread_t * threads = citizen_thread(memory);
+    wait_for_signal(threads);
+    if (munmap(memory, sizeof(memory_t)) == -1) {
+        perror("Error un-mapping shared memory");
+    }
     free_thread_resources(threads);
 }

@@ -99,6 +99,15 @@ struct coordinates_s {
     int x, y;
 };
 
+typedef struct citizen_thread_s citizen_thread_t;
+
+/**
+ * \brief Structure representing a thread and the id of the citizen it represent.
+ */
+struct citizen_thread_s {
+    pthread_t thread;
+    int id;
+};
 
 /**
  * \brief Shared memory used by all processes.
@@ -121,6 +130,8 @@ struct memory_s {
                  * - pids[5]: enemy_country
                  * - pids[6]: monitor
                  */
+    citizen_thread_t citizen_threads[NUM_CITIZEN];
+
     map_t map;
     coordinates_t city_hall;
     coordinates_t companies[8];
@@ -144,6 +155,8 @@ struct memory_s {
     // Characters
     spy_t spies[3];
     citizen_t citizens[127];
+
+    int working, at_home, walking, shopping;
 
     int mailbox_row, mailbox_column; // Mail box coordinates
 

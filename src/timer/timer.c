@@ -75,9 +75,6 @@ void start_simulation_timer(double turn_duration)
 		}
 
 		/* CHECK FOR END OF SIMULATION */
-		sem = open_semaphore("/spy_semaphore");
-		P(sem);
-		memory = get_data();
 		if (memory->simulation_has_ended) {
 			//printf("timer process sending SIGUSR2 to spy_sim...\n");
 			if (kill(spy_simulation_pid, SIGTERM) == -1) {
@@ -89,7 +86,6 @@ void start_simulation_timer(double turn_duration)
     		}
 			break;
 		}
-		V(sem);
 
 		/* INDICATE END OF TURN */
 		if (kill(spy_simulation_pid, SIGTTIN) == -1) {

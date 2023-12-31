@@ -151,14 +151,6 @@ void display_city(WINDOW *window, map_t map, int rows, int columns)
     int map_rows;
     int type;
 
-    memory_t * memory;
-    semaphore_t *sem;
-    sem = open_semaphore("/spy_semaphore");
-    P(sem);
-    memory = get_data();
-    map = memory->map;
-    V(sem);
-
     map_columns = 7;
     map_rows    = 7;
    /* ---------------------------------------------------------------------- */
@@ -276,18 +268,21 @@ void display_citizen_information(WINDOW *window, memory_t *mem, int row, int col
     int number_of_citizens_at_home;
     int number_of_citizens_at_work;
     int number_of_citizens_walking;
+    int number_of_citizen_shopping;
 
-    number_of_citizens_at_home = 128;
-    number_of_citizens_at_work = 0;
-    number_of_citizens_walking = 0;
+    number_of_citizens_at_home = mem->at_home;
+    number_of_citizens_at_work = mem->working;
+    number_of_citizens_walking = mem->walking;
+    number_of_citizen_shopping = mem->shopping;
    /* ---------------------------------------------------------------------- */
 
     wattron(window, A_BOLD);
     mvwprintw(window, row, column, "Citizens");
     wattroff(window, A_BOLD);
-    mvwprintw(window, row + 1, column, "  At home: %.3d", number_of_citizens_at_home);
-    mvwprintw(window, row + 2, column, "  At work: %.3d", number_of_citizens_at_work);
-    mvwprintw(window, row + 3, column, "  Walking: %.3d", number_of_citizens_walking);
+    mvwprintw(window, row + 1, column, "  At home : %.3d", number_of_citizens_at_home);
+    mvwprintw(window, row + 2, column, "  At work : %.3d", number_of_citizens_at_work);
+    mvwprintw(window, row + 3, column, "  Walking : %.3d", number_of_citizens_walking);
+    mvwprintw(window, row + 4, column, "  Shopping: %.3d", number_of_citizen_shopping);
     wrefresh(window);
 }
 

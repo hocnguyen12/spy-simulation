@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <signal.h>
+#include <pthread.h>
 
 #include "posix_semaphore.h"
 #include "spy_simulation.h"
@@ -95,29 +96,32 @@ void initialize_map(map_t *map, memory_t * mem) {
     }
     mem->city_hall = (coordinates_t) {.x = 3, .y = 2};
 
-    mem->companies[0] = (coordinates_t) {.x = 0, .y = 1};
-    mem->companies[1] = (coordinates_t) {.x = 0, .y = 4};
-    mem->companies[2] = (coordinates_t) {.x = 2, .y = 1};
-    mem->companies[3] = (coordinates_t) {.x = 3, .y = 5};
-    mem->companies[4] = (coordinates_t) {.x = 4, .y = 0};
-    mem->companies[5] = (coordinates_t) {.x = 4, .y = 3};
-    mem->companies[6] = (coordinates_t) {.x = 5, .y = 6};
-    mem->companies[7] = (coordinates_t) {.x = 6, .y = 1};
+    
+    mem->companies[0] = (coordinates_t) {.x = 3, .y = 5};
+    mem->companies[1] = (coordinates_t) {.x = 0, .y = 1};
+    mem->companies[2] = (coordinates_t) {.x = 5, .y = 6};
+    mem->companies[3] = (coordinates_t) {.x = 4, .y = 0};
+    mem->companies[4] = (coordinates_t) {.x = 6, .y = 1}; 
+    mem->companies[5] = (coordinates_t) {.x = 0, .y = 4};
+    mem->companies[6] = (coordinates_t) {.x = 2, .y = 1};
+    mem->companies[7] = (coordinates_t) {.x = 4, .y = 3};
 
-    mem->supermarkets[0] = (coordinates_t) {.x = 1, .y = 1};
-    mem->supermarkets[1] = (coordinates_t) {.x = 4, .y = 4};
+    mem->supermarkets[0] = (coordinates_t) {.x = 4, .y = 4};    
+    mem->supermarkets[1] = (coordinates_t) {.x = 1, .y = 1};
 
-    mem->residential_buildings[0] = (coordinates_t) {.x = 0, .y = 3};
+
+    mem->residential_buildings[0] = (coordinates_t) {.x = 5, .y = 1};
     mem->residential_buildings[1] = (coordinates_t) {.x = 1, .y = 5};
-    mem->residential_buildings[2] = (coordinates_t) {.x = 2, .y = 0};
-    mem->residential_buildings[3] = (coordinates_t) {.x = 3, .y = 4};
-    mem->residential_buildings[4] = (coordinates_t) {.x = 4, .y = 1};
+    mem->residential_buildings[2] = (coordinates_t) {.x = 6, .y = 3};
+    mem->residential_buildings[3] = (coordinates_t) {.x = 2, .y = 0};
+    mem->residential_buildings[4] = (coordinates_t) {.x = 3, .y = 4};
     mem->residential_buildings[5] = (coordinates_t) {.x = 4, .y = 5};
-    mem->residential_buildings[6] = (coordinates_t) {.x = 4, .y = 6};
-    mem->residential_buildings[7] = (coordinates_t) {.x = 5, .y = 1};
-    mem->residential_buildings[8] = (coordinates_t) {.x = 6, .y = 0};
-    mem->residential_buildings[9] = (coordinates_t) {.x = 6, .y = 3};
-    mem->residential_buildings[10] = (coordinates_t) {.x = 6, .y = 5};
+    mem->residential_buildings[6] = (coordinates_t) {.x = 6, .y = 5};
+    mem->residential_buildings[7] = (coordinates_t) {.x = 0, .y = 3};
+    mem->residential_buildings[8] = (coordinates_t) {.x = 4, .y = 1};
+    mem->residential_buildings[9] = (coordinates_t) {.x = 6, .y = 0};
+    mem->residential_buildings[10] = (coordinates_t) {.x = 4, .y = 6};
+    
 }
 
 void initialize_memory(memory_t * memory) 
@@ -128,8 +132,12 @@ void initialize_memory(memory_t * memory)
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
-    memory->hour = 7;
+    memory->hour = 0;
     memory->minute = 0;
+    memory->working = 0;
+    memory->at_home = 0;
+    memory->walking = 0;
+    memory->shopping = 0;
     // CREATE CITY INFOS
     initialize_map(&memory->map, memory);
 
@@ -138,12 +146,12 @@ void initialize_memory(memory_t * memory)
     memory->mailbox_column = 5;
     // CREATE
     V(sem);
-    printf("Initialized memory...\n");
+    //printf("Initialized memory...\n");
 }
 
-void next_turn(int sig, siginfo_t * siginfo, void * context) 
+void next_turn(int sig) 
 {
-    memory_t * memory = (memory_t *)siginfo->si_value.sival_ptr;
+    memory_t * memory;
 
     semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
@@ -159,28 +167,61 @@ void next_turn(int sig, siginfo_t * siginfo, void * context)
             // PASSER AU JOUR SUIVANT
         }
     }
-    memory->memory_has_changed = 1; 
-    int i;
-    int working = 0;
-    int at_home = 0;
-    int walking = 0;
+    V(sem);
 
+    
+
+    int i;
+    int citizen_working = 0;
+    int citizen_at_home = 0;
+    int citizen_walking = 0;
+    int citizen_shopping = 0;
 
     for (i = 0; i < NUM_CITIZEN; i++) {
-        if (memory->citizens[i].current_state == working) {
-            working++;
-        } else if (memory->citizens[i].current_state == resting_at_home) {
-            at_home++;
-        }else if (memory->citizens[i].current_state == going_to_company || memory->citizens[i].current_state == going_to_supermarket) {
-            walking++;
+        if (memory->citizens[i].current_state == resting_at_home) {
+            citizen_at_home++;
+        } else if (memory->citizens[i].current_state == working) {
+            citizen_working++;
+        } else if (memory->citizens[i].current_state == going_to_company || memory->citizens[i].current_state == going_to_supermarket || memory->citizens[i].current_state == going_back_home) {
+            citizen_walking++;
+        } else if (memory->citizens[i].current_state == doing_some_shopping) {
+            citizen_shopping++;
         }
     }
+
+    P(sem);
+    memory->at_home = citizen_at_home;
+    memory->working = citizen_working;
+    memory->walking = citizen_walking;
+    memory->shopping = citizen_shopping;
+
+    // DISPLAY
+    /*
+    if (memory->current_turn == 1) {
+        for (int j = 0; j < NUM_CITIZEN; j++) {
+            printf("%d\n", memory->citizen_threads[j].thread);
+        }
+    }*/
+/*
     printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
-    printf("working : %d\n", working);
-    printf("at home : %d\n", at_home);
-    printf("walking : %d\n", walking);
+    printf("working  : %d\n", citizen_working);
+    printf("at home  : %d\n", citizen_at_home);
+    printf("walking  : %d\n", citizen_walking);
+    printf("shopping : %d\n", citizen_shopping);
+*/
+    memory->memory_has_changed = 1; 
+    int citizen_manager_pid;
+    citizen_manager_pid = memory->pids[2];
+    if (kill(citizen_manager_pid, SIGTTIN) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
 
     V(sem);
+
+    if (munmap(memory, sizeof(memory_t)) == -1) {
+        perror("Error un-mapping shared memory");
+    }
 }
 
 void end_simulation(int sig) 
@@ -196,6 +237,9 @@ void end_simulation(int sig)
     //printf("SIMULATION ENDED...\n");
     /* CALL FUNCTION TO FREE MEMORY */
     // shm_unlink, munmap
+    if (munmap(memory, sizeof(memory_t)) == -1) {
+        perror("Error un-mapping shared memory");
+    }
     exit(EXIT_SUCCESS);
 }
 
@@ -216,28 +260,29 @@ void manage_spy_simulation()
     /* INTERCEPT KILL SIG FROM TIMER*/
     struct sigaction turn_signal, end_signal;
 
-    memset(&turn_signal, 0, sizeof(turn_signal));
-    turn_signal.sa_sigaction = &next_turn;
-    turn_signal.sa_flags = SA_SIGINFO;
+    turn_signal.sa_handler = &next_turn;
+    turn_signal.sa_flags = 0;
     if (sigaction(SIGTTIN, &turn_signal, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
-
     end_signal.sa_handler = &end_simulation;
     end_signal.sa_flags = 0;
     if (sigaction(SIGTERM, &end_signal, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
 
+
+    if (munmap(memory, sizeof(memory_t)) == -1) {
+        perror("Error un-mapping shared memory");
+    }
     /* -------------------SIMULATION LOGIC-----------------------*/
     /* next_turn will be called on reception of SIGUSR1 */
     /* end_simulation will be called on reception of SIGUSR2 */     
 
-    //wait(NULL);
-    //printf("spy simulation is waiting for signals...\n");
-
-
-    while(1){}
+    while(1){
+        //sleep(1);
+        //printf("waiting...\n");
+    }
 }
 
 void manage_timer()
@@ -431,10 +476,10 @@ void manage_monitor()
     }
 
     /* EXEC MONITOR */
-    /*
+    
     if (execvp("./bin/monitor", NULL) == -1) {
         handle_fatal_error("Error [execl(monitor)]");
-    }*/
+    }
 }
 
 void start_simulation()

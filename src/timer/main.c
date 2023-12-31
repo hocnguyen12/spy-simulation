@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     printf("Temps écoulé : %f secondes\n", duration);
     */
     /* ---------------------------------------------------------------------- */ 
-    us_sleep(1000000);
+    printf("Initializing simulation...\n");
+    us_sleep(2000000);
     //printf("Starting simulation\n");
     start_simulation_timer(turn_duration);
 

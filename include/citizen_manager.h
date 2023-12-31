@@ -22,6 +22,7 @@
 
 #include "memory.h"
 #include "posix_semaphore.h"
+#include "timer.h"
 
 /**
 * \file citizen_manager.h
@@ -30,6 +31,53 @@
 */
 
 
+
+/**
+ * \brief Function to define citizens and assign them roles, work, and home locations.
+ * 
+ * \param citizens Pointer to an array of citizen structures.
+ * \param memory Pointer to the shared memory structure.
+ */
+void define_citizen(citizen_t * citizens, memory_t *memory);
+
+
+/**
+ * \brief Switches routine based on the citizen's role.
+ * 
+ * \param citizen Pointer to the citizen structure.
+ * \param memory Pointer to the shared memory structure.
+ */
+void switch_routine(int sig);
+
+/**
+ * \brief Routine for a citizen thread. Executed everytime there is an signal.
+ * 
+ * \param citizen Pointer to the citizen structure.
+ * \param memory Pointer to the shared memory structure.
+ * \return Returns NULL.
+ */
+void *citizen_routine();
+
+void update_threads(int sig);
+
+
+void wait_for_signal(pthread_t * threads);
+
+
+/**
+ * \brief Function to create threads for each citizen.
+ * 
+ * \param citizens Pointer to an array of citizen structures.
+ * \return Array of pthread_t representing the threads for each citizen.
+ */
+citizen_thread_t * citizen_thread(memory_t * memory);
+
+/**
+ * \brief Function to free resources used by citizen threads.
+ * 
+ * \param threads Array of pthread_t representing the threads for each citizen.
+ */
+void free_thread_resources(pthread_t *threads);
 
 /**
  * \brief Calculate the square distance between two points.
@@ -59,49 +107,6 @@ void update_employee(citizen_t * citizen, memory_t *memory);
  */
 void update_supermarket_employee(citizen_t * citizen, memory_t *memory);
 
-
-/**
- * \brief Routine for a citizen thread. Executed everytime there is an signal.
- * 
- * \param citizen Pointer to the citizen structure.
- * \param memory Pointer to the shared memory structure.
- * \return Returns NULL.
- */
-void *citizen_routine();
-
-/**
- * \brief Switches routine based on the citizen's role.
- * 
- * \param citizen Pointer to the citizen structure.
- * \param memory Pointer to the shared memory structure.
- */
-void switch_routine();
-
-
-
-/**
- * \brief Function to define citizens and assign them roles, work, and home locations.
- * 
- * \param citizens Pointer to an array of citizen structures.
- * \param memory Pointer to the shared memory structure.
- */
-void define_citizen(citizen_t * citizens, memory_t *memory);
-
-
-/**
- * \brief Function to create threads for each citizen.
- * 
- * \param citizens Pointer to an array of citizen structures.
- * \return Array of pthread_t representing the threads for each citizen.
- */
-pthread_t * citizen_thread();
-
-/**
- * \brief Function to free resources used by citizen threads.
- * 
- * \param threads Array of pthread_t representing the threads for each citizen.
- */
-void free_thread_resources(pthread_t *threads);
 
 /**
  * \brief Function to find the closest supermarket to the given coordinates.

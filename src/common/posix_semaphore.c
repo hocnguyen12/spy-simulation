@@ -105,6 +105,16 @@ memory_t* get_data(){
     if(fd==-1){
         printf("error");
     }
+    //ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    //return ptr;
+
     ptr = (memory_t*) mmap(NULL, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (ptr == MAP_FAILED) {
+        perror("Error mapping shared memory");
+        close(fd);
+        return NULL;
+    }
+
+    close(fd); 
     return ptr;
 }
