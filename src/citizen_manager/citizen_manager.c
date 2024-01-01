@@ -217,7 +217,7 @@ void update_employee(citizen_t * citizen, memory_t *memory)
 	//printf("UPDATE :  employee thread %ld, id : %d, it is %d hour\n", pthread_self(), citizen->id, memory->hour);
 	//printf("position : x = %d, y = %d\n", citizen->row, citizen->col);
 	if(memory->hour >= 8 && memory->hour < 17){	
-		if (citizen->col != citizen->work_col && citizen->row != citizen->work_row) {
+		if (citizen->col != citizen->work_col || citizen->row != citizen->work_row) {
 			//printf("go_to_work()\n");
 			go_to_work(citizen, memory);
 		}
@@ -242,7 +242,7 @@ void update_employee(citizen_t * citizen, memory_t *memory)
 	if(memory->hour >= 17){
 		if(citizen->current_state == going_to_supermarket) {
 			coordinates_t closest = find_closest_supermarket(citizen->col, citizen->row, memory);
-			if (citizen->col != closest.x && citizen->row != closest.y) {
+			if (citizen->col != closest.x || citizen->row != closest.y) {
 				go_to_supermarket(citizen, closest, memory);
 			} else {
 				do_some_shopping(citizen, memory);
@@ -250,7 +250,7 @@ void update_employee(citizen_t * citizen, memory_t *memory)
 		} else if (citizen->current_state == doing_some_shopping) {
 			go_back_home(citizen, memory);
 		} else {
-			if (citizen->col != citizen->home_col && citizen->row != citizen->home_row) {
+			if (citizen->col != citizen->home_col || citizen->row != citizen->home_row) {
 				go_back_home(citizen, memory);
 			} else {
 				rest_at_home(citizen, memory);
@@ -267,7 +267,7 @@ void update_supermarket_employee(citizen_t * citizen, memory_t *memory)
 {
 	//printf("updating supermarket employee...it is %d hour\n", memory->hour);
 	if(memory->hour >= 8 && memory->hour < 19){
-		if (citizen->col != citizen->work_col && citizen->row != citizen->work_row) {
+		if (citizen->col != citizen->work_col || citizen->row != citizen->work_row) {
 			go_to_work(citizen, memory);
 		}
 		else{
@@ -276,7 +276,7 @@ void update_supermarket_employee(citizen_t * citizen, memory_t *memory)
 	} else if(memory->hour == 19 && memory->minute < 30){
 		do_some_shopping(citizen, memory);
 	} else {
-		if (citizen->col != citizen->home_col && citizen->row != citizen->home_row) {
+		if (citizen->col != citizen->home_col || citizen->row != citizen->home_row) {
 			go_back_home(citizen, memory);
 		} else {
 			rest_at_home(citizen, memory);
@@ -293,9 +293,8 @@ coordinates_t find_closest_supermarket(int current_col, int current_row, memory_
 {
     int min_dist = INT_MAX;
     coordinates_t closest_supermarket;
-    int num_supermarkets = 2; 
 
-    for (int i = 0; i < num_supermarkets; i++) {
+    for (int i = 0; i < NUM_SUPERMARKETS; i++) {
 		// Manhattan distance
 		int distance = dist(memory->supermarkets[i].y, memory->supermarkets[i].x, current_col, current_row);
 		//int dist = abs(memory->supermarkets[i].x - current_row) + abs(memory->supermarkets[i].y - current_column);
@@ -372,10 +371,10 @@ void citizen_goto(citizen_t * citizen, int destination_col, int destination_row)
 			if (citizen->col + dcol > 6 || citizen->row + drow > 6) {
 				continue;
 			}
-            if (dist(citizen->col + dcol, citizen->row + drow, destination_col, destination_row) < best_dist) {
+            if (dist(citizen->row + drow, citizen->col + dcol, destination_row, destination_col) < best_dist) {
                 best_col = citizen->col + dcol;
                 best_row = citizen->row + drow;
-                best_dist = dist(citizen->col + dcol, citizen->row + drow, destination_col, destination_row);
+                best_dist = dist(citizen->row + drow, citizen->col + dcol, destination_row, destination_col) ;
             }
         }
     }

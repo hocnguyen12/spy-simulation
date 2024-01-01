@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jan  1 20:09:32 2024
+# Make data base, printed on Tue Jan  2 00:03:52 2024
 
 # Variables
 
@@ -45,7 +45,7 @@ PWD = /home/nguyenvh/Documents/ensi/2A/s7/os/os_project
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/home/nguyenvh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-OLDPWD = /home/nguyenvh/Documents/ensi/2A/s7/os
+OLDPWD = /home/nguyenvh/Documents/ensi/2A/s7
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -61,7 +61,7 @@ XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.XKWVG2
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.109
+GNOME_TERMINAL_SERVICE = :1.1499
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -72,8 +72,6 @@ UNAME = $(shell uname -s)
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
-# environment
-VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -95,7 +93,7 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 18731
+VSCODE_PID = 46985
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -125,7 +123,7 @@ XMODIFIERS = @im=ibus
 # environment
 SHLVL = 1
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/4c7b19d0_e534_44ec_b9fa_74e41e6230d0
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/d8a9af84_038b_434f_8730_7c55ac4a76b0
 # environment
 MAKELEVEL := 0
 # default
@@ -233,7 +231,7 @@ GDMSESSION = ubuntu
 # environment
 LC_IDENTIFICATION = fr_FR.UTF-8
 # variable set hash-table stats:
-# Load=111/1024=11%, Rehash=0, Collisions=11/156=7%
+# Load=110/1024=11%, Rehash=0, Collisions=10/155=6%
 
 # Pattern-specific Variable Values
 
@@ -260,7 +258,7 @@ src/timer/timer.c:
 
 src/monitor/main.o: src/monitor/main.c include/monitor.h include/monitor_common.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.32365889
+#  Last modified 2024-01-01 22:44:57.491766831
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 30):
@@ -277,7 +275,6 @@ distclean: clean
 # Not a target:
 include/logger.h:
 #  Implicit rule search has been done.
- 
 #  Last modified 2024-01-01 19:17:01.244529648
 #  File has been updated.
 #  Successfully updated.
@@ -285,7 +282,8 @@ include/logger.h:
 # Not a target:
 include/enemy_spy_network.h:
 #  Implicit rule search has been done.
-#  Last modified 2024-01-01 20:00:43.01996542
+ 
+#  Last modified 2024-01-01 23:40:05.110619142
 #  File has been updated.
 #  Successfully updated.
 
@@ -305,7 +303,7 @@ Makefile:
 
 src/spy_simulation/main.o: src/spy_simulation/main.c include/spy_simulation.h include/memory.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:58:34.843673765
+#  Last modified 2024-01-01 23:12:47.476912542
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 52):
@@ -340,7 +338,7 @@ include/monitor_common.h:
 
 src/timer/main.o: src/timer/main.c include/timer.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.735669689
+#  Last modified 2024-01-01 22:44:57.971770857
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 99):
@@ -348,7 +346,7 @@ src/timer/main.o: src/timer/main.c include/timer.h
 
 src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semaphore.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.519664027
+#  Last modified 2024-01-01 22:44:57.711768677
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 109):
@@ -377,7 +375,7 @@ src/enemy_spy_network/main.c:
 
 src/common/logger.o: src/common/logger.c include/logger.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.483663083
+#  Last modified 2024-01-01 22:44:57.675768374
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 106):
@@ -392,7 +390,7 @@ src/monitor/monitor.c:
 
 src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:58:34.811673814
+#  Last modified 2024-01-01 23:59:30.369799124
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 49):
@@ -401,13 +399,13 @@ src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include
 # Not a target:
 src/spy_simulation/spy_simulation.c:
 #  Implicit rule search has been done.
-#  Last modified 2024-01-01 19:41:11.946515986
+#  Last modified 2024-01-01 23:59:27.457997871
 #  File has been updated.
 #  Successfully updated.
 
 bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o src/common/posix_semaphore.o src/enemy_spy_network/main.o
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:17:01.24052945
+#  Last modified 2024-01-02 00:00:59.752122348
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -452,7 +450,7 @@ include/monitor.h:
 
 bin/monitor: src/monitor/main.o src/monitor/monitor.o src/monitor/monitor_common.o src/common/logger.o src/common/posix_semaphore.o
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.535664447
+#  Last modified 2024-01-01 22:44:57.731768844
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 27):
@@ -460,7 +458,7 @@ bin/monitor: src/monitor/main.o src/monitor/monitor.o src/monitor/monitor_common
 
 src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_common.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.45566235
+#  Last modified 2024-01-01 22:44:57.647768139
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 36):
@@ -475,7 +473,7 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2024-01-02 00:00:59.736123296
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -491,7 +489,7 @@ src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_netwo
 # automatic
 # ^ := src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 # automatic
-# ? := src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+# ? := src/enemy_spy_network/enemy_spy_network.c
 # automatic
 # | := 
 # variable set hash-table stats:
@@ -532,13 +530,13 @@ src/monitor/main.c:
 # Not a target:
 src/enemy_spy_network/enemy_spy_network.c:
 #  Implicit rule search has been done.
-#  Last modified 2024-01-01 20:09:10.727656659
+#  Last modified 2024-01-02 00:03:40.475674087
 #  File has been updated.
 #  Successfully updated.
 
 bin/spy_simulation: src/spy_simulation/spy_simulation.o src/common/posix_semaphore.o src/spy_simulation/main.o src/timer/timer.o
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:58:34.899673678
+#  Last modified 2024-01-01 23:59:30.385798035
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 46):
@@ -546,7 +544,7 @@ bin/spy_simulation: src/spy_simulation/spy_simulation.o src/common/posix_semapho
 
 src/monitor/monitor.o: src/monitor/monitor.c include/monitor.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:41:56.415661302
+#  Last modified 2024-01-01 22:44:57.60376777
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 33):
@@ -555,14 +553,13 @@ src/monitor/monitor.o: src/monitor/monitor.c include/monitor.h
 # Not a target:
 include/memory.h:
 #  Implicit rule search has been done.
-#  Last modified 2024-01-01 19:58:30.475681048
+#  Last modified 2024-01-01 23:12:22.540896474
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/spy_simulation/main.c:
 #  Implicit rule search has been done.
- 
 #  Last modified 2024-01-01 19:17:01.248529845
 #  File has been updated.
 #  Successfully updated.
@@ -582,6 +579,7 @@ src/citizen_manager/citizen_manager.c:
 # Not a target:
 src/timer/main.c:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2024-01-01 19:17:01.248529845
 #  File has been updated.
 #  Successfully updated.
@@ -593,7 +591,7 @@ src/timer/main.c:
 
 src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:58:34.887673696
+#  Last modified 2024-01-01 23:12:47.520912574
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 96):
@@ -609,7 +607,7 @@ src/citizen_manager/citizen_manager.o: src/citizen_manager/citizen_manager.c inc
 
 bin/timer: src/timer/timer.o src/common/posix_semaphore.o src/timer/main.o
 #  Implicit rule search has not been done.
-#  Last modified 2024-01-01 19:58:34.919673647
+#  Last modified 2024-01-01 23:12:47.5569126
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 93):
@@ -629,6 +627,6 @@ bin/timer: src/timer/timer.o src/common/posix_semaphore.o src/timer/main.o
 # strcache performance: lookups = 126 / hit rate = 53%
 # hash-table stats:
 # Load=58/8192=1%, Rehash=0, Collisions=0/126=0%
-# Finished Make data base on Mon Jan  1 20:09:32 2024
+# Finished Make data base on Tue Jan  2 00:03:52 2024
 
  

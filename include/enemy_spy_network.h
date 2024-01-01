@@ -156,8 +156,6 @@ void spy_goto(spy_t * spy, int destination_col, int destination_row);
  */
 coordinates_t find_closest_supermarket(int current_col, int current_row, memory_t *memory);
 
-coordinates_t find_closest_company(int current_col, int current_row, memory_t *memory);
-
 void send_message_to_enemy_country(spy_t * spy, memory_t * memory);
 
 void handle_encounter_with_counter_intelligence(spy_t * spy, memory_t * memory);

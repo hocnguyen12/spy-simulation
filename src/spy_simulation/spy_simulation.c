@@ -133,7 +133,7 @@ void initialize_memory(memory_t * memory)
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
     memory->hour = 7;
-    memory->minute = 30;
+    memory->minute = 0;
     memory->working = 0;
     memory->at_home = 0;
     memory->walking = 0;
@@ -320,7 +320,7 @@ void manage_timer()
     } else {
         /* EXEC TIMER */
         /* Arguments pour execvp(), "900000" donne 0.9 seconde "1000000" donne 1 seconde*/
-        char *args[] = {"./bin/timer", "900000", NULL};  
+        char *args[] = {"./bin/timer", "500000", NULL};  
 
         if (execvp("./bin/timer", args) == -1) {
             handle_fatal_error("Error [execvp(timer)]");

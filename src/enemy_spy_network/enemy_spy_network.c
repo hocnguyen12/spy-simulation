@@ -230,14 +230,15 @@ void update_spy(spy_t * spy, memory_t * memory)
             spy->current_state = going_to_supermarket;
             pthread_mutex_unlock(&memory_mutex);
         }
-    }
-    if (memory->hour >= 8 && memory->hour < 17) {
+        
+    } else if (memory->hour >= 8 && memory->hour < 17) {
         if(spy->current_state == going_to_spot || spy->current_state == spotting){
-            coordinates_t company = spy->companies_stolen[spy->nb_company_stolen];
-            if(spy->col != company.y && spy->row != company.x){
-                spy_goto(spy, company.y, company.x);
+            //coordinates_t company = spy->companies_stolen[spy->nb_company_stolen];
+            if(spy->col != spy->company_col || spy->row != spy->company_row){
+                spy_goto(spy, spy->company_col, spy->company_row);
             } else {
                 if(spy->number_round_spotting != 12){
+                    printf("nb round spotting = %d\n", spy->number_round_spotting);
                     spot_company(spy, memory);
                 }else{
                     pthread_mutex_lock(&memory_mutex);
@@ -250,14 +251,14 @@ void update_spy(spy_t * spy, memory_t * memory)
             }
         }
         if(spy->current_state == going_back_home){
-            if (spy->col != spy->home_col && spy->row != spy->home_row) {
+            if (spy->col != spy->home_col || spy->row != spy->home_row) {
                 go_back_home(spy, memory);
             } else {
                 rest_at_home(spy, memory);
             }
         } else if(spy->current_state == going_to_supermarket){
             coordinates_t closest = find_closest_supermarket(spy->col, spy->row, memory);
-		    if (spy->col != closest.y && spy->row != closest.x) {
+		    if (spy->col != closest.y || spy->row != closest.x) {
 			    go_to_supermarket(spy, closest, memory);
 		    } else {
 			    do_some_shopping(spy, memory);
@@ -265,10 +266,10 @@ void update_spy(spy_t * spy, memory_t * memory)
         } else if(spy->current_state == doing_some_shopping){
             go_back_home(spy, memory);
         }
-    }
-    if ((memory->hour >= 17 || memory->hour < 8) && spy->is_spotted == 1) {
+    } else if ((memory->hour >= 17 || memory->hour < 8) && spy->is_spotted == 1) {
         printf("STEAL or go to STEAL (%d, %d)\n", spy->company_row, spy->company_col);
-        if (spy->col != spy->company_col && spy->row != spy->company_row) {
+
+        if (spy->col != spy->company_col || spy->row != spy->company_row) {
             pthread_mutex_lock(&memory_mutex);
             spy->current_state = going_to_steal;
             pthread_mutex_unlock(&memory_mutex);
@@ -278,18 +279,18 @@ void update_spy(spy_t * spy, memory_t * memory)
                 steal_information(spy, memory);
             } else {   
                 pthread_mutex_lock(&memory_mutex);
+                printf("IS_SPOTTED = 0\n");
                 spy->is_spotted = 0;
                 spy->is_stolen = 1;
                 spy->current_state = going_to_mail_box;
-                //spy->current_state = going_to_mail_box;
+                spy->find_company_to_steal = 0;
                 pthread_mutex_unlock(&memory_mutex);
             }
         }
-    }
-    if ((memory->hour >= 17 || memory->hour < 8) && spy->is_stolen == 1) {
+    } else if ((memory->hour >= 17 || memory->hour < 8) && spy->is_stolen == 1) {
         if (spy->current_state == going_to_mail_box){
             printf("GO to MAILBOX\n");
-            if(spy->row != memory->mailbox_row && spy->col != memory->mailbox_col){
+            if(spy->row != memory->mailbox_row || spy->col != memory->mailbox_col){
                 go_to_mailbox(spy, memory);
             }else {
                 send_message(spy, memory);
@@ -299,9 +300,12 @@ void update_spy(spy_t * spy, memory_t * memory)
             }
         } else if (spy->current_state == going_back_home){ 
             printf("GO HOME\n");
-            if (spy->col != spy->home_col && spy->row != spy->home_row) {
+            if (spy->col != spy->home_col || spy->row != spy->home_row) {
                 go_back_home(spy, memory);
             } else {
+                pthread_mutex_lock(&memory_mutex);
+                spy->is_stolen = 0;
+                pthread_mutex_unlock(&memory_mutex);
                 rest_at_home(spy, memory);
             }
         }
@@ -348,7 +352,10 @@ coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory)
 {
     printf("searching for company to steal\n");
     // if company not found
-    if(spy->find_company_to_steal == 0){
+    if(spy->find_company_to_steal == 0) {
+        pthread_mutex_lock(&memory_mutex);
+        spy->find_company_to_steal = 1;
+        pthread_mutex_unlock(&memory_mutex);
         int random_index;
         int is_already_stolen;
         coordinates_t company;
@@ -367,9 +374,11 @@ coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory)
         } while (is_already_stolen);
 
         if (!is_already_stolen) {
+            pthread_mutex_lock(&memory_mutex);
             spy->company_col = memory->companies[random_index].y;
             spy->company_row = memory->companies[random_index].x;
             spy->companies_stolen[spy->nb_company_stolen] = memory->companies[random_index];
+            pthread_mutex_unlock(&memory_mutex);
         }
         printf("found company to steal x = %d, y = %d\n", spy->company_row, spy->company_col);
         return company;
@@ -411,6 +420,7 @@ void steal_information(spy_t * spy, memory_t * memory)
     } else {
         spy->current_state = stealing;
     }
+
     pthread_mutex_unlock(&memory_mutex);
 }
 
@@ -489,7 +499,7 @@ void rest_at_home(spy_t *spy, memory_t *memory)
 
 void go_to_mailbox(spy_t * spy, memory_t * memory)
 {
-    printf("go to mailbox\n");
+    printf("go to mailbox (%d, %d)\n", memory->mailbox_row, memory->mailbox_col);
     spy_goto(spy, memory->mailbox_col, memory->mailbox_row);
 	pthread_mutex_lock(&memory_mutex);
     spy->current_state = going_to_mail_box;
@@ -512,13 +522,13 @@ void spy_goto(spy_t * spy, int destination_col, int destination_row)
 	best_dist = dist(0, 0, MAX_ROWS - 1, MAX_COLUMNS - 1);
     for (int dcol=-1; dcol<=1; dcol++) {
         for (int drow=-1; drow<=1; drow++) {
-            if (spy->col + dcol > 6 || spy->row + drow > 6) {
+            if (spy->col + dcol >= MAX_COLUMNS || spy->row + drow >= MAX_ROWS || spy->col + dcol < 0 || spy->col + dcol < 0) {
 				continue;
 			}
-            if (dist(spy->col + dcol, spy->row + drow, destination_col, destination_row) < best_dist) {
-                best_col = spy->col+dcol;
-                best_row = spy->row+drow;
-                best_dist = dist(spy->col + dcol, spy->row + drow, destination_col, destination_row);
+            if (dist(spy->row + drow, spy->col + dcol, destination_row, destination_col) < best_dist) {
+                best_col = spy->col + dcol;
+                best_row = spy->row + drow;
+                best_dist = dist(spy->row + drow, spy->col + dcol, destination_row, destination_col);
             }
         }
     }
@@ -533,9 +543,8 @@ coordinates_t find_closest_supermarket(int current_col, int current_row, memory_
 {
     int min_dist = INT_MAX;
     coordinates_t closest_supermarket;
-    int num_supermarkets = 2; 
 
-    for (int i = 0; i < num_supermarkets; i++) {
+    for (int i = 0; i < NUM_SUPERMARKETS; i++) {
         int dist = (memory->supermarkets[i].y - current_col) * (memory->supermarkets[i].y - current_col) + (memory->supermarkets[i].x - current_row) * (memory->supermarkets[i].x - current_row);
         if (dist < min_dist) {
             min_dist = dist;
@@ -544,22 +553,6 @@ coordinates_t find_closest_supermarket(int current_col, int current_row, memory_
     }
 
     return closest_supermarket;
-}
-
-coordinates_t find_closest_company(int current_col, int current_row, memory_t *memory) 
-{
-    int min_dist = INT_MAX;
-    coordinates_t closest_company;
-
-    for (int i = 0; i < NUM_COMPANIES; i++) {
-        int dist = (memory->companies[i].y - current_col) * (memory->companies[i].y - current_col) + (memory->supermarkets[i].x - current_row) * (memory->supermarkets[i].x - current_row);
-        if (dist < min_dist) {
-            min_dist = dist;
-            closest_company = memory->companies[i];
-        }
-    }
-
-    return closest_company;
 }
 
 void send_message_to_enemy_country(spy_t * spy, memory_t * memory)
