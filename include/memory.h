@@ -18,25 +18,43 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#include <pthread.h>
+
 #include "cell.h"
 #include "common.h"
-#include "enemy_spy_network.h"
 
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
 #define NUM_CITIZEN 127
+#define NUM_SPIES 1
 
 #define NUM_SUPERMARKETS 2
 #define NUM_COMPANIES 8
 #define NUM_RESIDENTIAL_BUILDINGS 11
 
+typedef struct coordinates_s coordinates_t;
+
+struct coordinates_s {
+    //row, column
+    int x, y;
+};
+
 typedef enum {
-    resting_at_home,
-    going_to_company,
-    going_to_supermarket,
-    working,
-    doing_some_shopping,
-    going_back_home
+/* general states */
+    resting_at_home,      //0
+    going_to_company,     //1
+    going_to_supermarket, //2
+    working,              //3
+    doing_some_shopping,  //4
+    going_back_home,      //5
+
+/* spy states */
+    going_to_spot,        //6
+    going_to_steal,       //7
+    stealing,             //8
+    spotting,             //9
+    sending_message,      //10
+    going_to_mail_box     //11
 } state_t;
 
 typedef enum {
@@ -59,18 +77,39 @@ typedef struct citizen_s {
 
 typedef struct spy_s spy_t;
 
+typedef enum{
+    NORMAL_SPY,
+    SPY_OFFICER
+} spy_role_t;
+
 /**
  * \brief Structure of a spy agent.
  */
 struct spy_s {
     int id;
+    spy_role_t role;
     int health;
     int row, col;
     int home_row, home_col;
     int license; // 0 for false, 1 for true
+    int company_row, company_col;
+    int is_spotted;
+    int is_stolen;
+    int find_company_to_steal;
+    int number_round_spotting; // Ne pas depasser 12
+    int number_round_stealing; // Le nombre de tour volé
+    int message;
+    coordinates_t companies_stolen[NUM_COMPANIES];
+    state_t current_state;
+
+    int first_message_time;
+    int second_message_time;
+    int shopping_time;
+
     int nb_company_stolen;
     char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 };
+
 
 
 /**
@@ -92,19 +131,12 @@ struct map_s {
     cell_t cells[MAX_COLUMNS][MAX_ROWS]; /*!< Cells that constitute the city map. */
 };
 
-typedef struct coordinates_s coordinates_t;
-
-struct coordinates_s {
-    //row, column
-    int x, y;
-};
-
-typedef struct citizen_thread_s citizen_thread_t;
+typedef struct character_thread_s character_thread_t;
 
 /**
  * \brief Structure representing a thread and the id of the citizen it represent.
  */
-struct citizen_thread_s {
+struct character_thread_s {
     pthread_t thread;
     int id;
 };
@@ -130,7 +162,8 @@ struct memory_s {
                  * - pids[5]: enemy_country
                  * - pids[6]: monitor
                  */
-    citizen_thread_t citizen_threads[NUM_CITIZEN];
+    character_thread_t citizen_threads[NUM_CITIZEN];
+    character_thread_t spy_threads[NUM_SPIES];
 
     map_t map;
     coordinates_t city_hall;
@@ -153,12 +186,12 @@ struct memory_s {
     int minute;
 
     // Characters
-    spy_t spies[3];
-    citizen_t citizens[127];
+    spy_t spies[NUM_SPIES];
+    citizen_t citizens[NUM_CITIZEN];
 
     int working, at_home, walking, shopping;
 
-    int mailbox_row, mailbox_column; // Mail box coordinates
+    int mailbox_row, mailbox_col; // Mail box coordinates
 
 };
 

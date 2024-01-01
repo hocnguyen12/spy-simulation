@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+
 #include "citizen_manager.h"
 
 int main(void){
@@ -31,8 +32,4 @@ int main(void){
 
     pthread_t * threads = citizen_thread(memory);
     wait_for_signal(threads);
-    if (munmap(memory, sizeof(memory_t)) == -1) {
-        perror("Error un-mapping shared memory");
-    }
-    free_thread_resources(threads);
 }

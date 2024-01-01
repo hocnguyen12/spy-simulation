@@ -52,7 +52,7 @@ src/spy_simulation/main.o: src/spy_simulation/main.c include/spy_simulation.h in
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
-# SPY_SIMULATION
+# CITIZEN MANAGER
 # ----------------------------------------------------------------------------
 
 bin/citizen_manager: src/citizen_manager/citizen_manager.o \

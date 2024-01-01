@@ -13,6 +13,8 @@
         "climits": "c",
         "common.h": "c",
         "posix_semaphore.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "cell.h": "c",
+        "time.h": "c"
     }
 }

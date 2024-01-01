@@ -10,13 +10,16 @@
 #ifndef ENEMY_SPY_NETWORK_H
 #define ENEMY_SPY_NETWORK_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
-#include <sys/select.h>
-#include <sys/time.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <time.h>
-#include <signal.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <error.h>
+#include <errno.h>
+#include <limits.h>
 
 #include "common.h"
 #include "posix_semaphore.h"
@@ -28,6 +31,15 @@
 * \brief Constants and prototypes of enemy_spy_network
 */
 
+/**
+ * \brief Function to define spy and initialize their attributs and home locations.
+ * 
+ * \param spys Pointer to an array of spy structures.
+ * \param memory Pointer to the shared memory structure.
+ */
+void define_spy(spy_t *spy, memory_t * memory);
+
+void switch_routine(int sig);
 
 /**
  * \brief Routine for a spy thread. Executed everytime there is an signal.
@@ -36,9 +48,21 @@
  * \param memory Pointer to the shared memory structure.
  * \return Returns NULL.
  */
-void * spy_routine(spy_t *spy, memory_t * memory);
+void * spy_routine();
 
+void update_threads(int sig);
 
+void end_simulation(int sig);
+
+void wait_for_signal(pthread_t * threads);
+
+/**
+ * \brief Function to create threads for each spy.
+ * 
+ * \param spys Pointer to an array of spy structures.
+ * \return Array of pthread_t representing the threads for each spy.
+ */
+pthread_t * spy_thread(memory_t * memory);
 
 /**
  * \brief Function to update a spy state based on the current simulation time.
@@ -48,34 +72,11 @@ void * spy_routine(spy_t *spy, memory_t * memory);
  */
 void update_spy(spy_t * spy, memory_t * memory);
 
+void update_case_officer(spy_t *officer, memory_t *memory);
 
-/**
- * \brief Function to define spy and initialize their attributs and home locations.
- * 
- * \param spys Pointer to an array of spy structures.
- * \param memory Pointer to the shared memory structure.
- */
-void define_spy(spy_t *spy, memory_t * memory);
+void randomize_time(spy_t *officer, memory_t * memory);
 
-
-
-/**
- * \brief Function to create threads for each spy.
- * 
- * \param spys Pointer to an array of spy structures.
- * \return Array of pthread_t representing the threads for each spy.
- */
-pthread * spy_thread(spy_t ** spys){
-
-
-
-/**
- * \brief Function to free resources used by spy threads.
- * 
- * \param threads Array of pthread_t representing the threads for each spy.
- */
-void free_thread_resources(pthread_t *threads);
-
+void get_message(spy_t *officer, memory_t * memory);
 
 /**
  * \brief Function of repering company to steal for a spy
@@ -83,17 +84,13 @@ void free_thread_resources(pthread_t *threads);
  * \param spy Pointer to the spy structure.
  * \param memory Pointer to the shared memory structure.
  */
-void search_for_company_to_steal(spy_t *spy, memory_t * memory);
+coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory);
 
+void steal_information(spy_t * spy, memory_t * memory);
 
-/**
- * \brief Funcion to steal the information after searching for a company. Send a message after a success.
- * 
- * \param spy Pointer to the spy structure.
- * \param memory Pointer to the shared memory structure.
- */
-void steal_information_or_send_message(spy_t * spy, memory_t *memory);
+void send_message(spy_t * spy, memory_t * memory);
 
+void spot_company(spy_t * spy, memory_t * memory);
 
 /**
  * \brief Function to move a spy towards their home. 
@@ -101,7 +98,6 @@ void steal_information_or_send_message(spy_t * spy, memory_t *memory);
  * \param spy Pointer to the spy structure.
  */
 void go_back_home(spy_t * spy, memory_t * memory);
-
 
 /**
  * \brief Function to move a spy towards the closest supermarket.
@@ -120,7 +116,6 @@ void go_to_supermarket(spy_t * spy, coordinates_t closest, memory_t * memory);
  */
 void do_some_shopping(spy_t * spy, memory_t *memory);
 
-
 /**
  * \brief Function to simulate a spy resting at home.
  * 
@@ -129,20 +124,18 @@ void do_some_shopping(spy_t * spy, memory_t *memory);
  */
 void rest_at_home(spy_t *spy, memory_t *memory);
 
-
+void go_to_mailbox(spy_t * spy, memory_t * memory);
 
 /**
- * \brief Calculate the square distance between two points.
+ * \brief Calculate the manhattan distance between two points.
  * 
  * \param c1 Column of the first point.
  * \param r1 Row of the first point.
  * \param c2 Column of the second point.
  * \param r2 Row of the second point.
- * \return The square distance between the two points.
+ * \return The manhattan distance between the two points.
  */
 int dist(int c1, int r1, int c2, int r2);
-
-
 
 /**
  * \brief Move a spy to the specified destination.
@@ -163,6 +156,10 @@ void spy_goto(spy_t * spy, int destination_col, int destination_row);
  */
 coordinates_t find_closest_supermarket(int current_col, int current_row, memory_t *memory);
 
+coordinates_t find_closest_company(int current_col, int current_row, memory_t *memory);
 
+void send_message_to_enemy_country(spy_t * spy, memory_t * memory);
+
+void handle_encounter_with_counter_intelligence(spy_t * spy, memory_t * memory);
 
 #endif /* ENEMY_SPY_NETWORK_H */

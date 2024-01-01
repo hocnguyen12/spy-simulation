@@ -26,11 +26,19 @@
 #include <errno.h>
 #include <signal.h>
 
-#include "posix_semaphore.h"
-#include "spy_simulation.h"
-#include "memory.h"
+#include "enemy_spy_network.h"
 
 int main(void) 
 {
+    printf("ENEMY SPY NETWORK : pid = %d\n", getpid());
+    memory_t* memory;
+    semaphore_t* sem;
+    sem = open_semaphore("/spy_semaphore");
+    P(sem);
+    memory = get_data();
+    define_spy(memory->spies, memory);
+    V(sem);
 
+    pthread_t * threads = spy_thread(memory);
+    wait_for_signal(threads);
 }

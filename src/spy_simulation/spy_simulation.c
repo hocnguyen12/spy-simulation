@@ -132,8 +132,8 @@ void initialize_memory(memory_t * memory)
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
-    memory->hour = 0;
-    memory->minute = 0;
+    memory->hour = 7;
+    memory->minute = 30;
     memory->working = 0;
     memory->at_home = 0;
     memory->walking = 0;
@@ -143,7 +143,7 @@ void initialize_memory(memory_t * memory)
 
     // MAILBOX (in a residential building)
     memory->mailbox_row = 1;
-    memory->mailbox_column = 5;
+    memory->mailbox_col = 5;
     // CREATE
     V(sem);
     //printf("Initialized memory...\n");
@@ -202,8 +202,9 @@ void next_turn(int sig)
             printf("%d\n", memory->citizen_threads[j].thread);
         }
     }*/
-/*
+
     printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
+    /*
     printf("working  : %d\n", citizen_working);
     printf("at home  : %d\n", citizen_at_home);
     printf("walking  : %d\n", citizen_walking);
@@ -213,6 +214,14 @@ void next_turn(int sig)
     int citizen_manager_pid;
     citizen_manager_pid = memory->pids[2];
     if (kill(citizen_manager_pid, SIGTTIN) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
+
+    int enemy_spy_network_pid;
+    enemy_spy_network_pid = memory->pids[3];
+    //printf("sending signal to enemy spy network pid : %d\n", enemy_spy_network_pid);
+    if (kill(enemy_spy_network_pid, SIGTTIN) == -1) {
 		perror("kill()");
 		exit(EXIT_FAILURE);
 	}
@@ -350,11 +359,13 @@ void manage_citizen_manager()
         manage_enemy_spy_network();
     } else {
         /* EXEC CITIZEN_MANAGER */
-        
+    
+        /*
         if (execl("./bin/citizen_manager", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-    
+        */
+
         wait(NULL);
     }
 }
@@ -476,10 +487,10 @@ void manage_monitor()
     }
 
     /* EXEC MONITOR */
-    
+    /*
     if (execvp("./bin/monitor", NULL) == -1) {
         handle_fatal_error("Error [execl(monitor)]");
-    }
+    }*/
 }
 
 void start_simulation()

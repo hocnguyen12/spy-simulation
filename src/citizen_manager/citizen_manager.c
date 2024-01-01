@@ -88,7 +88,6 @@ void switch_routine(int sig)
 		i++;
 	}
 	
-
 	pthread_barrier_wait(&barrier);
 
 	switch (citizen->role) {
@@ -113,10 +112,8 @@ void *citizen_routine()
 	//printf("starting citizen routine, thread n° %ld\n", pthread_self());
 
 	sigset_t set;
-    // Initialiser l'ensemble et ajouter SIGTTIN
     sigemptyset(&set);
     sigaddset(&set, SIGTTIN);
-    // Bloquer SIGTTIN dans ce thread
     pthread_sigmask(SIG_BLOCK, &set, NULL);
 
 	struct sigaction sa;
@@ -126,18 +123,14 @@ void *citizen_routine()
         handle_fatal_error("Error using sigaction");
     }
 
-	while(1) {
-		//switch_routine(citizen);
-		//us_sleep(900000);
-		//printf("waiting\n");
-	}
+	while(1) {}
 	return NULL;
 }
 
 void update_threads(int sig)
 {
 	// get threads tid
-	citizen_thread_t * thread_info;
+	character_thread_t * thread_info;
 	memory_t * memory;
 	semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
@@ -154,9 +147,28 @@ void update_threads(int sig)
     }
 }
 
+void end_simulation(int sig) 
+{
+    character_thread_t * thread_info;
+    memory_t * memory;
+    memory = get_data();
+    thread_info = memory->citizen_threads;
+
+    int i;
+    for (int i = 0; i < NUM_CITIZEN ; i++) {
+        pthread_join(thread_info[i].thread, NULL);
+    }
+
+    if (munmap(memory, sizeof(memory_t)) == -1) {
+        perror("Error un-mapping shared memory");
+    }
+    pthread_mutex_destroy(&memory_mutex);
+    pthread_barrier_destroy(&barrier);
+}
+
 void wait_for_signal(pthread_t * threads)
 {
-	struct sigaction next_turn;
+	struct sigaction next_turn, simulation_end;
 
     next_turn.sa_handler = &update_threads;
     next_turn.sa_flags = 0;
@@ -164,37 +176,29 @@ void wait_for_signal(pthread_t * threads)
         handle_fatal_error("Error using sigaction");
     }
 
-	//printf("waiting...\n");
-	while (1) {}
+    simulation_end.sa_handler = &end_simulation;
+    simulation_end.sa_flags = 0;
+    if (sigaction(SIGTTIN, &end_simulation, NULL) < 0) {
+        handle_fatal_error("Error using sigaction");
+    }
+
+    //printf("waiting...\n");
+    while (1) {}
 }
 
-citizen_thread_t * citizen_thread(memory_t * memory)
+character_thread_t * citizen_thread(memory_t * memory)
 {
 	pthread_mutex_init(&memory_mutex, NULL);
 	pthread_barrier_init(&barrier, NULL, NUM_CITIZEN);
 
 	semaphore_t* sem;
     sem = open_semaphore("/spy_semaphore");
-    
-
-	//pthread_t * threads = (pthread_t*) malloc(NUM_CITIZEN * sizeof(pthread_t));
-
-	//citizen_thread_t * citizen_threads = malloc(NUM_CITIZEN * sizeof(citizen_thread_t));
-
-	//citizen_thread_t citizen_threads[127];
-/*
-	if (citizen_threads == NULL){
-		perror("Failed to allocate memory for threads");
-		exit(EXIT_FAILURE);
-	}*/
-
-	//printf("creating threads...\n");
+  
 	for(int i = 0; i < NUM_CITIZEN; i++){
 		P(sem);
 		int result = pthread_create(&memory->citizen_threads[i].thread, NULL, citizen_routine, NULL);
 		memory->citizen_threads[i].id = i;
 		V(sem);
-		//printf("DEBUG %d, %ld\n", memory->citizen_threads[i].id, memory->citizen_threads[i].thread);
         if (result != 0) {
             fprintf(stderr, "Failed to create thread: %s\n", strerror(result));
 
@@ -202,25 +206,10 @@ citizen_thread_t * citizen_thread(memory_t * memory)
                 pthread_cancel(memory->citizen_threads[j].thread); 
 				pthread_join(memory->citizen_threads[j].thread, NULL); 
 			}
-			//free(citizen_threads);
             exit(EXIT_FAILURE);
         }
 	}
-	//memory->citizen_threads = citizen_threads;
-	
-
-	//printf("Threads initialized !\n");
-
 	return memory->citizen_threads;
-}
-
-void free_thread_resources(pthread_t *threads) 
-{
-    for (int i = 0; i < NUM_CITIZEN ; i++) {
-        pthread_join(threads[i], NULL);
-    }
-    free(threads);
-	pthread_mutex_destroy(&memory_mutex);
 }
 
 void update_employee(citizen_t * citizen, memory_t *memory)

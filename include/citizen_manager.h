@@ -22,7 +22,7 @@
 
 #include "memory.h"
 #include "posix_semaphore.h"
-#include "timer.h"
+
 
 /**
 * \file citizen_manager.h
@@ -70,7 +70,7 @@ void wait_for_signal(pthread_t * threads);
  * \param citizens Pointer to an array of citizen structures.
  * \return Array of pthread_t representing the threads for each citizen.
  */
-citizen_thread_t * citizen_thread(memory_t * memory);
+character_thread_t * citizen_thread(memory_t * memory);
 
 /**
  * \brief Function to free resources used by citizen threads.

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Dec 27 21:42:14 2023
+# Make data base, printed on Mon Jan  1 20:09:32 2024
 
 # Variables
 
@@ -45,7 +45,7 @@ PWD = /home/nguyenvh/Documents/ensi/2A/s7/os/os_project
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/home/nguyenvh/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-OLDPWD = /home/nguyenvh/Documents/ensi/2A/s7
+OLDPWD = /home/nguyenvh/Documents/ensi/2A/s7/os
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -55,13 +55,13 @@ VSCODE_CODE_CACHE_PATH = /home/nguyenvh/.config/Code/CachedData/0ee08df0cf4527e4
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.ZUBBG2
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.XKWVG2
 # default
 .LOADED := 
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.159
+GNOME_TERMINAL_SERVICE = :1.109
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -95,13 +95,13 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 6102
+VSCODE_PID = 18731
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/nguyenvh-Swift-SF314-511:@/tmp/.ICE-unix/1664,unix/nguyenvh-Swift-SF314-511:/tmp/.ICE-unix/1664
+SESSION_MANAGER = local/nguyenvh-Swift-SF314-511:@/tmp/.ICE-unix/1670,unix/nguyenvh-Swift-SF314-511:/tmp/.ICE-unix/1670
 # automatic
 *F = $(notdir $*)
 # environment
@@ -125,7 +125,7 @@ XMODIFIERS = @im=ibus
 # environment
 SHLVL = 1
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/3a7fef64_aec8_4b3e_8ef7_868a06e7b794
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/4c7b19d0_e534_44ec_b9fa_74e41e6230d0
 # environment
 MAKELEVEL := 0
 # default
@@ -169,7 +169,7 @@ CPPFLAGS = -D_REENTRANT -I./include
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 1903
+SYSTEMD_EXEC_PID = 1896
 # environment
 DISPLAY = :0
 # environment
@@ -241,7 +241,7 @@ LC_IDENTIFICATION = fr_FR.UTF-8
 
 # Directories
 
-# . (device 66306, inode 14700781): 10 files, no impossibilities.
+# . (device 66306, inode 14811587): 10 files, no impossibilities.
 
 # 10 files, no impossibilities in 1 directories.
 
@@ -253,35 +253,16 @@ LC_IDENTIFICATION = fr_FR.UTF-8
 
 # Not a target:
 src/timer/timer.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 src/monitor/main.o: src/monitor/main.c include/monitor.h include/monitor_common.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2024-01-01 19:41:56.32365889
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := src/monitor/main.o
-# automatic
-# * := 
-# automatic
- 
-# < := src/monitor/main.c
-# automatic
-# + := src/monitor/main.c include/monitor.h include/monitor_common.h
-# automatic
-# % := 
-# automatic
-# ^ := src/monitor/main.c include/monitor.h include/monitor_common.h
-# automatic
-# ? := src/monitor/main.c include/monitor.h include/monitor_common.h
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=2/16=12%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 30):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
@@ -295,15 +276,18 @@ distclean: clean
 
 # Not a target:
 include/logger.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+ 
+#  Last modified 2024-01-01 19:17:01.244529648
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 include/enemy_spy_network.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 20:00:43.01996542
+#  File has been updated.
+#  Successfully updated.
 
 src/citizen_manager/main.o: src/citizen_manager/main.c include/citizen_manager.h include/memory.h
 #  Implicit rule search has not been done.
@@ -315,22 +299,24 @@ src/citizen_manager/main.o: src/citizen_manager/main.c include/citizen_manager.h
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-12-27 19:03:24.947657286
+#  Last modified 2024-01-01 20:09:29.720075904
 #  File has been updated.
 #  Successfully updated.
 
 src/spy_simulation/main.o: src/spy_simulation/main.c include/spy_simulation.h include/memory.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:58:34.843673765
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 52):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # Not a target:
 include/posix_semaphore.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/citizen_manager/main.c:
@@ -340,28 +326,31 @@ src/citizen_manager/main.c:
 
 # Not a target:
 include/timer.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 include/monitor_common.h:
 #  Implicit rule search has been done.
-#  Last modified 2023-12-16 17:05:34.524942
+#  Last modified 2024-01-01 19:17:01.248529845
 #  File has been updated.
 #  Successfully updated.
 
 src/timer/main.o: src/timer/main.c include/timer.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:41:56.735669689
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 99):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 src/common/posix_semaphore.o: src/common/posix_semaphore.c include/posix_semaphore.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:41:56.519664027
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 109):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
@@ -375,9 +364,10 @@ clean:
 
 # Not a target:
 include/spy_simulation.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/enemy_spy_network/main.c:
@@ -387,54 +377,64 @@ src/enemy_spy_network/main.c:
 
 src/common/logger.o: src/common/logger.c include/logger.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:41:56.483663083
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 106):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # Not a target:
 src/monitor/monitor.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 src/spy_simulation/spy_simulation.o: src/spy_simulation/spy_simulation.c include/spy_simulation.h include/memory.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:58:34.811673814
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 49):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # Not a target:
 src/spy_simulation/spy_simulation.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:41:11.946515986
+#  File has been updated.
+#  Successfully updated.
 
 bin/enemy_spy_network: src/enemy_spy_network/enemy_spy_network.o src/common/posix_semaphore.o src/enemy_spy_network/main.o
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:17:01.24052945
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
 #  recipe to execute (from 'Makefile', line 78):
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 # Not a target:
 src/common/posix_semaphore.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/monitor/monitor_common.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/common/logger.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 bin/citizen_manager: src/citizen_manager/citizen_manager.o src/common/posix_semaphore.o src/citizen_manager/main.o src/timer/timer.o
 #  Implicit rule search has not been done.
@@ -446,24 +446,23 @@ bin/citizen_manager: src/citizen_manager/citizen_manager.o src/common/posix_sema
 # Not a target:
 include/monitor.h:
 #  Implicit rule search has been done.
-#  Last modified 2023-12-16 17:05:34.524942
+#  Last modified 2024-01-01 19:17:01.248529845
 #  File has been updated.
 #  Successfully updated.
 
 bin/monitor: src/monitor/main.o src/monitor/monitor.o src/monitor/monitor_common.o src/common/logger.o src/common/posix_semaphore.o
 #  Implicit rule search has not been done.
-#  Last modified 2023-12-27 18:51:59.150420928
+#  Last modified 2024-01-01 19:41:56.535664447
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 27):
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_common.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:41:56.45566235
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 36):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
@@ -475,8 +474,28 @@ src/monitor/monitor_common.o: src/monitor/monitor_common.c include/monitor_commo
 
 src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := src/enemy_spy_network/enemy_spy_network.o
+# automatic
+# * := 
+# automatic
+# < := src/enemy_spy_network/enemy_spy_network.c
+# automatic
+# + := src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+# automatic
+# % := 
+# automatic
+# ^ := src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+# automatic
+# ? := src/enemy_spy_network/enemy_spy_network.c include/enemy_spy_network.h include/memory.h
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/16=12%
 #  recipe to execute (from 'Makefile', line 81):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
@@ -506,41 +525,47 @@ src/enemy_spy_network/main.o: src/enemy_spy_network/main.c include/enemy_spy_net
 # Not a target:
 src/monitor/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2023-12-27 14:42:19.916141358
+#  Last modified 2024-01-01 19:17:01.248529845
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/enemy_spy_network/enemy_spy_network.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 20:09:10.727656659
+#  File has been updated.
+#  Successfully updated.
 
 bin/spy_simulation: src/spy_simulation/spy_simulation.o src/common/posix_semaphore.o src/spy_simulation/main.o src/timer/timer.o
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:58:34.899673678
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 46):
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 src/monitor/monitor.o: src/monitor/monitor.c include/monitor.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:41:56.415661302
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 33):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # Not a target:
 include/memory.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:58:30.475681048
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/spy_simulation/main.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+ 
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/citizen_manager/citizen_manager.c:
@@ -556,9 +581,10 @@ src/citizen_manager/citizen_manager.c:
 
 # Not a target:
 src/timer/main.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2024-01-01 19:17:01.248529845
+#  File has been updated.
+#  Successfully updated.
 
 .PHONY: all clean distclean
 #  Implicit rule search has not been done.
@@ -567,13 +593,13 @@ src/timer/main.c:
 
 src/timer/timer.o: src/timer/timer.c include/timer.h include/memory.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:58:34.887673696
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 96):
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 		
 
- 
 src/citizen_manager/citizen_manager.o: src/citizen_manager/citizen_manager.c include/citizen_manager.h include/memory.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -583,8 +609,9 @@ src/citizen_manager/citizen_manager.o: src/citizen_manager/citizen_manager.c inc
 
 bin/timer: src/timer/timer.o src/common/posix_semaphore.o src/timer/main.o
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Last modified 2024-01-01 19:58:34.919673647
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 93):
 	$(CC) $^ -o $@ $(LDFLAGS)
 
@@ -602,6 +629,6 @@ bin/timer: src/timer/timer.o src/common/posix_semaphore.o src/timer/main.o
 # strcache performance: lookups = 126 / hit rate = 53%
 # hash-table stats:
 # Load=58/8192=1%, Rehash=0, Collisions=0/126=0%
-# Finished Make data base on Wed Dec 27 21:42:14 2023
+# Finished Make data base on Mon Jan  1 20:09:32 2024
 
  
