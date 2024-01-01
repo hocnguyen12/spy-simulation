@@ -379,6 +379,8 @@ void citizen_goto(citizen_t * citizen, int destination_col, int destination_row)
             }
         }
     }
+	pthread_mutex_lock(&memory_mutex);
     citizen->col = best_col;
     citizen->row = best_row;
+	pthread_mutex_unlock(&memory_mutex);
 }

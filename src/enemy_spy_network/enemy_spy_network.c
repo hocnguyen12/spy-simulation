@@ -205,8 +205,11 @@ pthread_t * spy_thread(memory_t * memory)
 
 void update_spy(spy_t * spy, memory_t * memory)
 {
-    printf("current_state : %d\n", spy->current_state);
+    printf("current_state : %d, position : (%d, %d)\n", spy->current_state, spy->row, spy->col);
     if (memory->hour == 8 && memory->minute == 0) {
+        printf("house : x = %d, y = %d\n", spy->home_row, spy->home_col);
+        printf("mailbox : x = %d, y = %d\n", memory->mailbox_row, memory->mailbox_col);
+
         pthread_mutex_lock(&memory_mutex);
         spy->is_spotted = 0;
         spy->is_stolen = 0;
@@ -228,9 +231,9 @@ void update_spy(spy_t * spy, memory_t * memory)
             pthread_mutex_unlock(&memory_mutex);
         }
     }
-    if (memory->hour >= 8 && memory->hour <17 ) {
-        coordinates_t company = spy->companies_stolen[spy->nb_company_stolen];
+    if (memory->hour >= 8 && memory->hour < 17) {
         if(spy->current_state == going_to_spot || spy->current_state == spotting){
+            coordinates_t company = spy->companies_stolen[spy->nb_company_stolen];
             if(spy->col != company.y && spy->row != company.x){
                 spy_goto(spy, company.y, company.x);
             } else {
@@ -239,6 +242,7 @@ void update_spy(spy_t * spy, memory_t * memory)
                 }else{
                     pthread_mutex_lock(&memory_mutex);
                     spy->number_round_spotting = 0;
+                    printf("IS SPOTTED = 1\n");
                     spy->is_spotted = 1;
                     pthread_mutex_unlock(&memory_mutex);
                     go_back_home(spy, memory);
@@ -263,7 +267,11 @@ void update_spy(spy_t * spy, memory_t * memory)
         }
     }
     if ((memory->hour >= 17 || memory->hour < 8) && spy->is_spotted == 1) {
+        printf("STEAL or go to STEAL (%d, %d)\n", spy->company_row, spy->company_col);
         if (spy->col != spy->company_col && spy->row != spy->company_row) {
+            pthread_mutex_lock(&memory_mutex);
+            spy->current_state = going_to_steal;
+            pthread_mutex_unlock(&memory_mutex);
             spy_goto(spy, spy->company_col, spy->company_row);
         } else {
             if(spy->number_round_stealing != 6) {
@@ -272,14 +280,15 @@ void update_spy(spy_t * spy, memory_t * memory)
                 pthread_mutex_lock(&memory_mutex);
                 spy->is_spotted = 0;
                 spy->is_stolen = 1;
+                spy->current_state = going_to_mail_box;
                 //spy->current_state = going_to_mail_box;
                 pthread_mutex_unlock(&memory_mutex);
-                go_to_mailbox(spy, memory);
             }
         }
     }
     if ((memory->hour >= 17 || memory->hour < 8) && spy->is_stolen == 1) {
         if (spy->current_state == going_to_mail_box){
+            printf("GO to MAILBOX\n");
             if(spy->row != memory->mailbox_row && spy->col != memory->mailbox_col){
                 go_to_mailbox(spy, memory);
             }else {
@@ -289,6 +298,7 @@ void update_spy(spy_t * spy, memory_t * memory)
                 pthread_mutex_unlock(&memory_mutex);
             }
         } else if (spy->current_state == going_back_home){ 
+            printf("GO HOME\n");
             if (spy->col != spy->home_col && spy->row != spy->home_row) {
                 go_back_home(spy, memory);
             } else {
@@ -345,7 +355,7 @@ coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory)
 
         do {
             random_index = rand() % NUM_COMPANIES;
-             company = memory->companies[random_index];
+            company = memory->companies[random_index];
 
             is_already_stolen = 0;
             for (int i = 0; i < spy->nb_company_stolen; i++) {
@@ -361,10 +371,10 @@ coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory)
             spy->company_row = memory->companies[random_index].x;
             spy->companies_stolen[spy->nb_company_stolen] = memory->companies[random_index];
         }
-        printf("found company to steal\n");
+        printf("found company to steal x = %d, y = %d\n", spy->company_row, spy->company_col);
         return company;
     } else {
-        printf("company in list\n");
+        printf("company in list x = %d, y = %d\n", spy->company_row, spy->company_col);
         return spy->companies_stolen[spy->nb_company_stolen];     
     }
 }
@@ -397,6 +407,7 @@ void steal_information(spy_t * spy, memory_t * memory)
         }
         printf("priorité du message volé : %d\n", stolen_priority);
         spy->message = stolen_priority;
+        spy->current_state = going_to_mail_box;
     } else {
         spy->current_state = stealing;
     }
@@ -405,6 +416,7 @@ void steal_information(spy_t * spy, memory_t * memory)
 
 void send_message(spy_t * spy, memory_t * memory)
 {
+    printf("SENDING MESSAGE\n");
     pthread_mutex_lock(&memory_mutex);
     spy->current_state = sending_message;
     pthread_mutex_unlock(&memory_mutex);
@@ -413,9 +425,7 @@ void send_message(spy_t * spy, memory_t * memory)
 void spot_company(spy_t * spy, memory_t * memory)
 {
     printf("Starting spotting a company\n");
-
     int max_distance = 1;
-    spy->number_round_spotting += 1;
 
     int entreprise_col = spy->company_col;
     int entreprise_row = spy->company_row;
@@ -427,6 +437,7 @@ void spot_company(spy_t * spy, memory_t * memory)
     int new_row = entreprise_row + random_row_offset;
 
     pthread_mutex_lock(&memory_mutex);
+    spy->number_round_spotting += 1;
     spy->current_state = spotting;
     spy->col = new_col;
     spy->row = new_row;
@@ -492,15 +503,22 @@ int dist(int r1, int c1, int r2, int c2)
 
 void spy_goto(spy_t * spy, int destination_col, int destination_row) 
 {
+    if (spy->row == destination_row && spy->col == destination_col) {
+        return;
+    }
     int best_col, best_row, best_dist;
-    best_dist = MAX_COLUMNS * MAX_COLUMNS + MAX_ROWS * MAX_ROWS;
-
+    best_col = 0;
+	best_row = 0;
+	best_dist = dist(0, 0, MAX_ROWS - 1, MAX_COLUMNS - 1);
     for (int dcol=-1; dcol<=1; dcol++) {
         for (int drow=-1; drow<=1; drow++) {
-            if (dist(spy->col+dcol, spy->row+drow, destination_col, destination_row) < best_dist) {
+            if (spy->col + dcol > 6 || spy->row + drow > 6) {
+				continue;
+			}
+            if (dist(spy->col + dcol, spy->row + drow, destination_col, destination_row) < best_dist) {
                 best_col = spy->col+dcol;
                 best_row = spy->row+drow;
-                best_dist = dist(spy->col+dcol, spy->row+drow, destination_col, destination_row);
+                best_dist = dist(spy->col + dcol, spy->row + drow, destination_col, destination_row);
             }
         }
     }
