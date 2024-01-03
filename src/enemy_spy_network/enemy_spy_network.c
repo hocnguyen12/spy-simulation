@@ -426,9 +426,9 @@ void steal_information(spy_t * spy, memory_t * memory)
 
 void send_message(spy_t * spy, memory_t * memory)
 {
-    printf("\n\n\nSENDING MESSAGE\n\n\n");
-    send_message_to_enemy_country(spy);
-    printf("\n\n\nSENDING MESSAGE\n\n\n");
+    printf("SENDING MESSAGE\n");
+    //send_message_to_enemy_country(spy);
+    //printf("\n\n\nSENDING MESSAGE\n\n\n");
     pthread_mutex_lock(&memory_mutex);
     spy->current_state = sending_message;
     pthread_mutex_unlock(&memory_mutex);

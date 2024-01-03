@@ -11,6 +11,6 @@
 #include <signal.h>
 
 int main(void){
-    fprintf(stderr,"\n\n\nLOL\n\n\n");
+    //fprintf(stderr,"\n\n\nLOL\n\n\n");
     receive_message_from_enemy_spy_network();
 }
