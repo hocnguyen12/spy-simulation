@@ -14,7 +14,8 @@ endif
 
 .PHONY: all clean distclean
 
-all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network bin/citizen_manager
+all: bin/monitor bin/spy_simulation bin/timer bin/enemy_spy_network bin/citizen_manager bin/enemy_country
+
 
 # ----------------------------------------------------------------------------
 # MONITOR
@@ -81,6 +82,20 @@ src/enemy_spy_network/enemy_spy_network.o: src/enemy_spy_network/enemy_spy_netwo
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 src/enemy_spy_network/main.o: src/enemy_spy_network/main.c include/enemy_spy_network.h include/memory.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+# ----------------------------------------------------------------------------
+# ENEMY_COUNTRY
+# ----------------------------------------------------------------------------
+
+bin/enemy_country: src/enemy_country/enemy_country.o \
+					src/enemy_country/main.o
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+src/enemy_country/enemy_country.o: src/enemy_country/enemy_country.c include/enemy_country.h 
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
+
+src/enemy_country/main.o: src/enemy_country/main.c include/enemy_country.h 
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ -c
 
 # ----------------------------------------------------------------------------
