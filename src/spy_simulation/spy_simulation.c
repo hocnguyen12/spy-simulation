@@ -121,7 +121,6 @@ void initialize_map(map_t *map, memory_t * mem) {
     mem->residential_buildings[8] = (coordinates_t) {.x = 4, .y = 1};
     mem->residential_buildings[9] = (coordinates_t) {.x = 6, .y = 0};
     mem->residential_buildings[10] = (coordinates_t) {.x = 4, .y = 6};
-    
 }
 
 void initialize_memory(memory_t * memory) 
@@ -132,7 +131,7 @@ void initialize_memory(memory_t * memory)
     memory->memory_has_changed = 0;
     memory->simulation_has_ended = 0;
     memory->current_turn = 0;
-    memory->hour = 7;
+    memory->hour = 0;
     memory->minute = 0;
     memory->working = 0;
     memory->at_home = 0;
@@ -167,9 +166,6 @@ void next_turn(int sig)
             // PASSER AU JOUR SUIVANT
         }
     }
-    V(sem);
-
-    
 
     int i;
     int citizen_working = 0;
@@ -189,28 +185,11 @@ void next_turn(int sig)
         }
     }
 
-    P(sem);
     memory->at_home = citizen_at_home;
     memory->working = citizen_working;
     memory->walking = citizen_walking;
     memory->shopping = citizen_shopping;
 
-    // DISPLAY
-    /*
-    if (memory->current_turn == 1) {
-        for (int j = 0; j < NUM_CITIZEN; j++) {
-            printf("%d\n", memory->citizen_threads[j].thread);
-        }
-    }*/
-
-    printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
-    /*
-    printf("working  : %d\n", citizen_working);
-    printf("at home  : %d\n", citizen_at_home);
-    printf("walking  : %d\n", citizen_walking);
-    printf("shopping : %d\n", citizen_shopping);
-*/
-    memory->memory_has_changed = 1; 
     int citizen_manager_pid;
     citizen_manager_pid = memory->pids[2];
     if (kill(citizen_manager_pid, SIGTTIN) == -1) {
@@ -225,6 +204,26 @@ void next_turn(int sig)
 		perror("kill()");
 		exit(EXIT_FAILURE);
 	}
+
+    // DISPLAY
+    if (DISPLAY == 0) {
+        printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
+        
+        printf("CITIZEN : \n");
+        printf("working  : %d\n", citizen_working);
+        printf("at home  : %d\n", citizen_at_home);
+        printf("walking  : %d\n", citizen_walking);
+        printf("shopping : %d\n", citizen_shopping);
+
+        spy_t * spy;
+        printf("\nSPIES : \n");
+        for (int j = 0; j < NUM_SPIES; j++) {
+            spy = &memory->spies[j];
+                printf("pos : (%d, %d), id = %d\n", spy->row, spy->col, spy->id);
+        }
+    }
+
+    memory->memory_has_changed = 1; 
 
     V(sem);
 
@@ -326,12 +325,6 @@ void manage_timer()
             handle_fatal_error("Error [execvp(timer)]");
         }
     }
-    
-   /*
-    char *args[] = {"./bin/timer", "900000", NULL};  
-    if (execvp("./bin/timer", args) == -1) {
-        handle_fatal_error("Error [execvp(timer)]");
-    }*/
 }
 
 void manage_citizen_manager()
@@ -359,13 +352,10 @@ void manage_citizen_manager()
         manage_enemy_spy_network();
     } else {
         /* EXEC CITIZEN_MANAGER */
-    
-        /*
+         
         if (execl("./bin/citizen_manager", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-        */
-
         wait(NULL);
     }
 }
@@ -487,10 +477,11 @@ void manage_monitor()
     }
 
     /* EXEC MONITOR */
-    /*
-    if (execvp("./bin/monitor", NULL) == -1) {
-        handle_fatal_error("Error [execl(monitor)]");
-    }*/
+    if (DISPLAY) {
+        if (execvp("./bin/monitor", NULL) == -1) {
+            handle_fatal_error("Error [execl(monitor)]");
+        }
+    }
 }
 
 void start_simulation()

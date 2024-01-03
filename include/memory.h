@@ -23,10 +23,14 @@
 #include "cell.h"
 #include "common.h"
 
+// DISPLAY 1 for showing info through monitor
+// 0 to display in terminal (printf)
+#define DISPLAY 1
+
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
 #define NUM_CITIZEN 127
-#define NUM_SPIES 1
+#define NUM_SPIES 4
 
 #define NUM_SUPERMARKETS 2
 #define NUM_COMPANIES 8
@@ -92,6 +96,9 @@ struct spy_s {
     int row, col;
     int home_row, home_col;
     int license; // 0 for false, 1 for true
+    state_t current_state;
+
+    //normal spy attributes
     int company_row, company_col;
     int is_spotted;
     int is_stolen;
@@ -100,14 +107,13 @@ struct spy_s {
     int number_round_stealing; // Le nombre de tour volé
     int message;
     coordinates_t companies_stolen[NUM_COMPANIES];
-    state_t current_state;
+    int nb_company_stolen;
+    char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 
+    // case officer attributes
     int first_message_time;
     int second_message_time;
     int shopping_time;
-
-    int nb_company_stolen;
-    char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 };
 
 

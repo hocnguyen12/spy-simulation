@@ -20,8 +20,7 @@
 #include "citizen_manager.h"
 
 int main(void){
-
-    printf("CITIZEN MANAGER : pid = %d\n", getpid());
+    //printf("CITIZEN MANAGER : pid = %d\n", getpid());
     memory_t* memory;
     semaphore_t* sem;
     sem = open_semaphore("/spy_semaphore");

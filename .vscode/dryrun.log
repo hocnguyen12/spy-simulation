@@ -1,5 +1,6 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/nguyenvh/Documents/ensi/2A/s7/os/os_project'
+ 
 gcc -D_REENTRANT -I./include -Wall -Wextra -pedantic -O2 -g src/monitor/main.c -o src/monitor/main.o -c
 gcc -D_REENTRANT -I./include -Wall -Wextra -pedantic -O2 -g src/monitor/monitor.c -o src/monitor/monitor.o -c
 gcc -D_REENTRANT -I./include -Wall -Wextra -pedantic -O2 -g src/monitor/monitor_common.c -o src/monitor/monitor_common.o -c

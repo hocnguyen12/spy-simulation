@@ -88,7 +88,6 @@ void init_monitor_elements(WINDOW *window, memory_t *mem, int rows, int columns)
 {
     /* --------------------------------------------------------------------- */
     /*                 Get information from mem to get the map               */
-    
 	map_t map = mem->map;
    /* ---------------------------------------------------------------------- */
 
@@ -231,7 +230,6 @@ void display_general_information_values(WINDOW *window, memory_t *mem)
     int minutes;
     char *result = NULL;
 
-
     elapsed_time         = mem->current_turn;
     simulation_has_ended = mem->simulation_has_ended;
     hour                 = mem->hour;
@@ -290,6 +288,7 @@ void display_spy_information(WINDOW *window, memory_t *mem, int row, int column,
 {
     /* --------------------------------------------------------------------- */
     /*     Get information from mem about the spy with the given number      */
+    // number = 0, 1 or 2
     int id;
     int health_points;
     int location_row;
@@ -300,15 +299,17 @@ void display_spy_information(WINDOW *window, memory_t *mem, int row, int column,
     int has_license_to_kill;
     char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
 
-    id                     = 0;
-    health_points          = 10;
-    location_row           = 0;
-    location_column        = 0;
-    home_row               = 0;
-    home_column            = 0;
-    nb_of_stolen_companies = 0;
-    has_license_to_kill    = 0;
-    strcpy(stolen_message_content, "bla bla bla");	
+    spy_t * spy = &mem->spies[number];
+
+    id                     = spy->id;
+    health_points          = spy->health;
+    location_row           = spy->row;
+    location_column        = spy->col;
+    home_row               = spy->home_row;
+    home_column            = spy->home_col;
+    nb_of_stolen_companies = spy->nb_company_stolen;
+    has_license_to_kill    = spy->license;
+    strcpy(stolen_message_content, spy->stolen_message_content);	
    /* ---------------------------------------------------------------------- */
 
     wattron(window, A_BOLD);
@@ -345,14 +346,16 @@ void display_case_officer_information(WINDOW *window, memory_t *mem, int row, in
     int mailbox_row;
     int mailbox_column;
 
-    id              = 0;
-    health_points   = 10;
-    location_row    = 0;
-    location_column = 0;
-    home_row        = 0;
-    home_column     = 0;
-    mailbox_row     = 0;
-    mailbox_column  = 0;
+    spy_t * case_officer = &mem->spies[NUM_SPIES - 1];
+
+    id              = case_officer->id;
+    health_points   = case_officer->health;
+    location_row    = case_officer->row;
+    location_column = case_officer->col;
+    home_row        = case_officer->home_row;
+    home_column     = case_officer->home_col;
+    mailbox_row     = mem->mailbox_row;
+    mailbox_column  = mem->mailbox_col;
    /* ---------------------------------------------------------------------- */
 
     wattron(window, A_BOLD);

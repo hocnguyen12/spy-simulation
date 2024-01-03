@@ -59,15 +59,11 @@ void switch_routine(int sig)
 {
 	//printf("thread n° %ld, received next turn order\n", pthread_self());
 	//printf("TEST\n");
-
-
 	int citizen_id;
-	//pthread_mutex_lock(&memory_mutex);
 
 	memory_t * memory;
 	semaphore_t *sem;
     sem = open_semaphore("/spy_semaphore");
-	//pthread_mutex_lock(&memory_mutex);
 	memory = get_data();
 	if (memory == NULL) {
         perror("Failed to get shared memory");
@@ -75,8 +71,6 @@ void switch_routine(int sig)
     }
 
 	citizen_t * citizen;
-	
-	//printf("searching for citizen...\n");
 	int i = 0;
 	while (i < NUM_CITIZEN) {
 		if (memory->citizen_threads[i].thread == pthread_self()) {
@@ -101,7 +95,6 @@ void switch_routine(int sig)
 			update_employee(citizen, memory);
 			break;
 	}	
-	//pthread_mutex_unlock(&memory_mutex);
 	if (munmap(memory, sizeof(memory_t)) == -1) {
         perror("Error un-mapping shared memory");
     }
@@ -110,7 +103,6 @@ void switch_routine(int sig)
 void *citizen_routine()
 {
 	//printf("starting citizen routine, thread n° %ld\n", pthread_self());
-
 	sigset_t set;
     sigemptyset(&set);
     sigaddset(&set, SIGTTIN);
@@ -122,9 +114,7 @@ void *citizen_routine()
     if (sigaction(SIGUSR1, &sa, NULL) == -1) {
         handle_fatal_error("Error using sigaction");
     }
-
 	while(1) {}
-	return NULL;
 }
 
 void update_threads(int sig)
@@ -178,11 +168,9 @@ void wait_for_signal(pthread_t * threads)
 
     simulation_end.sa_handler = &end_simulation;
     simulation_end.sa_flags = 0;
-    if (sigaction(SIGTTIN, &end_simulation, NULL) < 0) {
+    if (sigaction(SIGTERM, &end_simulation, NULL) < 0) {
         handle_fatal_error("Error using sigaction");
     }
-
-    //printf("waiting...\n");
     while (1) {}
 }
 
@@ -220,8 +208,7 @@ void update_employee(citizen_t * citizen, memory_t *memory)
 		if (citizen->col != citizen->work_col || citizen->row != citizen->work_row) {
 			//printf("go_to_work()\n");
 			go_to_work(citizen, memory);
-		}
-		else{
+		} else {
 			//printf("work()\n");
 			work(citizen, memory);
 		}
@@ -304,7 +291,6 @@ coordinates_t find_closest_supermarket(int current_col, int current_row, memory_
             closest_supermarket = memory->supermarkets[i];
         }
     }
-
     return closest_supermarket;
 }
 

@@ -30,7 +30,7 @@
 
 int main(void) 
 {
-    printf("ENEMY SPY NETWORK : pid = %d\n", getpid());
+    //printf("ENEMY SPY NETWORK : pid = %d\n", getpid());
     memory_t* memory;
     semaphore_t* sem;
     sem = open_semaphore("/spy_semaphore");
