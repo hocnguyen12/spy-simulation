@@ -205,11 +205,14 @@ pthread_t * spy_thread(memory_t * memory)
 
 void update_spy(spy_t * spy, memory_t * memory)
 {
-    printf("current_state : %d, position : (%d, %d)\n", spy->current_state, spy->row, spy->col);
+    if (DISPLAY == 0) {
+        printf("current_state : %d, position : (%d, %d) id = %d\n", spy->current_state, spy->row, spy->col, spy->id);
+    }
     if (memory->hour == 8 && memory->minute == 0) {
-        printf("house : x = %d, y = %d\n", spy->home_row, spy->home_col);
-        printf("mailbox : x = %d, y = %d\n", memory->mailbox_row, memory->mailbox_col);
-
+        if (DISPLAY == 0) {
+            printf("house : x = %d, y = %d\n", spy->home_row, spy->home_col);
+            printf("mailbox : x = %d, y = %d\n", memory->mailbox_row, memory->mailbox_col);
+        }
         pthread_mutex_lock(&memory_mutex);
         spy->is_spotted = 0;
         spy->is_stolen = 0;
@@ -238,12 +241,16 @@ void update_spy(spy_t * spy, memory_t * memory)
                 spy_goto(spy, spy->company_col, spy->company_row);
             } else {
                 if(spy->number_round_spotting != 12){
-                    printf("nb round spotting = %d\n", spy->number_round_spotting);
+                    if (DISPLAY == 0) {
+                        printf("nb round spotting = %d\n", spy->number_round_spotting);
+                    }
                     spot_company(spy, memory);
                 }else{
                     pthread_mutex_lock(&memory_mutex);
                     spy->number_round_spotting = 0;
-                    printf("IS SPOTTED = 1\n");
+                    if (DISPLAY == 0) {
+                        printf("IS SPOTTED = 1\n");
+                    }
                     spy->is_spotted = 1;
                     pthread_mutex_unlock(&memory_mutex);
                     go_back_home(spy, memory);
@@ -267,8 +274,9 @@ void update_spy(spy_t * spy, memory_t * memory)
             go_back_home(spy, memory);
         }
     } else if ((memory->hour >= 17 || memory->hour < 8) && spy->is_spotted == 1) {
-        printf("STEAL or go to STEAL (%d, %d)\n", spy->company_row, spy->company_col);
-
+            if (DISPLAY == 0) {
+               printf("STEAL or go to STEAL (%d, %d)\n", spy->company_row, spy->company_col);
+            }
         if (spy->col != spy->company_col || spy->row != spy->company_row) {
             pthread_mutex_lock(&memory_mutex);
             spy->current_state = going_to_steal;
@@ -279,7 +287,9 @@ void update_spy(spy_t * spy, memory_t * memory)
                 steal_information(spy, memory);
             } else {   
                 pthread_mutex_lock(&memory_mutex);
-                printf("IS_SPOTTED = 0\n");
+                if (DISPLAY == 0) {
+                    printf("IS_SPOTTED = 0\n");
+                }
                 spy->is_spotted = 0;
                 spy->is_stolen = 1;
                 spy->current_state = going_to_mail_box;
@@ -289,7 +299,9 @@ void update_spy(spy_t * spy, memory_t * memory)
         }
     } else if ((memory->hour >= 17 || memory->hour < 8) && spy->is_stolen == 1) {
         if (spy->current_state == going_to_mail_box){
-            printf("GO to MAILBOX\n");
+            if (DISPLAY == 0) {
+                printf("GO to MAILBOX\n");
+            }
             if(spy->row != memory->mailbox_row || spy->col != memory->mailbox_col){
                 go_to_mailbox(spy, memory);
             }else {
@@ -299,7 +311,9 @@ void update_spy(spy_t * spy, memory_t * memory)
                 pthread_mutex_unlock(&memory_mutex);
             }
         } else if (spy->current_state == going_back_home){ 
-            printf("GO HOME\n");
+            if (DISPLAY == 0) {
+                printf("GO HOME\n");
+            }
             if (spy->col != spy->home_col || spy->row != spy->home_row) {
                 go_back_home(spy, memory);
             } else {
@@ -426,9 +440,8 @@ void steal_information(spy_t * spy, memory_t * memory)
 
 void send_message(spy_t * spy, memory_t * memory)
 {
-    printf("SENDING MESSAGE\n");
-    //send_message_to_enemy_country(spy);
-    //printf("\n\n\nSENDING MESSAGE\n\n\n");
+    printf("\n\n\nSENDING MESSAGE\n\n\n");
+    send_message_to_enemy_country(spy);
     pthread_mutex_lock(&memory_mutex);
     spy->current_state = sending_message;
     pthread_mutex_unlock(&memory_mutex);
@@ -436,7 +449,9 @@ void send_message(spy_t * spy, memory_t * memory)
 
 void spot_company(spy_t * spy, memory_t * memory)
 {
-    printf("Starting spotting a company\n");
+    if(DISPLAY==0){
+        printf("Starting spotting a company\n");
+    }
     int max_distance = 1;
 
     int entreprise_col = spy->company_col;
@@ -465,7 +480,9 @@ void spot_company(spy_t * spy, memory_t * memory)
 
 void go_back_home(spy_t * spy, memory_t * memory)
 {
-    printf("go back home\n");
+    if (DISPLAY == 0) {
+        printf("go back home\n");
+    }
     spy_goto(spy, spy->home_col, spy->home_row);
 	pthread_mutex_lock(&memory_mutex);
 	spy->current_state = going_back_home;
@@ -475,7 +492,9 @@ void go_back_home(spy_t * spy, memory_t * memory)
 
 void go_to_supermarket(spy_t * spy, coordinates_t closest, memory_t * memory)
 {
-    printf("go to supermarket\n");
+    if (DISPLAY == 0) {
+        printf("go to supermarket\n");
+    }
     spy_goto(spy, closest.y, closest.x);
     pthread_mutex_lock(&memory_mutex);
 	spy->current_state = going_to_supermarket;
@@ -485,7 +504,9 @@ void go_to_supermarket(spy_t * spy, coordinates_t closest, memory_t * memory)
 
 void do_some_shopping(spy_t * spy, memory_t *memory)
 {
-    printf("do some shopping\n");
+    if (DISPLAY == 0) {
+        printf("do some shopping\n");
+    }
 	pthread_mutex_lock(&memory_mutex);
 	spy->current_state = doing_some_shopping;
     pthread_mutex_unlock(&memory_mutex);
@@ -493,15 +514,19 @@ void do_some_shopping(spy_t * spy, memory_t *memory)
 
 void rest_at_home(spy_t *spy, memory_t *memory)
 {
-    printf("rest at home\n");
+    if (DISPLAY == 0) {
+        printf("rest at home\n");
+    }
     pthread_mutex_lock(&memory_mutex);
 	spy->current_state = resting_at_home;
 	pthread_mutex_unlock(&memory_mutex);
 }
 
 void go_to_mailbox(spy_t * spy, memory_t * memory)
-{
-    printf("go to mailbox (%d, %d)\n", memory->mailbox_row, memory->mailbox_col);
+{   
+    if (DISPLAY == 0) {
+        printf("go to mailbox (%d, %d)\n", memory->mailbox_row, memory->mailbox_col);
+    }
     spy_goto(spy, memory->mailbox_col, memory->mailbox_row);
 	pthread_mutex_lock(&memory_mutex);
     spy->current_state = going_to_mail_box;

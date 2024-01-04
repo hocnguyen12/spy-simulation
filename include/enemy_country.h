@@ -17,7 +17,7 @@
 #include "posix_semaphore.h"
 #include "memory.h"
 
-void receive_message_from_enemy_spy_network();
+void receive_message_from_enemy_spy_network_and_update(memory_t *mem);
 
 
 #endif /* ENEMY_COUNTRY_H */

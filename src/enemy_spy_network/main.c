@@ -37,8 +37,8 @@ int main(void)
     P(sem);
     memory = get_data();
     define_spy(memory->spies, memory);
+    send_message(&memory->spies[0],memory);
     V(sem);
-
     pthread_t * threads = spy_thread(memory);
     wait_for_signal(threads);
 }

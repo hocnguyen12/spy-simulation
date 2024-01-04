@@ -198,6 +198,8 @@ struct memory_s {
     int working, at_home, walking, shopping;
 
     int mailbox_row, mailbox_col; // Mail box coordinates
+    
+    char *message_enemy_country;
 
 };
 

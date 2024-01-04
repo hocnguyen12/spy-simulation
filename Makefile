@@ -89,6 +89,7 @@ src/enemy_spy_network/main.o: src/enemy_spy_network/main.c include/enemy_spy_net
 # ----------------------------------------------------------------------------
 
 bin/enemy_country: src/enemy_country/enemy_country.o \
+			 		src/common/posix_semaphore.o \
 					src/enemy_country/main.o
 	$(CC) $^ -o $@ $(LDFLAGS)
 
