@@ -137,6 +137,7 @@ void initialize_memory(memory_t * memory)
     memory->at_home = 0;
     memory->walking = 0;
     memory->shopping = 0;
+    memory->message_enemy_country=NULL;
     // CREATE CITY INFOS
     initialize_map(&memory->map, memory);
 
@@ -214,7 +215,7 @@ void next_turn(int sig)
         printf("at home  : %d\n", citizen_at_home);
         printf("walking  : %d\n", citizen_walking);
         printf("shopping : %d\n", citizen_shopping);
-
+        
         spy_t * spy;
         printf("\nSPIES : \n");
         for (int j = 0; j < NUM_SPIES; j++) {
@@ -450,11 +451,11 @@ void manage_enemy_country()
         manage_monitor();
     } else {
         /* EXEC ENEMY_COUNTRY */
-        /*
-        if (execl("./bin/enemy_country") == -1) {
+        
+        if (execl("./bin/enemy_country", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-    */
+    
         wait(NULL);
     }
 }

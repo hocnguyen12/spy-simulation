@@ -107,7 +107,7 @@ void init_monitor_elements(WINDOW *window, memory_t *mem, int rows, int columns)
     display_city(city_window, map, rows, columns);
     display_character_information(character_window, mem);
     display_mailbox_content(mailbox_content_window, mem);
-    display_enemy_country_monitor(enemy_country_monitor);
+    display_enemy_country_monitor(enemy_country_monitor,mem);
 }
 
 void set_monitor_title(WINDOW *window, const char *title)
@@ -214,7 +214,7 @@ void show_general_information(WINDOW *window)
     wattron(window, A_BOLD | A_UNDERLINE);
     mvwprintw(window, 1, title_column, "%s", title);
     wattroff(window, A_BOLD | A_UNDERLINE);
-
+    
     mvwprintw(window, 20, 2, "Step: ");
     mvwprintw(window, 20, 20, "Time: ");
     wrefresh(window);
@@ -473,28 +473,24 @@ void display_mailbox_content(WINDOW *window, memory_t *mem)
     wrefresh(window);
 }
 
-void display_enemy_country_monitor(WINDOW *window)
+void display_enemy_country_monitor(WINDOW *window,memory_t *mem)
 {
     int nb_lines;
     int title_column;
     char buffer[MAX_LENGTH_OF_MESSAGE];
     char *title = "ENEMY COUNTRY MONITOR";
 
-    nb_lines = 1;
+    nb_lines = 2;
     title_column = window->_maxx / 2 - strlen(title) / 2;
 
     wattron(window, A_BOLD | A_UNDERLINE);
     mvwprintw(window, nb_lines, title_column, "%s", title);
     wattroff(window, A_BOLD | A_UNDERLINE);
+    if(mem->message_enemy_country!=NULL){
+        mvwprintw(window, nb_lines, 2, "%s",mem->message_enemy_country);
+    }
+    //printf("\n\n\n%s\n\n\n",mem->message_enemy_country);
 
-    /*
-     * -------------------------------------------------------------------------
-     *
-     * Choose your way to display deciphered messages in this window!!!! 
-     *
-     * -------------------------------------------------------------------------
-     */
-     
 
     wrefresh(window);
 }
@@ -503,7 +499,7 @@ void update_values(memory_t *mem) {
     display_general_information_values(city_window, mem);
     display_character_information(character_window, mem);
     display_mailbox_content(mailbox_content_window, mem);
-    display_enemy_country_monitor(enemy_country_monitor);
+    display_enemy_country_monitor(enemy_country_monitor,mem);
 	mem->memory_has_changed = 0;
 }
 

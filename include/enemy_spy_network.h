@@ -20,6 +20,7 @@
 #include <error.h>
 #include <errno.h>
 #include <limits.h>
+#include <mqueue.h>
 
 #include "common.h"
 #include "posix_semaphore.h"
@@ -156,7 +157,7 @@ void spy_goto(spy_t * spy, int destination_col, int destination_row);
  */
 coordinates_t find_closest_supermarket(int current_col, int current_row, memory_t *memory);
 
-void send_message_to_enemy_country(spy_t * spy, memory_t * memory);
+void send_message_to_enemy_country(spy_t * spy);
 
 void handle_encounter_with_counter_intelligence(spy_t * spy, memory_t * memory);
 
