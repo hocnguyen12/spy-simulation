@@ -15,6 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * \file memory.h
+ *
+ * Defines structures and functions used to manipulate our shared memory.
+ */
 #ifndef MEMORY_H
 #define MEMORY_H
 
@@ -25,7 +31,12 @@
 
 // DISPLAY 1 for showing info through monitor
 // 0 to display in terminal (printf)
-#define DISPLAY 1
+#define DISPLAY 0
+
+#define CIPHER_KEY 5
+#define ROUND_TIME "300000"
+
+#define MAILBOX_CAPACITY 3
 
 #define MAX_COLUMNS 7
 #define MAX_ROWS 7
@@ -35,6 +46,7 @@
 #define NUM_SUPERMARKETS 2
 #define NUM_COMPANIES 8
 #define NUM_RESIDENTIAL_BUILDINGS 11
+#define MAX_NB_OF_MSG_IN_COMPANIES 71
 
 typedef struct coordinates_s coordinates_t;
 
@@ -43,6 +55,53 @@ struct coordinates_s {
     int x, y;
 };
 
+/* MAP AND BUILDINGS*/
+typedef struct map_s map_t;
+typedef struct memory_s memory_t;
+
+
+/**
+ * \brief The city map.
+ */
+struct map_s {
+    int columns;                         /*!< The number of columns of the city map. */
+    int rows;                            /*!< The number of rows of the city map.*/
+    cell_t cells[MAX_COLUMNS][MAX_ROWS]; /*!< Cells that constitute the city map. */
+};
+
+typedef enum {
+	BIG,
+    MEDIUM,
+    SMALL,
+    VERY_SMALL
+} company_size_t;
+
+typedef struct message_s message_t;
+
+struct message_s {
+    int importance; /*
+                     * 10 : crucial
+                     * 9 : strong
+                     * 6 : medium
+                     * 3 : low
+                     * 2 : very low 
+                     */
+    char content[MAX_LENGTH_OF_MESSAGE];
+};
+
+typedef struct company_s company_t;
+
+struct company_s {
+    int index;
+    int row, col;
+    int nb_employee;
+    int nb_of_spy;
+    company_size_t size;
+    int nb_messages;
+    message_t messages[MAX_NB_OF_MSG_IN_COMPANIES];
+};
+
+/* CHARACTERS */
 typedef enum {
 /* general states */
     resting_at_home,      //0
@@ -58,7 +117,12 @@ typedef enum {
     stealing,             //8
     spotting,             //9
     sending_message,      //10
-    going_to_mail_box     //11
+    going_to_mail_box,     //11
+
+    founded_suspiscious_act, //12
+    hide,                // 13
+    following_spy,
+    run_away
 } state_t;
 
 typedef enum {
@@ -76,6 +140,7 @@ typedef struct citizen_s {
     int home_col, home_row;
     int work_col, work_row;
     int health;
+
     state_t current_state;
 };
 
@@ -105,40 +170,42 @@ struct spy_s {
     int find_company_to_steal;
     int number_round_spotting; // Ne pas depasser 12
     int number_round_stealing; // Le nombre de tour volé
-    int message;
-    coordinates_t companies_stolen[NUM_COMPANIES];
+    int flee_round;
+    int company_index;
+    int hour, day;
+    company_t companies_stolen[NUM_COMPANIES];
     int nb_company_stolen;
-    char stolen_message_content[MAX_LENGTH_OF_MESSAGE];
+    message_t stolen_message;
 
     // case officer attributes
     int first_message_time;
     int second_message_time;
     int shopping_time;
+    message_t message[MAILBOX_CAPACITY];
 };
 
-
-
-/**
- * \file memory.h
- *
- * Defines structures and functions used to manipulate our shared memory.
- */
-
-typedef struct map_s map_t;
-typedef struct memory_s memory_t;
-
+typedef struct counter_int_s counter_int_t;
 
 /**
- * \brief The city map.
+ * \brief Structure of the counter_intelligence.
  */
-struct map_s {
-    int columns;                         /*!< The number of columns of the city map. */
-    int rows;                            /*!< The number of rows of the city map.*/
-    cell_t cells[MAX_COLUMNS][MAX_ROWS]; /*!< Cells that constitute the city map. */
+struct counter_int_s {
+    int id;
+    spy_role_t role;
+    int health;
+    int row, col;
+    int home_row, home_col;
+    int company_row, company_col;
+    int mailbox_row, mailbox_col;
+    int mailbox_is_founded;
+    int days_without_finding;
+    int company_is_founded
+    state_t current_state;
+
+    int target_id;
 };
 
 typedef struct character_thread_s character_thread_t;
-
 /**
  * \brief Structure representing a thread and the id of the citizen it represent.
  */
@@ -147,6 +214,7 @@ struct character_thread_s {
     int id;
 };
 
+/* SHARED MEMORY*/
 /**
  * \brief Shared memory used by all processes.
  */
@@ -173,7 +241,7 @@ struct memory_s {
 
     map_t map;
     coordinates_t city_hall;
-    coordinates_t companies[8];
+    company_t companies[8];
     coordinates_t supermarkets[2];
     coordinates_t residential_buildings[11];
 
@@ -194,12 +262,16 @@ struct memory_s {
     // Characters
     spy_t spies[NUM_SPIES];
     citizen_t citizens[NUM_CITIZEN];
+    counter_int_t counter_intelligence;
 
     int working, at_home, walking, shopping;
 
     int mailbox_row, mailbox_col; // Mail box coordinates
-    
-    char *message_enemy_country;
+    int nb_of_messages_in_mailbox;
+    message_t mailbox_content[MAILBOX_CAPACITY];
+
+    char * enemy_country_monitor[10];
+    int nb_of_messages_received;
 
 };
 
