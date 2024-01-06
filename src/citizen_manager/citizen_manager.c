@@ -19,7 +19,7 @@ pthread_barrier_t barrier;
 void define_citizen(citizen_t * citizens, memory_t *memory)
 {
 	int i;
-	coordinates_t * companies = memory->companies;
+	company_t * companies = memory->companies;
 	coordinates_t * buildings = memory->residential_buildings;
     coordinates_t * supermarkets = memory->supermarkets;
 
@@ -39,9 +39,9 @@ void define_citizen(citizen_t * citizens, memory_t *memory)
 		// Role
 		if (i < 111) { 
             citizens[i].role = ROLE_COMPANY;
-			int entreprise_index = i % NUM_COMPANIES; // Répartition uniforme
-			citizens[i].work_col = companies[entreprise_index].y;
-            citizens[i].work_row = companies[entreprise_index].x;
+			int entreprise_index = i % NUM_COMPANIES; // Répartition uniforme 
+			citizens[i].work_col = companies[entreprise_index].col;
+            citizens[i].work_row = companies[entreprise_index].row;
         } else if (i < 121) { 
             citizens[i].role = ROLE_CITY_HALL;
 			citizens[i].work_col = memory->city_hall.y;

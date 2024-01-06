@@ -14,7 +14,15 @@
         "common.h": "c",
         "posix_semaphore.h": "c",
         "pthread.h": "c",
-        "cell.h": "c",
-        "time.h": "c"
+        "wait.h": "c",
+        "error.h": "c",
+        "limits.h": "c",
+        "time.h": "c",
+        "__threading_support": "c",
+        "spy_simulation.h": "c",
+        "ratio": "c",
+        "random": "c",
+        "enemy_country.h": "c",
+        "counter_intelligence.h": "c"
     }
 }

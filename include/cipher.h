@@ -15,29 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef ENEMY_SPY_NETWORK_H
-#define ENEMY_SPY_NETWORK_H
+#ifndef CIPHER_H
+#define CIPHER_H
 
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <time.h>
 #include <stdlib.h>
-#include <pthread.h>
-#include <error.h>
-#include <errno.h>
-#include <limits.h>
-#include <mqueue.h>
+#include <string.h>
 
-#include "common.h"
-#include "posix_semaphore.h"
-#include "memory.h"
-#include "cipher.h"
-#include "timer.h"
+char* caesar_cipher(const char message[], int cle);
 
-void receive_message_from_enemy_spy_network_and_update();
+char* caesar_decipher(const char message[], int key);
 
-void wait_for_messages();
-
-#endif /* ENEMY_COUNTRY_H */
+#endif /*CIPHER_H*/

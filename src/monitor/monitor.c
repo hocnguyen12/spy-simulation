@@ -107,7 +107,7 @@ void init_monitor_elements(WINDOW *window, memory_t *mem, int rows, int columns)
     display_city(city_window, map, rows, columns);
     display_character_information(character_window, mem);
     display_mailbox_content(mailbox_content_window, mem);
-    display_enemy_country_monitor(enemy_country_monitor,mem);
+    display_enemy_country_monitor(enemy_country_monitor, mem);
 }
 
 void set_monitor_title(WINDOW *window, const char *title)
@@ -214,7 +214,7 @@ void show_general_information(WINDOW *window)
     wattron(window, A_BOLD | A_UNDERLINE);
     mvwprintw(window, 1, title_column, "%s", title);
     wattroff(window, A_BOLD | A_UNDERLINE);
-    
+
     mvwprintw(window, 20, 2, "Step: ");
     mvwprintw(window, 20, 20, "Time: ");
     wrefresh(window);
@@ -309,7 +309,7 @@ void display_spy_information(WINDOW *window, memory_t *mem, int row, int column,
     home_column            = spy->home_col;
     nb_of_stolen_companies = spy->nb_company_stolen;
     has_license_to_kill    = spy->license;
-    strcpy(stolen_message_content, spy->stolen_message_content);	
+    strcpy(stolen_message_content, spy->stolen_message.content);	
    /* ---------------------------------------------------------------------- */
 
     wattron(window, A_BOLD);
@@ -382,15 +382,17 @@ void display_counterintelligence_officer_information(WINDOW *window, memory_t *m
     int mailbox_column;
     int targeted_character_id;
 
-    id                    = 0;
-    health_points         = 10;
-    location_row          = 0;
-    location_column       = 0;
-    city_hall_row         = 0;
-    city_hall_column      = 0;
-    mailbox_row           = 0;
-    mailbox_column        = 0;
-    targeted_character_id = 0;
+    counter_int_t * counter = &mem->counter_intelligence;
+
+    id                    = counter->id;
+    health_points         = counter->health;
+    location_row          = counter->row;
+    location_column       = counter->col;
+    city_hall_row         = mem->city_hall.x;
+    city_hall_column      = mem->city_hall.y;
+    mailbox_row           = counter->mailbox_row;
+    mailbox_column        = counter->mailbox_col;
+    targeted_character_id = counter->target_id;
    /* ---------------------------------------------------------------------- */
 	
     wattron(window, A_BOLD);
@@ -442,8 +444,14 @@ void display_mailbox_content(WINDOW *window, memory_t *mem)
     int priority;
     char content[MAX_LENGTH_OF_MESSAGE];
 
-    mailbox_nb_of_msgs = 0;
-    priority           = 0;
+    mailbox_nb_of_msgs = mem->nb_of_messages_in_mailbox;
+    /*
+    for (int i = 0; i < 3; i++) {
+        if (mem->mailbox_content[i].importance != -1) {
+            priority = mem->mailbox_content[i].importance;
+            strcpy(content, mem->mailbox_content[i].content);
+        }
+    }*/
    /* ---------------------------------------------------------------------- */
 
     int i;
@@ -453,16 +461,22 @@ void display_mailbox_content(WINDOW *window, memory_t *mem)
 
     nb_lines = 1;
     title_column = window->_maxx / 2 - strlen(title) / 2;
+    
     wattron(window, A_BOLD | A_UNDERLINE);
     mvwprintw(window, nb_lines, title_column, "%s", title);
     wattroff(window, A_BOLD | A_UNDERLINE);
 
     nb_lines = 3;
     for (i = 0; i < mailbox_nb_of_msgs; i++) {
+        // get information from mailbox
+        priority = mem->mailbox_content[i].importance;
+        strcpy(content, mem->mailbox_content[i].content);
+
 		clear_line(window, nb_lines);
         if (strcmp(content, FAKE_MESSAGE) == 0) {
-            mvwprintw(window, nb_lines, 2, ">> [%d] %s (P%d)", (i + 1), "FAKE MESSAGE",
-                      priority);
+            mvwprintw(window, nb_lines, 2, ">> [%d] %s (P%d)", (i + 1), "FAKE MESSAGE", priority);
+        } else if (strcmp(content, EMPTY) == 0) {
+            continue;
         } else {
             mvwprintw(window, nb_lines, 2, ">> [%d] %s (P%d)", (i + 1),
                       content, priority);
@@ -473,25 +487,29 @@ void display_mailbox_content(WINDOW *window, memory_t *mem)
     wrefresh(window);
 }
 
-void display_enemy_country_monitor(WINDOW *window,memory_t *mem)
+void display_enemy_country_monitor(WINDOW * window, memory_t * mem)
 {
-    int nb_lines;
+    
+    int nb_lines, i;
     int title_column;
     char buffer[MAX_LENGTH_OF_MESSAGE];
     char *title = "ENEMY COUNTRY MONITOR";
 
-    nb_lines = 2;
+    nb_lines = 1;
     title_column = window->_maxx / 2 - strlen(title) / 2;
 
     wattron(window, A_BOLD | A_UNDERLINE);
     mvwprintw(window, nb_lines, title_column, "%s", title);
     wattroff(window, A_BOLD | A_UNDERLINE);
-    if(mem->message_enemy_country!=NULL){
-        mvwprintw(window, nb_lines, 2, "%s",mem->message_enemy_country);
+
+    nb_lines = 3;
+    for (i = 0; i < mem->nb_of_messages_received; i++) {
+        clear_line(window, nb_lines);
+        strcpy(buffer, mem->enemy_country_monitor[i]);
+        mvwprintw(window, nb_lines, 2, "- %s", buffer);
+        
+        nb_lines++;
     }
-    //printf("\n\n\n%s\n\n\n",mem->message_enemy_country);
-
-
     wrefresh(window);
 }
 
@@ -499,7 +517,7 @@ void update_values(memory_t *mem) {
     display_general_information_values(city_window, mem);
     display_character_information(character_window, mem);
     display_mailbox_content(mailbox_content_window, mem);
-    display_enemy_country_monitor(enemy_country_monitor,mem);
+    display_enemy_country_monitor(enemy_country_monitor, mem);
 	mem->memory_has_changed = 0;
 }
 

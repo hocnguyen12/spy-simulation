@@ -25,6 +25,7 @@
 #include "common.h"
 #include "posix_semaphore.h"
 #include "memory.h"
+#include "cipher.h"
 
 /**
 * \file enemy_spy_network.h
@@ -41,6 +42,8 @@
 void define_spy(spy_t *spy, memory_t * memory);
 
 void switch_routine(int sig);
+
+void send_false_message(spy_t * spy, memory_t * memory);
 
 /**
  * \brief Routine for a spy thread. Executed everytime there is an signal.
@@ -85,7 +88,7 @@ void get_message(spy_t *officer, memory_t * memory);
  * \param spy Pointer to the spy structure.
  * \param memory Pointer to the shared memory structure.
  */
-coordinates_t search_for_company_to_steal(spy_t *spy, memory_t * memory);
+company_t search_for_company_to_steal(spy_t *spy, memory_t * memory);
 
 void steal_information(spy_t * spy, memory_t * memory);
 
@@ -157,7 +160,7 @@ void spy_goto(spy_t * spy, int destination_col, int destination_row);
  */
 coordinates_t find_closest_supermarket(int current_col, int current_row, memory_t *memory);
 
-void send_message_to_enemy_country(spy_t * spy);
+void send_message_to_enemy_country(spy_t * spy, memory_t * memory);
 
 void handle_encounter_with_counter_intelligence(spy_t * spy, memory_t * memory);
 

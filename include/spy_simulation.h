@@ -26,6 +26,7 @@
 
 
 #include "memory.h"
+#include "cipher.h"
 
 /**
  * \brief Creates the shared memory and truncates the correct size.

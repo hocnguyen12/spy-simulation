@@ -31,10 +31,11 @@
 
 // DISPLAY 1 for showing info through monitor
 // 0 to display in terminal (printf)
-#define DISPLAY 0
+// 2 to display informations about the counter intelligence officer
+#define DISPLAY 1
 
 #define CIPHER_KEY 5
-#define ROUND_TIME "300000"
+#define ROUND_TIME "500000"
 
 #define MAILBOX_CAPACITY 3
 
@@ -95,7 +96,7 @@ struct company_s {
     int index;
     int row, col;
     int nb_employee;
-    int nb_of_spy;
+    int nb_of_people;
     company_size_t size;
     int nb_messages;
     message_t messages[MAX_NB_OF_MSG_IN_COMPANIES];
@@ -117,12 +118,14 @@ typedef enum {
     stealing,             //8
     spotting,             //9
     sending_message,      //10
-    going_to_mail_box,     //11
+    going_to_mail_box,    //11
 
-    founded_suspiscious_act, //12
-    hide,                // 13
-    following_spy,
-    run_away
+/* counter intelligence state*/
+    run_away,             //12
+    found_suspiscious_act,//13
+    searching_mailbox,    //14
+    following_counter,    //15
+    hiding                //16
 } state_t;
 
 typedef enum {
@@ -140,7 +143,6 @@ typedef struct citizen_s {
     int home_col, home_row;
     int work_col, work_row;
     int health;
-
     state_t current_state;
 };
 
@@ -197,12 +199,16 @@ struct counter_int_s {
     int home_row, home_col;
     int company_row, company_col;
     int mailbox_row, mailbox_col;
-    int mailbox_is_founded;
+    int mailbox_is_found;
+    int mission_success;
     int days_without_finding;
-    int company_is_founded
+    int company_is_found;
+    int spy_is_spotted;
+    int find_a_residential_building;
+    int hour;
     state_t current_state;
-
     int target_id;
+    message_t message[MAILBOX_CAPACITY];
 };
 
 typedef struct character_thread_s character_thread_t;
@@ -270,9 +276,8 @@ struct memory_s {
     int nb_of_messages_in_mailbox;
     message_t mailbox_content[MAILBOX_CAPACITY];
 
-    char * enemy_country_monitor[10];
+    char enemy_country_monitor[10][MAX_LENGTH_OF_MESSAGE];
     int nb_of_messages_received;
-
 };
 
 #endif /* MEMORY_H */

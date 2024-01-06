@@ -30,6 +30,7 @@
 
 int main(void) 
 {
+    srand(time(NULL));
     //printf("ENEMY SPY NETWORK : pid = %d\n", getpid());
     memory_t* memory;
     semaphore_t* sem;
@@ -37,8 +38,8 @@ int main(void)
     P(sem);
     memory = get_data();
     define_spy(memory->spies, memory);
-    send_message(&memory->spies[0],memory);
     V(sem);
+
     pthread_t * threads = spy_thread(memory);
     wait_for_signal(threads);
 }

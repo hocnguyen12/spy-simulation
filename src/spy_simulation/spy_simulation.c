@@ -55,6 +55,213 @@ memory_t* create_shared_memory()
     return ptr;
 }
 
+void initialize_companies(memory_t * mem)
+{
+    int i;
+
+    char * crucial_msg = caesar_cipher("This is a crucial message", CIPHER_KEY);
+    char * strong_msg = caesar_cipher("This is a strong message", CIPHER_KEY);
+    char * medium_msg = caesar_cipher("This is a medium message", CIPHER_KEY);
+    char * low_msg = caesar_cipher("This is a low message", CIPHER_KEY);
+    char * very_low_msg = caesar_cipher("This is a very low message", CIPHER_KEY);
+
+    mem->companies[0].row = 3; 
+    mem->companies[0].col = 5;
+    mem->companies[0].size = BIG;
+    mem->companies[0].nb_employee = 31;
+    mem->companies[0].nb_messages = 69;
+    mem->companies[0].index = 0;
+    mem->companies[0].nb_of_people = 0;
+    for (i = 0; i < 2; i++) {
+        mem->companies[0].messages[i].importance = 10;
+        strcpy(mem->companies[0].messages[i].content, crucial_msg);
+    }
+    for (i = 2; i < 7; i++) {
+        mem->companies[0].messages[i].importance = 9;
+        strcpy(mem->companies[0].messages[i].content, strong_msg);
+    }
+    for (i = 7; i < 21; i++) {
+        mem->companies[0].messages[i].importance = 6;
+        strcpy(mem->companies[0].messages[i].content, medium_msg);
+    }
+    for (i = 21; i < 41; i++) {
+        mem->companies[0].messages[i].importance = 3;
+        strcpy(mem->companies[0].messages[i].content, low_msg);
+    }
+    for (i = 41; i < 71; i++) {
+        mem->companies[0].messages[i].importance = 2;
+        strcpy(mem->companies[0].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[1].row = 0;
+    mem->companies[1].col = 1;
+    mem->companies[1].size = SMALL;
+    mem->companies[1].nb_employee = 12;
+    mem->companies[1].nb_messages = 49;
+    mem->companies[1].index = 1;
+    mem->companies[1].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[1].messages[i].importance = 9;
+        strcpy(mem->companies[1].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 8; i++) {
+        mem->companies[1].messages[i].importance = 6;
+        strcpy(mem->companies[1].messages[i].content, medium_msg);
+    }
+    for (i = 8; i < 19; i++) {
+        mem->companies[1].messages[i].importance = 3;
+        strcpy(mem->companies[1].messages[i].content, low_msg);    
+        }
+    for (i = 19; i < 49; i++) {
+        mem->companies[1].messages[i].importance = 2;
+        strcpy(mem->companies[1].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[2].row = 5;
+    mem->companies[2].col = 6;
+    mem->companies[2].size = VERY_SMALL;
+    mem->companies[2].nb_employee = 5;
+    mem->companies[2].nb_messages = 36;
+    mem->companies[2].index = 2;
+    mem->companies[2].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[2].messages[i].importance = 9;
+        strcpy(mem->companies[2].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 8; i++) {
+        mem->companies[2].messages[i].importance = 6;
+        strcpy(mem->companies[2].messages[i].content, medium_msg);
+    }
+    for (i = 8; i < 19; i++) {
+        mem->companies[2].messages[i].importance = 3;
+        strcpy(mem->companies[2].messages[i].content, low_msg);
+    }
+    for (i = 19; i < 36; i++) {
+        mem->companies[2].messages[i].importance = 2;
+        strcpy(mem->companies[2].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[3].row = 4;
+    mem->companies[3].col = 0;
+    mem->companies[3].size = MEDIUM;
+    mem->companies[3].nb_employee = 21;
+    mem->companies[3].nb_messages = 63;
+    mem->companies[3].index = 3;
+    mem->companies[3].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[3].messages[i].importance = 9;
+        strcpy(mem->companies[3].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 13; i++) {
+        mem->companies[3].messages[i].importance = 6;
+        strcpy(mem->companies[3].messages[i].content, medium_msg);
+    }
+    for (i = 13; i < 33; i++) {
+        mem->companies[3].messages[i].importance = 3;
+        strcpy(mem->companies[3].messages[i].content, low_msg);
+    }
+    for (i = 33; i < 63; i++) {
+        mem->companies[3].messages[i].importance = 2;
+        strcpy(mem->companies[3].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[4].row = 6;
+    mem->companies[4].col = 1;
+    mem->companies[4].size = VERY_SMALL;
+    mem->companies[4].nb_employee = 6;
+    mem->companies[4].nb_messages = 36;
+    mem->companies[4].index = 4;
+    mem->companies[4].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[4].messages[i].importance = 9;
+        strcpy(mem->companies[4].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 8; i++) {
+        mem->companies[4].messages[i].importance = 6;
+        strcpy(mem->companies[4].messages[i].content, medium_msg);
+    }
+    for (i = 8; i < 19; i++) {
+        mem->companies[4].messages[i].importance = 3;
+        strcpy(mem->companies[4].messages[i].content, low_msg);
+    }
+    for (i = 19; i < 36; i++) {
+        mem->companies[4].messages[i].importance = 2;
+        strcpy(mem->companies[4].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[5].row = 0;
+    mem->companies[5].col = 4;
+    mem->companies[5].size = SMALL;
+    mem->companies[5].nb_employee = 11;
+    mem->companies[5].nb_messages = 49;
+    mem->companies[5].index = 5;
+    mem->companies[5].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[5].messages[i].importance = 9;
+        strcpy(mem->companies[5].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 8; i++) {
+        mem->companies[5].messages[i].importance = 6;
+        strcpy(mem->companies[5].messages[i].content, medium_msg);
+    }
+    for (i = 8; i < 19; i++) {
+        mem->companies[5].messages[i].importance = 3;
+        strcpy(mem->companies[5].messages[i].content, low_msg);
+    }
+    for (i = 19; i < 49; i++) {
+        mem->companies[5].messages[i].importance = 2;
+        strcpy(mem->companies[5].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[6].row = 2;
+    mem->companies[6].col = 1;
+    mem->companies[6].size = MEDIUM;
+    mem->companies[6].nb_employee = 20;
+    mem->companies[6].nb_messages = 63;
+    mem->companies[6].index = 6;
+    mem->companies[6].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[6].messages[i].importance = 9;
+        strcpy(mem->companies[6].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 13; i++) {
+        mem->companies[6].messages[i].importance = 6;
+        strcpy(mem->companies[6].messages[i].content, medium_msg);
+    }
+    for (i = 13; i < 33; i++) {
+        mem->companies[6].messages[i].importance = 3;
+        strcpy(mem->companies[6].messages[i].content, low_msg);
+    }
+    for (i = 33; i < 63; i++) {
+        mem->companies[6].messages[i].importance = 2;
+        strcpy(mem->companies[6].messages[i].content, very_low_msg);
+    }
+
+    mem->companies[7].row = 4;
+    mem->companies[7].col = 3;
+    mem->companies[7].size = VERY_SMALL;
+    mem->companies[7].nb_employee = 5;
+    mem->companies[7].nb_messages = 36;
+    mem->companies[7].index = 7;
+    mem->companies[7].nb_of_people = 0;
+    for (i = 0; i < 1; i++) {
+        mem->companies[7].messages[i].importance = 9;
+        strcpy(mem->companies[7].messages[i].content, strong_msg);
+    }
+    for (i = 1; i < 8; i++) {
+        mem->companies[7].messages[i].importance = 6;
+        strcpy(mem->companies[7].messages[i].content, medium_msg);
+    }
+    for (i = 8; i < 19; i++) {
+        mem->companies[7].messages[i].importance = 3;
+        strcpy(mem->companies[7].messages[i].content, low_msg);
+    }
+    for (i = 19; i < 36; i++) {
+        mem->companies[7].messages[i].importance = 2;
+        strcpy(mem->companies[7].messages[i].content, very_low_msg);
+    }
+}
+
 void initialize_map(map_t *map, memory_t * mem) {
 
     map->rows = MAX_ROWS;
@@ -96,15 +303,7 @@ void initialize_map(map_t *map, memory_t * mem) {
     }
     mem->city_hall = (coordinates_t) {.x = 3, .y = 2};
 
-    
-    mem->companies[0] = (coordinates_t) {.x = 3, .y = 5};
-    mem->companies[1] = (coordinates_t) {.x = 0, .y = 1};
-    mem->companies[2] = (coordinates_t) {.x = 5, .y = 6};
-    mem->companies[3] = (coordinates_t) {.x = 4, .y = 0};
-    mem->companies[4] = (coordinates_t) {.x = 6, .y = 1}; 
-    mem->companies[5] = (coordinates_t) {.x = 0, .y = 4};
-    mem->companies[6] = (coordinates_t) {.x = 2, .y = 1};
-    mem->companies[7] = (coordinates_t) {.x = 4, .y = 3};
+    initialize_companies(mem);
 
     mem->supermarkets[0] = (coordinates_t) {.x = 4, .y = 4};    
     mem->supermarkets[1] = (coordinates_t) {.x = 1, .y = 1};
@@ -137,16 +336,26 @@ void initialize_memory(memory_t * memory)
     memory->at_home = 0;
     memory->walking = 0;
     memory->shopping = 0;
-    memory->message_enemy_country=NULL;
     // CREATE CITY INFOS
     initialize_map(&memory->map, memory);
 
     // MAILBOX (in a residential building)
     memory->mailbox_row = 1;
     memory->mailbox_col = 5;
+    memory->nb_of_messages_in_mailbox = 0;
+    for (int i = 0; i < MAILBOX_CAPACITY; i++) {
+        strcpy(memory->mailbox_content[i].content, EMPTY);
+        memory->mailbox_content[i].importance = -1;
+    }
+    for (int k = 0; k < 10; k++) {
+        //memory->enemy_country_monitor[k] = malloc(MAX_LENGTH_OF_MESSAGE);
+    }
+    memory->nb_of_messages_received = 0;
     // CREATE
     V(sem);
-    //printf("Initialized memory...\n");
+    if (DISPLAY == 0) {
+        printf("Initialized memory...\n");
+    }
 }
 
 void next_turn(int sig) 
@@ -191,6 +400,39 @@ void next_turn(int sig)
     memory->walking = citizen_walking;
     memory->shopping = citizen_shopping;
 
+    // DISPLAY
+    if (DISPLAY == 0 || DISPLAY == 2) {
+        printf("\nTURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
+        /*
+        printf("CITIZEN : \n");
+        printf("working  : %d\n", citizen_working);
+        printf("at home  : %d\n", citizen_at_home);
+        printf("walking  : %d\n", citizen_walking);
+        printf("shopping : %d\n", citizen_shopping);
+*/
+        spy_t * spy;
+        printf("SPIES : \n");
+        for (int j = 0; j < NUM_SPIES; j++) {
+            spy = &memory->spies[j];
+                printf("pos : (%d, %d), id = %d, current_state = %d\n", spy->row, spy->col, spy->id, spy->current_state);
+        }
+
+        counter_int_t * counter = &memory->counter_intelligence;
+        printf("COUNTER INTELIGENCE current_state = %d\n", counter->current_state);
+        printf("position : (%d, %d) company : (%d, %d)\n", counter->row, counter->col, counter->company_row, counter->company_col);
+        printf("Targer id = %d\n", counter->target_id);
+        printf("mailbox is found = %d\n", counter->mailbox_is_found);
+        printf("found suspicious act = %d\n", counter->company_is_found);
+       
+       /*
+        printf("ENEMY COUNTRY MONITOR CONTENT : \n");
+        for (int k = 0; k < memory->nb_of_messages_received; k++) {
+            printf("- %s\n", memory->enemy_country_monitor[k]);         
+        }
+        printf("nb msg received : %d\n", memory->nb_of_messages_received);
+        */
+    }
+
     int citizen_manager_pid;
     citizen_manager_pid = memory->pids[2];
     if (kill(citizen_manager_pid, SIGTTIN) == -1) {
@@ -206,23 +448,13 @@ void next_turn(int sig)
 		exit(EXIT_FAILURE);
 	}
 
-    // DISPLAY
-    if (DISPLAY == 0) {
-        printf("TURN %d, HOUR : %d:%d\n", memory->current_turn, memory->hour, memory->minute);
-        
-        printf("CITIZEN : \n");
-        printf("working  : %d\n", citizen_working);
-        printf("at home  : %d\n", citizen_at_home);
-        printf("walking  : %d\n", citizen_walking);
-        printf("shopping : %d\n", citizen_shopping);
-        
-        spy_t * spy;
-        printf("\nSPIES : \n");
-        for (int j = 0; j < NUM_SPIES; j++) {
-            spy = &memory->spies[j];
-                printf("pos : (%d, %d), id = %d\n", spy->row, spy->col, spy->id);
-        }
-    }
+    int counter_intelligence_pid;
+    counter_intelligence_pid = memory->pids[4];
+    //printf("sending signal to enemy spy network pid : %d\n", enemy_spy_network_pid);
+    if (kill(counter_intelligence_pid, SIGTTIN) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
 
     memory->memory_has_changed = 1; 
 
@@ -241,6 +473,28 @@ void end_simulation(int sig)
     P(sem);
     memory = get_data();
     memory->simulation_has_ended = 1;
+    
+    /*CITIZEN MANAGER*/
+    if (kill(memory->pids[2], SIGTERM) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
+    /*ENEMY SPY NETWORK*/
+    if (kill(memory->pids[3], SIGTERM) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
+    /*COUNTER INTELLIGENCE*/
+    /*
+    if (kill(memory->pids[4], SIGTERM) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}*/
+    /*ENEMY COUNTRY*/
+    if (kill(memory->pids[5], SIGTERM) == -1) {
+		perror("kill()");
+		exit(EXIT_FAILURE);
+	}
     V(sem);
 
     //printf("SIMULATION ENDED...\n");
@@ -320,7 +574,7 @@ void manage_timer()
     } else {
         /* EXEC TIMER */
         /* Arguments pour execvp(), "900000" donne 0.9 seconde "1000000" donne 1 seconde*/
-        char *args[] = {"./bin/timer", "500000", NULL};  
+        char *args[] = {"./bin/timer", ROUND_TIME, NULL};  
 
         if (execvp("./bin/timer", args) == -1) {
             handle_fatal_error("Error [execvp(timer)]");
@@ -352,8 +606,7 @@ void manage_citizen_manager()
     } else if (pid == 0) {
         manage_enemy_spy_network();
     } else {
-        /* EXEC CITIZEN_MANAGER */
-         
+        /* EXEC CITIZEN_MANAGER */ 
         if (execl("./bin/citizen_manager", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
@@ -416,12 +669,10 @@ void manage_counter_intelligence()
     } else if (pid == 0) {
         manage_enemy_country();
     } else {
-        /* EXEC COUNTER_INTELLIGENCE */
-        /*
-        if (execl("./bin/counter_intelligence") == -1) {
+        /* EXEC COUNTER_INTELLIGENCE */ 
+        if (execl("./bin/counter_intelligence", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-    */
         wait(NULL);
     }
 }
@@ -455,7 +706,6 @@ void manage_enemy_country()
         if (execl("./bin/enemy_country", NULL) == -1) {
             handle_fatal_error("Error [execl()]");
         }
-    
         wait(NULL);
     }
 }
@@ -478,7 +728,7 @@ void manage_monitor()
     }
 
     /* EXEC MONITOR */
-    if (DISPLAY) {
+    if (DISPLAY == 1) {
         if (execvp("./bin/monitor", NULL) == -1) {
             handle_fatal_error("Error [execl(monitor)]");
         }

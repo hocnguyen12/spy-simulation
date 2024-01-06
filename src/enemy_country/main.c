@@ -1,3 +1,24 @@
+/*
+ * The License to Kill Project
+ *
+ * Copyright (C) 2021 Alain Lebret <alain.lebret [at] ensicaen [dot] fr>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * \file enemy_country/main.c
+ */
 #include "enemy_country.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,32 +37,11 @@
 #include "memory.h"
 #include "monitor.h"
 
-int main(void){
-    int shm_fd; 
-    memory_t* memory;
-
-    shm_fd = shm_open("/spy_memory", O_RDWR, 0666);
-    if (shm_fd == -1) {
-        handle_fatal_error("shm_open()");
-    }
-
-    if (ftruncate(shm_fd, sizeof(memory_t)) == -1) {
-        handle_fatal_error("ftruncate()");
-    }
-
-    memory = mmap(0, sizeof(memory_t), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (memory == MAP_FAILED) {
-        handle_fatal_error("mmap()");
-    }
-    semaphore_t* sem;
-    sem = open_semaphore("/spy_semaphore");
-    
-    P(sem);
-    receive_message_from_enemy_spy_network_and_update(memory);
-    printf("\n\n\n%s\n\n\n",memory->message_enemy_country);
-    V(sem);
-
-    munmap(memory, sizeof(memory_t));
-    close(shm_fd);
-    return 0;
+int main(void)
+{
+    mq_unlink("/spy_queue");
+    memory_t * mem = get_data();
+    receive_message_from_enemy_spy_network_and_update();
+    //receive_msg(mem);
+    //printf("\n\n%s\n\n", mem->enemy_country_monitor[0]);
 }
