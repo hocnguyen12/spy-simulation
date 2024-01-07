@@ -485,11 +485,10 @@ void end_simulation(int sig)
 		exit(EXIT_FAILURE);
 	}
     /*COUNTER INTELLIGENCE*/
-    /*
     if (kill(memory->pids[4], SIGTERM) == -1) {
 		perror("kill()");
 		exit(EXIT_FAILURE);
-	}*/
+	}
     /*ENEMY COUNTRY*/
     if (kill(memory->pids[5], SIGTERM) == -1) {
 		perror("kill()");
@@ -499,10 +498,11 @@ void end_simulation(int sig)
 
     //printf("SIMULATION ENDED...\n");
     /* CALL FUNCTION TO FREE MEMORY */
-    // shm_unlink, munmap
+    
     if (munmap(memory, sizeof(memory_t)) == -1) {
         perror("Error un-mapping shared memory");
     }
+    shm_unlink("/spy_memory");
     exit(EXIT_SUCCESS);
 }
 

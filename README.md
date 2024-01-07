@@ -1,16 +1,29 @@
-# Resources for the "License to kill" project 
+# "License to kill" project 
+**Cécile LU, Paul NGUYEN, Antonio CIMINO**
+
+## Commands
+
+This command will compile the project and produce all the executable files needed :
+```bash
+make
+```
+
+To start the simulation, the spy simulation must be executed :
+```bash
+./bin/spy_simulation
+```
+
+To change the display mode of the simulation, a macro can be changed in the ./include/memory.h file :
+```c
+#define DISPLAY 1
+```
+More information about this macro is given in the said file.
 
 ## Monitor program
 
-The *ncurses* TUI (*Terminal User Interface*) will give better results using 
-The "Meslo LG L for Powerline" font that should already be installed on your
-system. The font can also be downloaded at [https://github.com/powerline/fonts](https://github.com/powerline/fonts).
+This program shows a Terminal Graphical Interface with informations about the simulation. 
 
-Here is what you should see by running "`bin/monitor`" from the root of your 
-project, once you will have implemented the shared memory ("`memory_t`" 
-structure).
-
-![The monitor program](./doc/figures/spies_monitor.png)
+![The monitor program](./doc/figures/spy_monitor.png)
 
 ## Spy Simulation program
 
@@ -18,16 +31,24 @@ This program creates a shared memory containing a structure with all the data of
 
 ## Timer program
 
-The timer program periodically sends a signal to the spy simulation program to inform him that the turn is finished. If the simulation ends, it sends a signal to all the other processes to signal the end of the simulation.
+The timer program periodically sends a signal to the spy simulation program to inform him that the turn is finished. If the simulation ends, it sends a different signal. The spy simulation program then sends a signal to each other process of the simulation to inform them of the next tuen or the end of the simulation.
 
-## Design patterns
+## Citizen Manager program
 
-Some patterns are included and could be used in the project (see in [src/pattern_examples](src/pattern_examples)).
+This program create a thread for each of the 127 citizen of the simulation. When it receives a signal from spy simulation indicating the next, turn, it then sends a signal to each individual thread to tell them to update. These citizen will be assigned a job, a company, and will follow a routine that is the same each day.
 
-More useful information about patterns can be found in Régis Clouard's [course](https://foad.ensicaen.fr/course/view.php?id=62) and also [here](https://refactoring.guru/design-patterns/examples).
+## Enemy Spy Network program
 
-## Others resources
- 
-- An interesting C language guide: [Beej homepage](https://beej.us/guide/bgc/html/split/index.html)
-- Coding style: see [here](https://projectacrn.github.io/latest/developer-guides/c_coding_guidelines.html#c-ty-08-the-struct-field-type-shall-be-consistent)
-- Memory queue functions for MacOSX came from [Stanislav Pankevich](https://github.com/stanislaw/posix-macos-addons)'s repositery.
+Similarly to citizen manager, this program creates a thread for each of the 3 spies and for the case officer. Their behavior is explained in detail in the doc/project-spies.pdf file but our implementation is a bit simplified.
+
+## Counter Intelligence program
+
+This program simulates the behavior of the counter intelligence officer, which works and live in the city hall. When it detects a suspicious movement near a company at night, it moves there and hide. Then it follows the targeted spy in hope of finding the mailbox that the spy use to communicate with the enemy country.
+
+## Enemy Country program
+
+This program creates a message queue to allow communication between spies and the enemy country. The case officer will send all the messages he got from the mailbox to this message queue specific priorities at 11 pm. and the enemy country will receive it and display it on the enemy country monitor.
+
+## Common Directory
+
+This directory contains object files needed by most of the program above. Functions to use semaphores, cipher and decipher messages, and mapping the shared memory are contained.

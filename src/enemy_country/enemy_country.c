@@ -16,29 +16,6 @@ void simulation_end(int sig)
 {
     mq_unlink("/spy_queue");
 }
-/*
-void receive_msg(memory_t * mem)
-{
-
-    int n,priority;
-    mqd_t mq;
-    struct mq_attr attr;
-    char *buffer = NULL;
-    
-    mq = mq_open("/spy_queue", O_RDONLY);
-    mq_getattr(mq, &attr);
-    buffer = malloc(attr.mq_msgsize);
-    //mem->enemy_country_monitor = malloc(10 * attr.mq_msgsize);
-
-    while (1) {
-        n = mq_receive(mq, buffer, attr.mq_msgsize, &priority);
-        if (n >= 0) {
-            mem->enemy_country_monitor[mem->nb_of_messages_received] = buffer;
-            mem->nb_of_messages_received += 1;
-            printf("RECEIVED : %s\n", buffer);
-        }
-    }
-}*/
 
 void receive_message_from_enemy_spy_network_and_update()
 {
