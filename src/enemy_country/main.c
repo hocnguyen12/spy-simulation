@@ -40,7 +40,6 @@
 int main(void)
 {
     mq_unlink("/spy_queue");
-    memory_t * mem = get_data();
     receive_message_from_enemy_spy_network_and_update();
     //receive_msg(mem);
     //printf("\n\n%s\n\n", mem->enemy_country_monitor[0]);
