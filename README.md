@@ -3,7 +3,8 @@
 ### Project Credits  
 Students:  
 - Paul NGUYEN  
-- Cécile LU  
+- Cécile LU
+  
 Course Professor and lab supervisor:  
 - Prof. Alain Lebret
 
