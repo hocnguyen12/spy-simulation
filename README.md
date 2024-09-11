@@ -1,5 +1,11 @@
 # "License to kill" project 
-**Cécile LU, Paul NGUYEN, Antonio CIMINO**
+
+### Project Credits  
+Students:  
+- Paul NGUYEN  
+- Cécile LU  
+Course Professor and lab supervisor:  
+- Prof. Alain Lebret
 
 ## Commands
 
