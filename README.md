@@ -4,6 +4,7 @@
 Students:  
 - Paul NGUYEN  
 - Cécile LU
+- Antonio Cimino
   
 Course Professor and lab supervisor:  
 - Prof. Alain Lebret
